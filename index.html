@@ -141,9 +141,28 @@
 const API_KEY = "c6a9d9a8764e40eb8cc8729b1b14346b";
 const BOX = { minX:127.12, maxX:127.27, minY:37.48, maxY:37.60 };
 const ROAD_TYPES = ["ex", "its"];          // 고속도로 + 국도
-const NAME_ALLOW = ["하남","미사","강일","서하남","천현","하산곡","동서울","초이"];
-const NAME_PREF  = ["중부선] 하남","하남분기점","서하남","미사대교","미사","강일","천현"]; // 상단 우선 정렬
 const REFRESH_MIN = 90;
+
+/* 표시할 CCTV — 스타필드 하남 진입로 구간만 큐레이션.
+   api = ITS cctvname 정확히 일치(부분일치도 허용) / label = 버튼 표시명 / group = 구분 헤더.
+   순서대로 버튼이 생성됩니다. 추가·삭제·순서변경은 이 배열만 고치면 됩니다. */
+const CAMS_WANT = [
+  { group:"서울 방면 (올림픽대로·미사대교)" },
+  { api:"[서울양양선] 강일",            label:"강일IC" },
+  { api:"[서울양양선] 미사",            label:"미사IC" },
+  { api:"[서울양양선] 미사대교",         label:"미사대교" },
+  { api:"[서울양양선] 미사대교종점",     label:"미사대교 종점" },
+
+  { group:"중부고속도로 (남쪽 방면)" },
+  { api:"[중부선] 천현2",              label:"천현" },
+  { api:"[중부선] 하남",               label:"하남IC" },
+  { api:"[중부선] 하산곡",              label:"하산곡" },
+
+  { group:"수도권제1순환선" },
+  { api:"[수도권제1순환선] 하남분기점",  label:"하남분기점" },
+  { api:"[수도권제1순환선] 상일",        label:"상일IC" },
+  { api:"[수도권제1순환선] 서하남휴게소",label:"서하남휴게소" },
+];
 
 const video   = document.getElementById("video");
 const camsEl  = document.getElementById("cams");
@@ -172,13 +191,10 @@ function apiURL(type){
 function cleanName(n){
   return (n || "").replace(/\s+/g, " ").trim();
 }
-function score(name){
-  for (let i = 0; i < NAME_PREF.length; i++) if (name.includes(NAME_PREF[i])) return i;
-  return NAME_PREF.length + 1;
-}
 
 async function fetchCams(){
-  const out = [];
+  // API 전체를 이름→url 맵으로
+  const map = new Map();
   for (const t of ROAD_TYPES){
     try{
       const r = await fetch(apiURL(t), { cache: "no-store" });
@@ -186,44 +202,59 @@ async function fetchCams(){
       const j = await r.json();
       const data = (j && j.response && j.response.data) || [];
       for (const d of data){
-        const name = cleanName(d.cctvname);
         if (!d.cctvurl) continue;
-        if (NAME_ALLOW.length && !NAME_ALLOW.some(k => name.includes(k))) continue;
-        if (out.some(o => o.name === name)) continue;
-        out.push({ name, url: d.cctvurl });
+        map.set(cleanName(d.cctvname), d.cctvurl);
       }
     }catch(e){ /* 개별 타입 실패는 무시 */ }
   }
-  out.sort((a,b) => score(a.name) - score(b.name) || a.name.localeCompare(b.name, "ko"));
-  return out;
+  // 큐레이션 목록 순서대로 매칭 (정확일치 우선, 없으면 부분일치)
+  const out = [];
+  for (const w of CAMS_WANT){
+    if (w.group){ out.push({ group: w.group }); continue; }
+    let url = map.get(w.api);
+    if (!url){
+      for (const [k, v] of map){ if (k.includes(w.api) || w.api.includes(k)){ url = v; break; } }
+    }
+    if (url) out.push({ key: w.api, label: w.label || w.api, url });
+  }
+  // 실제 카메라가 하나도 없으면 실패로 간주
+  return out.some(o => o.url) ? out : [];
 }
 
 function renderButtons(){
   camsEl.innerHTML = "";
   cams.forEach(cam => {
+    if (cam.group){
+      const g = document.createElement("span");
+      g.textContent = cam.group;
+      g.style.cssText = "flex-basis:100%;color:var(--muted);font-size:.8rem;margin:6px 0 -2px";
+      camsEl.appendChild(g);
+      return;
+    }
     const b = document.createElement("button");
     b.type = "button";
-    b.textContent = cam.name;
-    b.setAttribute("aria-pressed", current && current.name === cam.name ? "true" : "false");
+    b.textContent = cam.label;
+    b.dataset.key = cam.key;
+    b.setAttribute("aria-pressed", current && current.key === cam.key ? "true" : "false");
     b.addEventListener("click", () => play(cam));
     camsEl.appendChild(b);
   });
 }
 
 function play(cam){
-  if (!cam) return;
+  if (!cam || !cam.url) return;
   current = cam;
   [...camsEl.children].forEach(b =>
-    b.setAttribute("aria-pressed", b.textContent === cam.name ? "true" : "false"));
-  setStatus(cam.name + " 불러오는 중…");
-  showOverlay(cam.name);
+    b.dataset && b.setAttribute && b.setAttribute("aria-pressed", b.dataset.key === cam.key ? "true" : "false"));
+  setStatus(cam.label + " 불러오는 중…");
+  showOverlay(cam.label);
 
   if (hls){ hls.destroy(); hls = null; }
 
   if (video.canPlayType("application/vnd.apple.mpegurl")){
     video.src = cam.url;
     video.play().catch(()=>{});
-    video.oncanplay = () => { setStatus(cam.name + " 재생 중"); showOverlay(""); };
+    video.oncanplay = () => { setStatus(cam.label + " 재생 중"); showOverlay(""); };
     video.onerror = () => retry(cam);
     return;
   }
@@ -233,14 +264,14 @@ function play(cam){
     hls.attachMedia(video);
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
       video.play().catch(()=>{});
-      setStatus(cam.name + " 재생 중"); showOverlay("");
+      setStatus(cam.label + " 재생 중"); showOverlay("");
     });
     hls.on(Hls.Events.ERROR, (_, data) => {
       if (!data.fatal) return;
       // 토큰 만료(403)·네트워크 오류 → 목록 새로 받아 재생
       if (data.type === Hls.ErrorTypes.NETWORK_ERROR) retry(cam);
       else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
-      else { hls.destroy(); hls = null; setStatus(cam.name + " 재생 오류: " + data.details, true); }
+      else { hls.destroy(); hls = null; setStatus(cam.label + " 재생 오류: " + data.details, true); }
     });
     return;
   }
@@ -251,12 +282,12 @@ let retrying = false;
 async function retry(cam){
   if (retrying) return;
   retrying = true;
-  setStatus(cam.name + " 스트림 갱신 중…", true);
+  setStatus(cam.label + " 스트림 갱신 중…", true);
   const fresh = await fetchCams();
   retrying = false;
   if (fresh.length){
     cams = fresh;
-    const same = cams.find(c => c.name === cam.name) || cams[0];
+    const same = cams.find(c => c.key === cam.key) || cams.find(c => c.url);
     renderButtons();
     play(same);
   } else {
@@ -274,9 +305,9 @@ async function load(userTriggered){
     return;
   }
   cams = fresh;
-  const keep = current && cams.find(c => c.name === current.name);
+  const keep = current && cams.find(c => c.key === current.key);
   renderButtons();
-  play(keep || cams[0]);
+  play(keep || cams.find(c => c.url));
 }
 
 load(false);
