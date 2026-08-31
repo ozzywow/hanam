@@ -3,51 +3,58 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>스타필드 하남 가는 길 실시간 교통 CCTV</title>
-<meta name="description" content="스타필드 하남 진입로(미사IC·올림픽대로·하남대로) 실시간 교통 CCTV와 혼잡 시간대, 주차장 대기 팁, 우회로 안내.">
+<title>스타필드 하남 가는 길 · 실시간 교통 CCTV</title>
+<meta name="description" content="스타필드 하남 진입로(중부고속·수도권제1순환·서울양양선·미사대교) 실시간 교통 CCTV. 혼잡 시간대, 주차장 대기 팁, 우회로 안내.">
+<link rel="canonical" href="https://ozzywow.github.io/hanam/">
 
-<!-- ▼▼ 애드센스: 승인 후 아래 client 값 채우고 주석 해제 ▼▼
+<!-- ▼▼ 애드센스: 승인 후 client 값 채우고 주석 해제 ▼▼
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 ▲▲ ─────────────────────────────────────────────── ▲▲ -->
 
 <style>
   :root{
     --bg:#ffffff; --fg:#1a1a1a; --muted:#606770; --line:#e4e6eb;
-    --card:#f5f6f7; --accent:#1b64da; --accentfg:#fff;
+    --card:#f5f6f7; --accent:#1b64da; --accentfg:#fff; --ok:#1a7f37; --warn:#b35900;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
       --bg:#15181c; --fg:#e6e8ea; --muted:#9aa0a6; --line:#2a2f36;
-      --card:#1e2228; --accent:#4d8bff; --accentfg:#0b1220;
+      --card:#1e2228; --accent:#4d8bff; --accentfg:#0b1220; --ok:#3fb950; --warn:#e3a008;
     }
   }
   :root[data-theme="dark"]{
     --bg:#15181c; --fg:#e6e8ea; --muted:#9aa0a6; --line:#2a2f36;
-    --card:#1e2228; --accent:#4d8bff; --accentfg:#0b1220;
+    --card:#1e2228; --accent:#4d8bff; --accentfg:#0b1220; --ok:#3fb950; --warn:#e3a008;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--fg);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
     line-height:1.7;-webkit-text-size-adjust:100%}
-  .wrap{max-width:860px;margin:0 auto;padding:20px}
+  .wrap{max-width:880px;margin:0 auto;padding:20px}
   header h1{font-size:1.4rem;margin:.2em 0}
   header p{color:var(--muted);margin:.2em 0 1em}
-  .player{background:#000;border-radius:12px;overflow:hidden;aspect-ratio:16/9}
+  .player{background:#000;border-radius:12px;overflow:hidden;aspect-ratio:16/9;position:relative}
   .player video{width:100%;height:100%;display:block;background:#000}
+  .player .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    color:#cfd3d8;font-size:.95rem;text-align:center;padding:16px;pointer-events:none}
   .cams{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
   .cams button{
     border:1px solid var(--line);background:var(--card);color:var(--fg);
-    padding:8px 12px;border-radius:999px;cursor:pointer;font-size:.9rem}
+    padding:8px 12px;border-radius:999px;cursor:pointer;font-size:.9rem;line-height:1.3}
   .cams button[aria-pressed="true"]{background:var(--accent);color:var(--accentfg);border-color:var(--accent)}
-  .status{color:var(--muted);font-size:.88rem;margin:4px 0 20px;min-height:1.2em}
-  section{margin:28px 0}
+  .bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 22px}
+  .status{color:var(--muted);font-size:.86rem;min-height:1.2em}
+  .status.err{color:var(--warn)}
+  .refresh{border:1px solid var(--line);background:var(--card);color:var(--fg);
+    padding:6px 12px;border-radius:8px;cursor:pointer;font-size:.85rem}
+  section{margin:30px 0}
   section h2{font-size:1.15rem;border-bottom:2px solid var(--line);padding-bottom:.3em}
   table{width:100%;border-collapse:collapse;font-size:.92rem}
   th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}
   th{background:var(--card)}
-  .ad{margin:28px 0;padding:10px;border:1px dashed var(--line);border-radius:10px;
+  .ad{margin:30px 0;padding:10px;border:1px dashed var(--line);border-radius:10px;
     text-align:center;color:var(--muted);font-size:.85rem}
-  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);
+  footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
     color:var(--muted);font-size:.82rem}
   a{color:var(--accent)}
 </style>
@@ -57,14 +64,18 @@
 
   <header>
     <h1>스타필드 하남 가는 길 · 실시간 교통 CCTV</h1>
-    <p>미사IC · 올림픽대로 · 하남대로 진입로 상황을 실시간으로 확인하세요.</p>
+    <p>중부고속도로 · 수도권제1순환선 · 서울양양선(미사대교) 진입로 상황을 실시간으로 확인하세요.</p>
   </header>
 
   <div class="player">
     <video id="video" controls autoplay muted playsinline></video>
+    <div class="overlay" id="overlay">CCTV 목록을 불러오는 중…</div>
   </div>
   <div class="cams" id="cams"></div>
-  <div class="status" id="status">스트림 주소를 설정하세요 (index.html 의 CAMS 배열).</div>
+  <div class="bar">
+    <span class="status" id="status"></span>
+    <button class="refresh" id="refresh" type="button">새로고침</button>
+  </div>
 
   <!-- 광고 슬롯 1 (본문 상단) -->
   <div class="ad" id="ad-top">광고 영역 (애드센스 승인 후 교체)</div>
@@ -74,9 +85,9 @@
     <table>
       <thead><tr><th>구간</th><th>평일 피크</th><th>주말 피크</th><th>비고</th></tr></thead>
       <tbody>
-        <tr><td>미사IC → 스타필드</td><td>18:00–20:00</td><td>12:00–17:00</td><td>주말 오후 진입 대기 김</td></tr>
-        <tr><td>올림픽대로(하남 방향)</td><td>08:00–09:30 / 18:00–20:00</td><td>11:00–14:00</td><td>—</td></tr>
-        <tr><td>하남대로</td><td>17:30–19:30</td><td>13:00–18:00</td><td>행사 시 상시 정체</td></tr>
+        <tr><td>중부선 하남 → 스타필드</td><td>18:00–20:00</td><td>12:00–17:00</td><td>주말 오후 진입 대기 김</td></tr>
+        <tr><td>수도권제1순환선 하남분기점</td><td>08:00–09:30 / 18:00–20:00</td><td>11:00–14:00</td><td>분기점 합류 정체</td></tr>
+        <tr><td>서울양양선 미사대교</td><td>18:00–20:00</td><td>10:00–13:00 / 17:00–19:00</td><td>주말 상·하행 모두</td></tr>
       </tbody>
     </table>
     <p style="color:var(--muted);font-size:.85rem">※ 예시 데이터입니다. 실제 관측값으로 갱신하세요.</p>
@@ -94,8 +105,9 @@
   <section>
     <h2>우회로 안내</h2>
     <ul>
-      <li>올림픽대로 정체 시 → 미사대로 경유 서울양양고속 미사IC 하차.</li>
-      <li>미사IC 정체 시 → 선동IC 또는 하남IC 이용 후 하남대로 진입.</li>
+      <li>중부선 하남 정체 시 → 수도권제1순환선 서하남IC 하차 후 하남대로 진입.</li>
+      <li>미사대교 정체 시 → 강동대교·구리암사대교 경유 올림픽대로.</li>
+      <li>하남분기점 정체 시 → 상일IC 또는 강일IC 이용.</li>
     </ul>
   </section>
 
@@ -111,78 +123,164 @@
   <div class="ad" id="ad-bottom">광고 영역 (애드센스 승인 후 교체)</div>
 
   <footer>
-    <p>CCTV 영상 출처: 국가교통정보센터 / 관할 도로관리청. 본 페이지는 공개 교통정보를 안내 목적으로 재생합니다.</p>
-    <p>문의·정정: (이메일 등 연락처 기입)</p>
+    <p>CCTV 영상 출처: 국토교통부 국가교통정보센터(ITS) 오픈API. 본 페이지는 공개 교통정보를 안내 목적으로 재생합니다.</p>
+    <p>영상은 각 도로관리기관 사정·점검에 따라 중단될 수 있습니다. 문의·정정: (연락처 기입)</p>
   </footer>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
 <script>
-/* ───────────────────────────────────────────────
-   여기에 CCTV를 추가하세요.
-   url 은 국가교통정보 개방포털(openapi.its.go.kr)에서 받은
-   HLS(.m3u8) 스트리밍 주소입니다. (cctvType=1)
-   ─────────────────────────────────────────────── */
-const CAMS = [
-  // { name: "미사IC",        url: "https://.../xxx.m3u8" },
-  // { name: "올림픽대로",     url: "https://.../yyy.m3u8" },
-  // { name: "하남대로",       url: "https://.../zzz.m3u8" },
-];
+/* ───────────────────────────────────────────────────────────
+   국가교통정보센터(ITS) CCTV 오픈API 설정
+   - apiKey 는 정적 페이지 소스에 노출됩니다. ITS 키는 읽기전용·
+     호출제한이 있어 통상 허용되나, 노출이 싫으면 프록시로 숨기세요.
+   - cctvType=4 : 실시간 스트리밍(HLS, HTTPS)
+   - 스트림 토큰 유효 120분 → REFRESH_MIN 마다 목록을 다시 받음
+   ─────────────────────────────────────────────────────────── */
+const API_KEY = "c6a9d9a8764e40eb8cc8729b1b14346b";
+const BOX = { minX:127.12, maxX:127.27, minY:37.48, maxY:37.60 };
+const ROAD_TYPES = ["ex", "its"];          // 고속도로 + 국도
+const NAME_ALLOW = ["하남","미사","강일","서하남","천현","하산곡","동서울","초이"];
+const NAME_PREF  = ["중부선] 하남","하남분기점","서하남","미사대교","미사","강일","천현"]; // 상단 우선 정렬
+const REFRESH_MIN = 90;
 
-const video  = document.getElementById("video");
-const camsEl = document.getElementById("cams");
-const statusEl = document.getElementById("status");
+const video   = document.getElementById("video");
+const camsEl  = document.getElementById("cams");
+const statusEl= document.getElementById("status");
+const overlay = document.getElementById("overlay");
+document.getElementById("refresh").addEventListener("click", () => load(true));
+
 let hls = null;
+let cams = [];
+let current = null;
 
-function setStatus(msg){ statusEl.textContent = msg; }
+function setStatus(msg, isErr){
+  statusEl.textContent = msg || "";
+  statusEl.classList.toggle("err", !!isErr);
+}
+function showOverlay(msg){ overlay.textContent = msg || ""; overlay.style.display = msg ? "flex" : "none"; }
+
+function apiURL(type){
+  const q = new URLSearchParams({
+    apiKey: API_KEY, type, cctvType: "4", getType: "json",
+    minX: BOX.minX, maxX: BOX.maxX, minY: BOX.minY, maxY: BOX.maxY
+  });
+  return "https://openapi.its.go.kr:9443/cctvInfo?" + q.toString();
+}
+
+function cleanName(n){
+  return (n || "").replace(/\s+/g, " ").trim();
+}
+function score(name){
+  for (let i = 0; i < NAME_PREF.length; i++) if (name.includes(NAME_PREF[i])) return i;
+  return NAME_PREF.length + 1;
+}
+
+async function fetchCams(){
+  const out = [];
+  for (const t of ROAD_TYPES){
+    try{
+      const r = await fetch(apiURL(t), { cache: "no-store" });
+      if (!r.ok) continue;
+      const j = await r.json();
+      const data = (j && j.response && j.response.data) || [];
+      for (const d of data){
+        const name = cleanName(d.cctvname);
+        if (!d.cctvurl) continue;
+        if (NAME_ALLOW.length && !NAME_ALLOW.some(k => name.includes(k))) continue;
+        if (out.some(o => o.name === name)) continue;
+        out.push({ name, url: d.cctvurl });
+      }
+    }catch(e){ /* 개별 타입 실패는 무시 */ }
+  }
+  out.sort((a,b) => score(a.name) - score(b.name) || a.name.localeCompare(b.name, "ko"));
+  return out;
+}
+
+function renderButtons(){
+  camsEl.innerHTML = "";
+  cams.forEach(cam => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = cam.name;
+    b.setAttribute("aria-pressed", current && current.name === cam.name ? "true" : "false");
+    b.addEventListener("click", () => play(cam));
+    camsEl.appendChild(b);
+  });
+}
 
 function play(cam){
-  if (!cam || !cam.url){ setStatus("스트림 주소가 없습니다."); return; }
-  setStatus(cam.name + " 불러오는 중…");
-
+  if (!cam) return;
+  current = cam;
   [...camsEl.children].forEach(b =>
-    b.setAttribute("aria-pressed", b.dataset.url === cam.url ? "true" : "false"));
+    b.setAttribute("aria-pressed", b.textContent === cam.name ? "true" : "false"));
+  setStatus(cam.name + " 불러오는 중…");
+  showOverlay(cam.name);
 
   if (hls){ hls.destroy(); hls = null; }
 
   if (video.canPlayType("application/vnd.apple.mpegurl")){
-    // Safari / iOS 네이티브 HLS
     video.src = cam.url;
     video.play().catch(()=>{});
-    setStatus(cam.name + " 재생 중");
-  } else if (window.Hls && Hls.isSupported()){
-    hls = new Hls({ liveDurationInfinity:true, lowLatencyMode:true });
+    video.oncanplay = () => { setStatus(cam.name + " 재생 중"); showOverlay(""); };
+    video.onerror = () => retry(cam);
+    return;
+  }
+  if (window.Hls && Hls.isSupported()){
+    hls = new Hls({ liveDurationInfinity:true, lowLatencyMode:true, manifestLoadingMaxRetry:2 });
     hls.loadSource(cam.url);
     hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, ()=>{
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
       video.play().catch(()=>{});
-      setStatus(cam.name + " 재생 중");
+      setStatus(cam.name + " 재생 중"); showOverlay("");
     });
-    hls.on(Hls.Events.ERROR, (_, data)=>{
-      if (data.fatal){
-        setStatus(cam.name + " 재생 오류: " + data.details +
-          " (CORS 차단이면 프록시가 필요합니다)");
-      }
+    hls.on(Hls.Events.ERROR, (_, data) => {
+      if (!data.fatal) return;
+      // 토큰 만료(403)·네트워크 오류 → 목록 새로 받아 재생
+      if (data.type === Hls.ErrorTypes.NETWORK_ERROR) retry(cam);
+      else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
+      else { hls.destroy(); hls = null; setStatus(cam.name + " 재생 오류: " + data.details, true); }
     });
+    return;
+  }
+  setStatus("이 브라우저는 HLS 재생을 지원하지 않습니다.", true);
+}
+
+let retrying = false;
+async function retry(cam){
+  if (retrying) return;
+  retrying = true;
+  setStatus(cam.name + " 스트림 갱신 중…", true);
+  const fresh = await fetchCams();
+  retrying = false;
+  if (fresh.length){
+    cams = fresh;
+    const same = cams.find(c => c.name === cam.name) || cams[0];
+    renderButtons();
+    play(same);
   } else {
-    setStatus("이 브라우저는 HLS 재생을 지원하지 않습니다.");
+    setStatus("스트림을 가져오지 못했습니다. 잠시 후 새로고침하세요.", true);
   }
 }
 
-if (CAMS.length === 0){
-  setStatus("index.html 의 CAMS 배열에 CCTV 주소를 추가하세요.");
-} else {
-  CAMS.forEach((cam, i)=>{
-    const b = document.createElement("button");
-    b.textContent = cam.name;
-    b.dataset.url = cam.url;
-    b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
-    b.addEventListener("click", ()=> play(cam));
-    camsEl.appendChild(b);
-  });
-  play(CAMS[0]);
+async function load(userTriggered){
+  if (userTriggered) setStatus("목록 새로고침 중…");
+  showOverlay("CCTV 목록을 불러오는 중…");
+  const fresh = await fetchCams();
+  if (!fresh.length){
+    showOverlay("CCTV 목록을 불러오지 못했습니다.");
+    setStatus("API 호출 실패 — 잠시 후 새로고침하세요.", true);
+    return;
+  }
+  cams = fresh;
+  const keep = current && cams.find(c => c.name === current.name);
+  renderButtons();
+  play(keep || cams[0]);
 }
+
+load(false);
+setInterval(() => { if (current) retry(current); }, REFRESH_MIN * 60 * 1000);
 </script>
 </body>
 </html>
