@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>스타필드 하남 가는 길 · 실시간 교통 CCTV</title>
-<meta name="description" content="스타필드 하남 주차장 진입로(스타필드동측·팔당대교남단·창우지하차도·미사·하남IC) 실시간 교통 CCTV. 혼잡 시간대·주차 대기·우회로 안내.">
+<title>하남시 실시간 교통 CCTV</title>
+<meta name="description" content="하남시 실시간 교통 CCTV — 스타필드 하남 가는 길, 미사·조정경기장 가는 길, 하남 진출입(고속도로·팔당대교). 혼잡 시간대·주차 대기·우회로 안내.">
 <link rel="canonical" href="https://ozzywow.github.io/hanam/">
 
 <!-- ▼▼ 애드센스: 승인 후 client 값 채우고 주석 해제 ▼▼
@@ -31,12 +31,14 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
     line-height:1.7;-webkit-text-size-adjust:100%}
   .wrap{max-width:960px;margin:0 auto;padding:20px}
-  header h1{font-size:1.4rem;margin:.2em 0}
-  header p{color:var(--muted);margin:.2em 0 1em}
+  h1{font-size:1.5rem;margin:.2em 0 .1em}
+  .lead{color:var(--muted);margin:.2em 0 1.4em}
 
-  .deck{margin:22px 0 26px}
-  .deck > h2{font-size:1.08rem;margin:0 0 10px;border:0;padding:0;display:flex;align-items:baseline;gap:8px}
-  .deck > h2 small{color:var(--muted);font-weight:400;font-size:.8rem}
+  .route{margin:34px 0 10px;padding-top:8px;border-top:3px solid var(--line)}
+  .route:first-of-type{border-top:0}
+  .route > h2{font-size:1.25rem;margin:.2em 0 .6em;border:0;padding:0}
+  .route > h2 small{color:var(--muted);font-weight:400;font-size:.8rem;margin-left:8px}
+
   .player{background:#000;border-radius:12px;overflow:hidden;aspect-ratio:16/9;position:relative}
   .player video{width:100%;height:100%;display:block;background:#000;object-fit:contain}
   .player .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
@@ -51,13 +53,16 @@
   .status{color:var(--muted);font-size:.84rem;min-height:1.2em;margin-top:2px}
   .status.err{color:var(--warn)}
 
-  section{margin:30px 0}
-  section h2{font-size:1.15rem;border-bottom:2px solid var(--line);padding-bottom:.3em}
-  table{width:100%;border-collapse:collapse;font-size:.92rem}
-  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}
-  th{background:var(--card)}
-  .ad{margin:24px 0;padding:10px;border:1px dashed var(--line);border-radius:10px;
+  .ad{margin:22px 0;padding:10px;border:1px dashed var(--line);border-radius:10px;
     text-align:center;color:var(--muted);font-size:.85rem}
+
+  .info h3{font-size:1.02rem;margin:20px 0 .3em;border-bottom:1px solid var(--line);padding-bottom:.25em}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left}
+  th{background:var(--card)}
+  .info ul{margin:.4em 0;padding-left:1.2em}
+  .todo{color:var(--muted);font-size:.85rem}
+
   footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
     color:var(--muted);font-size:.82rem}
   a{color:var(--accent)}
@@ -66,42 +71,71 @@
 <body>
 <div class="wrap">
 
-  <header>
-    <h1>스타필드 하남 가는 길 · 실시간 교통 CCTV</h1>
-    <p>주차장 진입로 상황을 실시간으로 확인하세요. (경기도교통정보센터 CCTV)</p>
-  </header>
+  <h1>하남시 실시간 교통 CCTV</h1>
+  <p class="lead">경기도교통정보센터 CCTV로 하남시 주요 진입로 상황을 실시간으로 확인하세요.</p>
 
-  <div id="decks"></div>
+  <!-- ══════════ 1. 스타필드 하남 가는 길 ══════════ -->
+  <section class="route">
+    <h2>스타필드 하남 가는 길 <small>~1km</small></h2>
+    <div class="player-mount" data-deck="0"></div>
+    <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
 
-  <section>
-    <h2>요일·시간대별 혼잡 패턴</h2>
-    <table>
-      <thead><tr><th>구간</th><th>평일 피크</th><th>주말 피크</th><th>비고</th></tr></thead>
-      <tbody>
-        <tr><td>하남IC → 스타필드</td><td>확인 필요</td><td>확인 필요</td><td>주말 오후 진입 대기</td></tr>
-        <tr><td>팔당대교남단 (강일 방면)</td><td>확인 필요</td><td>확인 필요</td><td>주말 상·하행</td></tr>
-        <tr><td>창우지하차도 / 미사교차로</td><td>확인 필요</td><td>확인 필요</td><td>—</td></tr>
-      </tbody>
-    </table>
-    <p style="color:var(--muted);font-size:.85rem">※ 실제 관측값으로 채울 예정입니다.</p>
+    <div class="info">
+      <h3>요일·시간대별 혼잡 패턴</h3>
+      <table>
+        <thead><tr><th>구간</th><th>평일 피크</th><th>주말 피크</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>팔당대교남단 (강일 방면)</td><td>확인 필요</td><td>확인 필요</td><td>주말 상·하행</td></tr>
+          <tr><td>창우지하차도 → 스타필드</td><td>확인 필요</td><td>확인 필요</td><td>주말 오후 진입 대기</td></tr>
+        </tbody>
+      </table>
+      <p class="todo">※ 실제 관측값으로 채울 예정.</p>
+
+      <h3>주차장 진입 팁</h3>
+      <ul><li class="todo">(스타필드 하남 공식 주차 안내 기준으로 작성 예정)</li></ul>
+
+      <h3>우회로 안내</h3>
+      <ul><li class="todo">(실제 경로 기준으로 작성 예정)</li></ul>
+
+      <h3>대중교통</h3>
+      <ul><li class="todo">지하철 5호선 하남풍산역 / 강일역 인근 — 도보·버스 (실측값 확인 예정)</li></ul>
+    </div>
   </section>
 
-  <section>
-    <h2>주차장 진입 팁</h2>
-    <ul><li>(스타필드 하남 공식 주차 안내 기준으로 작성 예정)</li></ul>
+  <!-- ══════════ 2. 미사·조정경기장 가는 길 ══════════ -->
+  <section class="route">
+    <h2>미사·조정경기장 가는 길 <small>~2–5km</small></h2>
+    <div class="player-mount" data-deck="1"></div>
+    <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
+
+    <div class="info">
+      <h3>요일·시간대별 혼잡 패턴</h3>
+      <table>
+        <thead><tr><th>구간</th><th>평일 피크</th><th>주말 피크</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>미사대교</td><td>확인 필요</td><td>확인 필요</td><td>—</td></tr>
+          <tr><td>미사IC 남단 → 조정경기장</td><td>확인 필요</td><td>확인 필요</td><td>주말 나들이 수요</td></tr>
+        </tbody>
+      </table>
+      <p class="todo">※ 실제 관측값으로 채울 예정.</p>
+
+      <h3>주차장 진입 팁</h3>
+      <ul><li class="todo">(미사경정공원·조정경기장 주차 안내 기준으로 작성 예정)</li></ul>
+
+      <h3>우회로 안내</h3>
+      <ul><li class="todo">(실제 경로 기준으로 작성 예정)</li></ul>
+
+      <h3>대중교통</h3>
+      <ul><li class="todo">지하철 5호선 미사역 인근 — 도보·버스 (실측값 확인 예정)</li></ul>
+    </div>
   </section>
 
-  <section>
-    <h2>우회로 안내</h2>
-    <ul><li>(실제 경로 기준으로 작성 예정)</li></ul>
+  <!-- ══════════ 3. 하남 진출입 ══════════ -->
+  <section class="route">
+    <h2>하남 진출입 <small>고속도로 · 팔당대교</small></h2>
+    <div class="player-mount" data-deck="2"></div>
+    <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
   </section>
-
-  <section>
-    <h2>대중교통</h2>
-    <ul><li>지하철 5호선 하남풍산역 / 강일역 인근 — 도보·버스 환승 (실측값 확인 예정)</li></ul>
-  </section>
-
-  <div class="ad" id="ad-bottom">광고 영역 (애드센스 승인 후 교체)</div>
 
   <footer>
     <p>CCTV 영상 출처: 경기도교통정보센터(gits.gg.go.kr) — 경기도 / 경찰청UTIS·하남시 / KTICT 제공.
@@ -114,64 +148,58 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
 <script>
 /* ───────────────────────────────────────────────────────────
-   경기도교통정보센터(GITS) CCTV — 구역별 플레이어(DECKS)
+   경기도교통정보센터(GITS) CCTV — 구역별 플레이어
    - type "hls" (KTICT, 실시간): url = gitsview 리졸버(!hls). GET → m3u8 주소(text) → hls.js.
      토큰(wmsAuthSign) 유효 120분 → 오류 시/HLS_REFRESH_MIN 마다 리졸버 재호출.
    - type "vod" (경찰청UTIS·하남시): 실시간 아님. url → 302 → 약 1분 간격 갱신 녹화 mp4.
      loop 재생 + VOD_RELOAD_SEC 마다 새 클립 교체.
    - url 토큰은 GITS 팝업에서 미리 긁은 고정값. GITS가 바꾸면 재수집.
    - gitsview.gg.go.kr CORS * (HTTPS) → 프록시 불필요.
-   구성 변경은 DECKS 배열만 고치면 됨. 광고는 각 deck 뒤에 자동 삽입.
+   구역 순서는 HTML 의 .player-mount[data-deck] 와 아래 DECKS 인덱스가 일치.
    ─────────────────────────────────────────────────────────── */
 const VOD_RELOAD_SEC = 60;
 const HLS_REFRESH_MIN = 90;
 
 const DECKS = [
-  {
-    title:"스타필드 주변", sub:"~1km",
-    cams:[
-      { id:61065, name:"스타필드동측",          type:"vod", url:"https://gitsview.gg.go.kr/61065/GlPs2+VybjnubfVCDMAOvus3yUXPxZmFGjVw+HWRmi0u5pj1fT87kZgZIeCgD0Kq" },
-      { id:1277,  name:"팔당대교남단(강일방면)", type:"hls", url:"https://gitsview.gg.go.kr/1277/7TYtkgdtQJrqMHohNAXt/W8FVnYTCAhS7uvCkq9HGnk1xBIMVmd3OfGuuz5vvEeV!hls" },
-      { id:61064, name:"덕풍6교 서측",          type:"vod", url:"https://gitsview.gg.go.kr/61064/Pr7VGuKQfzGlf0vKoRZoljz3b/1k2JHVWLVxS/B2qjR/41HCxlxXIAwtnppGpL/m" },
-      { id:6751,  name:"신풍로삼거리",          type:"vod", url:"https://gitsview.gg.go.kr/6751/+JIzaXpoiIizOr6pzta4Z1mhhiNWcMOkHXlnmqhG1De0Pn1KOvJR+373SYLywncM" },
-      { id:6752,  name:"창우지하차도사거리",    type:"vod", url:"https://gitsview.gg.go.kr/6752/y9bpayy7X6uqn4PZnc++PhMVE/0xuL5nBMH1y2XzwbS6UumEh3/mLb0YCumqx1xK" },
-    ]
-  },
-  {
-    title:"미사 · 조정경기장", sub:"~2–5km",
-    cams:[
-      { id:6750,  name:"조정경기장사거리",   type:"vod", url:"https://gitsview.gg.go.kr/6750//3Ik45+QpoCFU16monN1MX+GrTdDN2vlyAqLFDmr02rHkuPjNISlfZw3PBY/UQWC" },
-      { id:60655, name:"황산사거리",         type:"vod", url:"https://gitsview.gg.go.kr/60655/zMrhYguquMVVOrMPen1dHwhKPLbSvDxzozZUDjupSHA/jBIhuQwTIA5OCDEcyxWs" },
-      { id:1275,  name:"미사IC 남단(하남)",  type:"hls", url:"https://gitsview.gg.go.kr/1275/NpJJ7TbyNATWEEKgv2q0hb/EyV8D3IExwUsyHNQUmkIotJUditpZO9fPfHWDrBXn!hls" },
-      { id:6748,  name:"미사교차로",         type:"vod", url:"https://gitsview.gg.go.kr/6748/jG0qy+/U3mAwN3ldEQgAN77bXw35WqLiUQhNt89thJ1QNG8sjFTieH5IamJWlUuL" },
-      { id:2569,  name:"미사대교",           type:"hls", url:"https://gitsview.gg.go.kr/2569/lmjMXtpLPduqQ1xWmDxRvhBaRgquyHzK1ohzGiL2VFHyhmBby6WddRD1M9+rhz2a!hls" },
-    ]
-  },
-  {
-    title:"하남 진출입", sub:"고속도로 · 팔당대교",
-    cams:[
-      { grp:"중부고속 남쪽 → 하남IC 진입 (~2km)" },
-      { id:21,    name:"하남IC",            type:"hls", url:"https://gitsview.gg.go.kr/21/w7RTp3kGK1raguzMaFpDQgd4WoF7sa4VxPpAYaSqoeKR3MktjpLrF3yuBTYVEVfC!hls" },
-      { id:6755,  name:"천현사거리",         type:"vod", url:"https://gitsview.gg.go.kr/6755/AH6/mgKXaEOE7DC/R0hDtT3GO/tf9O4y7BUKJHAddHG1IlkO9afBBdb1a5Hu9QxC" },
-      { id:6757,  name:"신장사거리",         type:"vod", url:"https://gitsview.gg.go.kr/6757/unZWtGDQ5fp9xO692tSfsdbeSklYPKVQmnfHmJitbNI/Zjy7HhrIHisNdCdWy3FO" },
-      { id:94794, name:"천현2",             type:"hls", url:"https://gitsview.gg.go.kr/94794/Jh+/MTatYqrC5nlcRKmpYWY87gat38F5oMC8Hh0LATD51bRVwjSkDxy0sDlLfoZN!hls" },
-      { id:2708,  name:"천현삼거리",         type:"hls", url:"https://gitsview.gg.go.kr/2708/hgxwNXNzdwytHcBvfvomzTs0OjJVsPPp/9WSk3XZkSxGl6GLeLQQUKXJmaIoEUEa!hls" },
+  /* 0 — 스타필드 하남 가는 길 */
+  [
+    { id:1277,  name:"팔당대교남단(강일방면)", type:"hls", url:"https://gitsview.gg.go.kr/1277/7TYtkgdtQJrqMHohNAXt/W8FVnYTCAhS7uvCkq9HGnk1xBIMVmd3OfGuuz5vvEeV!hls" },
+    { id:61065, name:"스타필드동측",          type:"vod", url:"https://gitsview.gg.go.kr/61065/GlPs2+VybjnubfVCDMAOvus3yUXPxZmFGjVw+HWRmi0u5pj1fT87kZgZIeCgD0Kq" },
+    { id:61064, name:"덕풍6교 서측",          type:"vod", url:"https://gitsview.gg.go.kr/61064/Pr7VGuKQfzGlf0vKoRZoljz3b/1k2JHVWLVxS/B2qjR/41HCxlxXIAwtnppGpL/m" },
+    { id:6751,  name:"신풍로삼거리",          type:"vod", url:"https://gitsview.gg.go.kr/6751/+JIzaXpoiIizOr6pzta4Z1mhhiNWcMOkHXlnmqhG1De0Pn1KOvJR+373SYLywncM" },
+    { id:6752,  name:"창우지하차도사거리",    type:"vod", url:"https://gitsview.gg.go.kr/6752/y9bpayy7X6uqn4PZnc++PhMVE/0xuL5nBMH1y2XzwbS6UumEh3/mLb0YCumqx1xK" },
+  ],
+  /* 1 — 미사·조정경기장 가는 길 */
+  [
+    { id:6750,  name:"조정경기장사거리",   type:"vod", url:"https://gitsview.gg.go.kr/6750//3Ik45+QpoCFU16monN1MX+GrTdDN2vlyAqLFDmr02rHkuPjNISlfZw3PBY/UQWC" },
+    { id:60655, name:"황산사거리",         type:"vod", url:"https://gitsview.gg.go.kr/60655/zMrhYguquMVVOrMPen1dHwhKPLbSvDxzozZUDjupSHA/jBIhuQwTIA5OCDEcyxWs" },
+    { id:1275,  name:"미사IC 남단(하남)",  type:"hls", url:"https://gitsview.gg.go.kr/1275/NpJJ7TbyNATWEEKgv2q0hb/EyV8D3IExwUsyHNQUmkIotJUditpZO9fPfHWDrBXn!hls" },
+    { id:6748,  name:"미사교차로",         type:"vod", url:"https://gitsview.gg.go.kr/6748/jG0qy+/U3mAwN3ldEQgAN77bXw35WqLiUQhNt89thJ1QNG8sjFTieH5IamJWlUuL" },
+    { id:2569,  name:"미사대교",           type:"hls", url:"https://gitsview.gg.go.kr/2569/lmjMXtpLPduqQ1xWmDxRvhBaRgquyHzK1ohzGiL2VFHyhmBby6WddRD1M9+rhz2a!hls" },
+  ],
+  /* 2 — 하남 진출입 */
+  [
+    { grp:"중부고속 남쪽 → 하남IC 진입 (~2km)" },
+    { id:21,    name:"하남IC",            type:"hls", url:"https://gitsview.gg.go.kr/21/w7RTp3kGK1raguzMaFpDQgd4WoF7sa4VxPpAYaSqoeKR3MktjpLrF3yuBTYVEVfC!hls" },
+    { id:6755,  name:"천현사거리",         type:"vod", url:"https://gitsview.gg.go.kr/6755/AH6/mgKXaEOE7DC/R0hDtT3GO/tf9O4y7BUKJHAddHG1IlkO9afBBdb1a5Hu9QxC" },
+    { id:6757,  name:"신장사거리",         type:"vod", url:"https://gitsview.gg.go.kr/6757/unZWtGDQ5fp9xO692tSfsdbeSklYPKVQmnfHmJitbNI/Zjy7HhrIHisNdCdWy3FO" },
+    { id:94794, name:"천현2",             type:"hls", url:"https://gitsview.gg.go.kr/94794/Jh+/MTatYqrC5nlcRKmpYWY87gat38F5oMC8Hh0LATD51bRVwjSkDxy0sDlLfoZN!hls" },
+    { id:2708,  name:"천현삼거리",         type:"hls", url:"https://gitsview.gg.go.kr/2708/hgxwNXNzdwytHcBvfvomzTs0OjJVsPPp/9WSk3XZkSxGl6GLeLQQUKXJmaIoEUEa!hls" },
 
-      { grp:"팔당대교 방면 (남양주·양평 → 강 건너)" },
-      { id:4405,  name:"팔당대교IC",        type:"hls", url:"https://gitsview.gg.go.kr/4405/Jq9LYm2TF/GFIPrbDQHBxf8E7tJoGapr8XHAp95/YyPV9Cc03zXXR6+cp9eXk6DK!hls" },
-      { id:6765,  name:"팔당대교남단(하남측)", type:"vod", url:"https://gitsview.gg.go.kr/6765/AIqh/Qvx3UQLVeNgjIuoC45kBtO4eOKvDdFO4rzNIxOXFu6eBN2scT9UI4zs23XX" },
-      { id:71659, name:"남양주 하팔당삼거리", type:"hls", url:"https://gitsview.gg.go.kr/71659/NymrSSb4eNtUVEyKo77RfGI2xcSYtMJZZOShLtnfQcBL0Y7ytjPqxrPB6F4qs6XT!hls" },
-      { id:71308, name:"한강시민공원(팔당)",  type:"hls", url:"https://gitsview.gg.go.kr/71308/9Snt7W/UQjAKzxaOnurpAAZZO2SF+YFpHe8LWGr9pH2tcd2tZdJsiTg+D8dQFdfa!hls" },
+    { grp:"팔당대교 방면 (남양주·양평 → 강 건너)" },
+    { id:4405,  name:"팔당대교IC",        type:"hls", url:"https://gitsview.gg.go.kr/4405/Jq9LYm2TF/GFIPrbDQHBxf8E7tJoGapr8XHAp95/YyPV9Cc03zXXR6+cp9eXk6DK!hls" },
+    { id:6765,  name:"팔당대교남단(하남측)", type:"vod", url:"https://gitsview.gg.go.kr/6765/AIqh/Qvx3UQLVeNgjIuoC45kBtO4eOKvDdFO4rzNIxOXFu6eBN2scT9UI4zs23XX" },
+    { id:71659, name:"남양주 하팔당삼거리", type:"hls", url:"https://gitsview.gg.go.kr/71659/NymrSSb4eNtUVEyKo77RfGI2xcSYtMJZZOShLtnfQcBL0Y7ytjPqxrPB6F4qs6XT!hls" },
+    { id:71308, name:"한강시민공원(팔당)",  type:"hls", url:"https://gitsview.gg.go.kr/71308/9Snt7W/UQjAKzxaOnurpAAZZO2SF+YFpHe8LWGr9pH2tcd2tZdJsiTg+D8dQFdfa!hls" },
 
-      { grp:"고속도로 분기·요금소 (~3km)" },
-      { id:8,     name:"하남JC",            type:"hls", url:"https://gitsview.gg.go.kr/8/WXtZxPwfkl1zJwxQyeEH5gUVuSAPGQhWPN6/IG4W9YuWp1Tm3GTlsUm2so68MR3P!hls" },
-      { id:20,    name:"동서울영업소",       type:"hls", url:"https://gitsview.gg.go.kr/20/ecTbaHuH3p1ETjlwqzqWfb5DV3ZMFU2fo5BgflIrFN11z8RaEJZR04YnU7ouHb9N!hls" },
-      { id:8602,  name:"초일",              type:"hls", url:"https://gitsview.gg.go.kr/8602/gASVQxm5mxtfw8Hq2Wa3XBkDH2oMcNEAlUZ5dHVSx2nk10UA5zpcKrkz8O+7W0mO!hls" },
-    ]
-  },
+    { grp:"고속도로 분기·요금소 (~3km)" },
+    { id:8,     name:"하남JC",            type:"hls", url:"https://gitsview.gg.go.kr/8/WXtZxPwfkl1zJwxQyeEH5gUVuSAPGQhWPN6/IG4W9YuWp1Tm3GTlsUm2so68MR3P!hls" },
+    { id:20,    name:"동서울영업소",       type:"hls", url:"https://gitsview.gg.go.kr/20/ecTbaHuH3p1ETjlwqzqWfb5DV3ZMFU2fo5BgflIrFN11z8RaEJZR04YnU7ouHb9N!hls" },
+    { id:8602,  name:"초일",              type:"hls", url:"https://gitsview.gg.go.kr/8602/gASVQxm5mxtfw8Hq2Wa3XBkDH2oMcNEAlUZ5dHVSx2nk10UA5zpcKrkz8O+7W0mO!hls" },
+  ],
 ];
 
-/* ── 플레이어 슬롯 (deck 마다 독립) ── */
+/* ── 플레이어 슬롯 ── */
 function makeSlot(videoEl, camsEl, statusEl, overlayEl){
   let hls = null, vodTimer = null, hlsTimer = null, current = null;
 
@@ -270,14 +298,8 @@ function makeSlot(videoEl, camsEl, statusEl, overlayEl){
   return { start, renderButtons };
 }
 
-/* ── deck DOM 생성 + 광고 삽입 ── */
-function buildDeck(deck){
-  const wrap = document.createElement("div");
-  wrap.className = "deck";
-
-  const h = document.createElement("h2");
-  h.innerHTML = deck.title + (deck.sub ? ' <small>' + deck.sub + '</small>' : '');
-
+/* ── .player-mount 안에 플레이어 구성 ── */
+function mountPlayer(el, cams){
   const player = document.createElement("div");
   player.className = "player";
   const video = document.createElement("video");
@@ -287,24 +309,18 @@ function buildDeck(deck){
   ov.className = "overlay"; ov.textContent = "불러오는 중…";
   player.append(video, ov);
 
-  const cams = document.createElement("div"); cams.className = "cams";
+  const camsEl = document.createElement("div"); camsEl.className = "cams";
   const st = document.createElement("div"); st.className = "status";
+  el.append(player, camsEl, st);
 
-  wrap.append(h, player, cams, st);
-
-  const slot = makeSlot(video, cams, st, ov);
-  slot.renderButtons(deck.cams);
-  slot.start(deck.cams.find(c => c.id));
-  return wrap;
+  const slot = makeSlot(video, camsEl, st, ov);
+  slot.renderButtons(cams);
+  slot.start(cams.find(c => c.id));
 }
 
-const root = document.getElementById("decks");
-DECKS.forEach(deck => {
-  root.appendChild(buildDeck(deck));
-  const ad = document.createElement("div");
-  ad.className = "ad";
-  ad.textContent = "광고 영역 (애드센스 승인 후 교체)";
-  root.appendChild(ad);
+document.querySelectorAll(".player-mount").forEach(el => {
+  const cams = DECKS[+el.dataset.deck];
+  if (cams) mountPlayer(el, cams);
 });
 </script>
 </body>
