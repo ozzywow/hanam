@@ -1,7 +1,11 @@
 # hanam — 하남시 실시간 교통 CCTV
 
-경기도교통정보센터(GITS) CCTV를 임베드한 정적 사이트. GitHub Pages 배포.
-공개 주소: <https://ozzywow.github.io/hanam/>
+경기도교통정보센터(GITS) CCTV를 임베드한 정적 사이트.
+
+- 프로덕션: <https://hanam.pages.dev/> (Cloudflare Pages, build output `docs`)
+- 스테이징: <https://ozzywow.github.io/hanam/> (GitHub Pages, main `/docs`)
+
+`main` 에 push 하면 둘 다 자동 배포. 6시간마다 GitHub Action 이 `cams.js` 토큰을 갱신.
 
 ## 디렉토리
 
@@ -69,8 +73,12 @@ python -m http.server 8080   # http://localhost:8080
 git add -A && git commit -m "..." && git push
 ```
 
-**최초 1회**: GitHub → Settings → Pages → Source `Deploy from a branch`
-→ Branch `main` / **`/docs`** → Save. (기존 `/(root)` 에서 변경)
+push 하면 Cloudflare Pages·GitHub Pages 둘 다 자동 반영. 별도 명령 없음.
+
+설정(이미 완료):
+- Cloudflare Pages: 프로젝트 `hanam`, repo 연결, build command 없음, build output `docs`, prod branch `main`
+- GitHub Pages: Settings → Pages → `main` / `/docs`
+- Actions: Settings → Actions → Workflow permissions → Read and write (봇 커밋용)
 
 ## 도구
 
