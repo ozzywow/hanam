@@ -11,27 +11,36 @@
 - `index-full.html` — 편집용 원본. 수정 후 `cp index-full.html index.html`.
 - `.nojekyll`, `README.md`
 
-## 동작 방식
+## 동작 방식 — 경기도교통정보센터(GITS)
 
-1. 페이지 로드 → JS가 **국가교통정보센터(ITS) 오픈API** `cctvInfo` 호출
-   (`type=ex,its`, `cctvType=4` = HTTPS HLS), 하남 주변 bounding box 조회.
-2. 이름 필터(`NAME_ALLOW`)로 스타필드 진입로 카메라만 추림 → 버튼 생성.
-3. `hls.js` 로 재생. 스트림 토큰은 **유효 120분** → `REFRESH_MIN`(기본 90분)마다,
-   그리고 재생 오류(403 등) 시 목록을 다시 받아 자동 갱신.
+CCTV 소스를 GITS(`gits.gg.go.kr`)로 변경. 국도·지방도·시내 교차로까지 커버됨
+(ITS 오픈API는 고속/국도만 제공, 스타필드 바로 앞 도로 없음).
 
-CORS 확인 완료: ITS API 는 요청 Origin 을 반사(`Access-Control-Allow-Origin`),
-스트림(`cctvsec.ktict.co.kr`)은 `*` + HTTPS → **프록시 불필요**.
+카메라는 `index-full.html` 상단 `CAMS` 배열에 **직접 나열**. 두 종류:
 
-## 설정 (index-full.html 상단 `<script>`)
+- **`type:"hls"`** (KTICT 제공, 실시간): `url` 은 `gitsview.gg.go.kr/<id>/<토큰>!hls` 리졸버.
+  GET 하면 실제 m3u8 주소(text)를 돌려줌 → `hls.js` 재생. wmsAuthSign 토큰 유효 120분
+  → 재생 오류 시 및 `HLS_REFRESH_MIN`(90분)마다 리졸버 재호출.
+- **`type:"vod"`** (경찰청UTIS·하남시 제공): 실시간 아님. `url` → 302 → 약 1분 간격 갱신되는
+  녹화 mp4. `loop` 재생 + `VOD_RELOAD_SEC`(60초)마다 새 클립으로 교체.
 
-| 상수 | 의미 |
-|---|---|
-| `API_KEY` | ITS 오픈API 인증키. **정적 페이지 소스에 노출됨** (아래 주의) |
-| `BOX` | 조회 위경도 범위 |
-| `ROAD_TYPES` | `["ex","its"]` 고속도로+국도 |
-| `NAME_ALLOW` | 카메라명 포함 키워드 화이트리스트 |
-| `NAME_PREF` | 버튼 상단 우선 정렬 키워드 |
-| `REFRESH_MIN` | 목록 자동 갱신 주기(분) |
+`url` 안의 토큰은 GITS 팝업(`/web/popup/webCctvPopup.do?cctvId=<id>`)에서 미리 긁은 **고정값**.
+GITS가 토큰을 바꾸면 재수집 필요(아래).
+
+CORS 확인: `gitsview.gg.go.kr` 는 `Access-Control-Allow-Origin: *` + HTTPS → **프록시 불필요**.
+(`gits.gg.go.kr` 본체는 CORS 없음 → 클라이언트에서 팝업 직접 호출 불가, 그래서 토큰을 하드코딩.)
+
+### 카메라 추가·삭제
+
+- 삭제: `CAMS` 에서 해당 줄 제거.
+- 추가: `gits.gg.go.kr` CCTV 지도에서 대상 클릭 → 팝업 소스 보기 →
+  `type:"hls"` 는 `<script>` 안 `//gitsview.gg.go.kr/<id>/<토큰>!hls`,
+  `type:"vod"` 는 `<video src="https://gitsview.gg.go.kr/<id>/<토큰>">` 를 복사해서 한 줄 추가.
+- `{ grp:"구간명" }` 은 버튼 그룹 헤더.
+
+### 토큰이 만료/변경됐을 때
+
+전 카메라 팝업을 다시 긁어 `CAMS` 의 `url` 을 갱신. (스크립트화 가능 — 필요 시 요청.)
 
 ## 로컬 미리보기
 
