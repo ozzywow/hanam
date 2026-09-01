@@ -64,7 +64,7 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
 }
 .route{scroll-margin-top:16px}
 
-.navlinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 2px}
+.navlinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:2px 0 14px}
 .navlinks a{display:inline-flex;align-items:center;gap:7px;
   padding:9px 15px 9px 13px;border-radius:12px;
   font-size:.85rem;font-weight:700;line-height:1;text-decoration:none;
