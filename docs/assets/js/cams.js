@@ -20,40 +20,40 @@ const DECKS = [
 
   /* ── 0 · 스타필드 하남 가는 길 ── */
   [
-    { id:1277,  name:"팔당대교남단(강일방면)", type:"hls", lat:37.54770, lng:127.22091, url:"https://gitsview.gg.go.kr/1277/7TYtkgdtQJrqMHohNAXt/X+a158cn7U0qOgCUda/Yy+JiJpzaaDv3yofLQ5KHOED!hls" },
+    { id:1277,  name:"팔당대교남단(강일방면)", type:"hls", lat:37.54770, lng:127.22091, url:"https://gitsview.gg.go.kr/1277/7TYtkgdtQJrqMHohNAXt/X+a158cn7U0qOgCUda/Yy9mflXJa/9yGflYAnJSpz3g!hls" },
     { id:61065, name:"스타필드동측",          type:"vod", lat:37.54372, lng:127.22600, url:"https://gitsview.gg.go.kr/61065/GlPs2+VybjnubfVCDMAOvus3yUXPxZmFGjVw+HWRmi0u5pj1fT87kZgZIeCgD0Kq" },
-    { id:61064, name:"덕풍6교 서측",          type:"vod", lat:37.54567, lng:127.21642, url:"https://gitsview.gg.go.kr/61064/Pr7VGuKQfzGlf0vKoRZolqXd9dFA2irDVsnxJgwaIdt7YOrKU8GZYlBPd1OGBfpE" },
-    { id:6751,  name:"신풍로삼거리",          type:"vod", lat:37.55070, lng:127.21433, url:"https://gitsview.gg.go.kr/6751/+JIzaXpoiIizOr6pzta4Z3A5uaApKfkCfhnx96qGKmOhbrt0Tgd2vC+0AbL57ieF" },
-    { id:6752,  name:"창우지하차도사거리",    type:"vod", lat:37.53854, lng:127.22930, url:"https://gitsview.gg.go.kr/6752/y9bpayy7X6uqn4PZnc++PgNYzkvwV64nVwWUpOJphNvpoCURe7OosKOL63InXnwg" },
+    { id:61064, name:"덕풍6교 서측",          type:"vod", lat:37.54567, lng:127.21642, url:"https://gitsview.gg.go.kr/61064/Pr7VGuKQfzGlf0vKoRZoloWegjctR+TM6yULuX7fnW4vwZ3YaMRH30opoIP4hYeG" },
+    { id:6751,  name:"신풍로삼거리",          type:"vod", lat:37.55070, lng:127.21433, url:"https://gitsview.gg.go.kr/6751/+JIzaXpoiIizOr6pzta4Z+f9OLwkvNAlAIFoq1VCObK0Pn1KOvJR+373SYLywncM" },
+    { id:6752,  name:"창우지하차도사거리",    type:"vod", lat:37.53854, lng:127.22930, url:"https://gitsview.gg.go.kr/6752/y9bpayy7X6uqn4PZnc++PnPz2vLrfVEtOOKqKu7qzhTlhmg1oPesINtMpyhWZSXn" },
   ],
 
   /* ── 1 · 미사·조정경기장 가는 길 ── */
   [
-    { id:6750,  name:"조정경기장사거리",   type:"vod", lat:37.56012, lng:127.20350, url:"https://gitsview.gg.go.kr/6750//3Ik45+QpoCFU16monN1MXt9UJsxHmdeDFOZPKfKL9rFiup8ayQEuRgjb2S3CqO5" },
+    { id:6750,  name:"조정경기장사거리",   type:"vod", lat:37.56012, lng:127.20350, url:"https://gitsview.gg.go.kr/6750//3Ik45+QpoCFU16monN1Mf4j4pSoSl+YX69R8dCyEw8Vd3f42muXvZqIcRptv6hu" },
     { id:60655, name:"황산사거리",         type:"vod", lat:37.54991, lng:127.18566, url:"https://gitsview.gg.go.kr/60655/zMrhYguquMVVOrMPen1dH+lreeIvpENd+rLB6Vagq/iuzSRw4U1VqKAKaUf2/EIv" },
-    { id:1275,  name:"미사IC 남단(하남)",  type:"hls", lat:37.57486, lng:127.19475, url:"https://gitsview.gg.go.kr/1275/NpJJ7TbyNATWEEKgv2q0hbRWPeFB22HwE1SIUvmQW6guSIjGdD4VjuNwcdoPSgGJ!hls" },
-    { id:6748,  name:"미사교차로",         type:"vod", lat:37.57968, lng:127.19310, url:"https://gitsview.gg.go.kr/6748/jG0qy+/U3mAwN3ldEQgAN2VZW3iMHrLdqpB1qgLwD86wEJ29miWucb5AtuP0028E" },
-    { id:2569,  name:"미사대교",           type:"hls", lat:37.58372, lng:127.19414, url:"https://gitsview.gg.go.kr/2569/lmjMXtpLPduqQ1xWmDxRvip3+vrUvwIryEufijCHJbPCQCoSvipwPpnmscNebvfc!hls" },
+    { id:1275,  name:"미사IC 남단(하남)",  type:"hls", lat:37.57486, lng:127.19475, url:"https://gitsview.gg.go.kr/1275/NpJJ7TbyNATWEEKgv2q0hbRWPeFB22HwE1SIUvmQW6itgpE15Caehqhd1rN/feDS!hls" },
+    { id:6748,  name:"미사교차로",         type:"vod", lat:37.57968, lng:127.19310, url:"https://gitsview.gg.go.kr/6748/jG0qy+/U3mAwN3ldEQgAN64tfys2r5CdXhPE8MjHgFyqtM/QVhzsajOz/tXVtFII" },
+    { id:2569,  name:"미사대교",           type:"hls", lat:37.58372, lng:127.19414, url:"https://gitsview.gg.go.kr/2569/lmjMXtpLPduqQ1xWmDxRvip3+vrUvwIryEufijCHJbP1WpGcwHHNh2dmrM9Ywtid!hls" },
   ],
 
   /* ── 2 · 하남 진출입 ── */
   [
     { grp:"중부고속 남쪽 → 하남IC 진입 (~2km)" },
-    { id:21,    name:"하남IC",            type:"hls", lat:37.52801, lng:127.21858, url:"https://gitsview.gg.go.kr/21/w7RTp3kGK1raguzMaFpDQpa59+ts8TUwD0TBklim8+lLb/MNxaxVz/CL4lyPNXmD!hls" },
-    { id:6755,  name:"천현사거리",         type:"vod", lat:37.53561, lng:127.21490, url:"https://gitsview.gg.go.kr/6755/AH6/mgKXaEOE7DC/R0hDtd1bJNNjvntCSkdvhln+e5wmVUFMOxbSjlWWqxnjLpMN" },
-    { id:6757,  name:"신장사거리",         type:"vod", lat:37.53786, lng:127.20460, url:"https://gitsview.gg.go.kr/6757/unZWtGDQ5fp9xO692tSfsXPcDXXaIzqTDYfuA42RGZnjQxz5CDdYBFaczE3OYnD0" },
-    { id:94794, name:"천현2",             type:"hls", lat:37.53169, lng:127.20598, url:"https://gitsview.gg.go.kr/94794/Jh+/MTatYqrC5nlcRKmpYRN2tpJnw2FtByV/7QiAKuxm/NvVC+4x+kwf6wpz0zlb!hls" },
-    { id:2708,  name:"천현삼거리",         type:"hls", lat:37.52521, lng:127.22042, url:"https://gitsview.gg.go.kr/2708/hgxwNXNzdwytHcBvfvomzSKVTvwFAD1CEe4Mpv6/XRYOXFj9Iy6bDYFX4NUOccGm!hls" },
+    { id:21,    name:"하남IC",            type:"hls", lat:37.52801, lng:127.21858, url:"https://gitsview.gg.go.kr/21/w7RTp3kGK1raguzMaFpDQpa59+ts8TUwD0TBklim8+l2BPd5mVnnEnaWcy1ftXTU!hls" },
+    { id:6755,  name:"천현사거리",         type:"vod", lat:37.53561, lng:127.21490, url:"https://gitsview.gg.go.kr/6755/AH6/mgKXaEOE7DC/R0hDte9G2XGtn40ym5/P059j6ny1IlkO9afBBdb1a5Hu9QxC" },
+    { id:6757,  name:"신장사거리",         type:"vod", lat:37.53786, lng:127.20460, url:"https://gitsview.gg.go.kr/6757/unZWtGDQ5fp9xO692tSfsfRi1Bs8dBtMV0NskIu0puLUKoPlqdggnyTnI9CDqCmO" },
+    { id:94794, name:"천현2",             type:"hls", lat:37.53169, lng:127.20598, url:"https://gitsview.gg.go.kr/94794/Jh+/MTatYqrC5nlcRKmpYRN2tpJnw2FtByV/7QiAKuxPfRVLo1BfDXVHKmIrWvF7!hls" },
+    { id:2708,  name:"천현삼거리",         type:"hls", lat:37.52521, lng:127.22042, url:"https://gitsview.gg.go.kr/2708/hgxwNXNzdwytHcBvfvomzSKVTvwFAD1CEe4Mpv6/XRY8/rI0TXj8hV4VVCMtzKiG!hls" },
 
     { grp:"팔당대교 방면 (남양주·양평 → 강 건너)" },
-    { id:4405,  name:"팔당대교IC",        type:"hls", lat:37.54822, lng:127.24015, url:"https://gitsview.gg.go.kr/4405/Jq9LYm2TF/GFIPrbDQHBxWezt0sg460V8b1NhaH4ShkKgGD4/+yT+wUrW0hsQha+!hls" },
-    { id:6765,  name:"팔당대교남단(하남측)", type:"vod", lat:37.54317, lng:127.23379, url:"https://gitsview.gg.go.kr/6765/AIqh/Qvx3UQLVeNgjIuoCwcidq4bWmMyj702ao9foa+sRnGOdAac9+pGud9LKpC5" },
-    { id:71659, name:"남양주 하팔당삼거리", type:"hls", lat:37.55259, lng:127.23854, url:"https://gitsview.gg.go.kr/71659/NymrSSb4eNtUVEyKo77RfJrLLrqc1+iPkl0UcwtSo3Ax7igiVcsr7E4H6Di7MVmn!hls" },
-    { id:71308, name:"한강시민공원(팔당)",  type:"hls", lat:37.55946, lng:127.23579, url:"https://gitsview.gg.go.kr/71308/9Snt7W/UQjAKzxaOnurpALz7bkMBxYPIy5Sxcfu39tTUBKPcicNgsvaaLlVIl6Kn!hls" },
+    { id:4405,  name:"팔당대교IC",        type:"hls", lat:37.54822, lng:127.24015, url:"https://gitsview.gg.go.kr/4405/Jq9LYm2TF/GFIPrbDQHBxWezt0sg460V8b1NhaH4ShlRz5zPNdjCFk6XynQ5cYEZ!hls" },
+    { id:6765,  name:"팔당대교남단(하남측)", type:"vod", lat:37.54317, lng:127.23379, url:"https://gitsview.gg.go.kr/6765/AIqh/Qvx3UQLVeNgjIuoCzrj4aOYyvKdijhGrzrxN/eXFu6eBN2scT9UI4zs23XX" },
+    { id:71659, name:"남양주 하팔당삼거리", type:"hls", lat:37.55259, lng:127.23854, url:"https://gitsview.gg.go.kr/71659/NymrSSb4eNtUVEyKo77RfJrLLrqc1+iPkl0UcwtSo3C+QmGjMSwA9Wwt728T2RBN!hls" },
+    { id:71308, name:"한강시민공원(팔당)",  type:"hls", lat:37.55946, lng:127.23579, url:"https://gitsview.gg.go.kr/71308/9Snt7W/UQjAKzxaOnurpALz7bkMBxYPIy5Sxcfu39tTbLEULe6cO+VBCIbRoCqgb!hls" },
 
     { grp:"고속도로 분기·요금소 (~3km)" },
-    { id:8,     name:"하남JC",            type:"hls", lat:37.53250, lng:127.19361, url:"https://gitsview.gg.go.kr/8/WXtZxPwfkl1zJwxQyeEH5vIq8nn/NRRUpE9rhDgD81xR2rT+EMDOPd3IpZpEDXl5!hls" },
-    { id:20,    name:"동서울영업소",       type:"hls", lat:37.51773, lng:127.22149, url:"https://gitsview.gg.go.kr/20/ecTbaHuH3p1ETjlwqzqWfVWrumJhQUA2p8zXHp+gUOGg2a6uTylg39tUHffH14BS!hls" },
-    { id:8602,  name:"초일",              type:"hls", lat:37.53503, lng:127.18773, url:"https://gitsview.gg.go.kr/8602/gASVQxm5mxtfw8Hq2Wa3XM8aofj6L0lqlODKQ5lhyXYAeWhd9zZUb8nEltcnsZN2!hls" },
+    { id:8,     name:"하남JC",            type:"hls", lat:37.53250, lng:127.19361, url:"https://gitsview.gg.go.kr/8/WXtZxPwfkl1zJwxQyeEH5lRJCafGOxdLjjjcaB8dfq21CGPFfIxOw9LaDyxx2pia!hls" },
+    { id:20,    name:"동서울영업소",       type:"hls", lat:37.51773, lng:127.22149, url:"https://gitsview.gg.go.kr/20/ecTbaHuH3p1ETjlwqzqWfVWrumJhQUA2p8zXHp+gUOGqx67/sY4nIucgjui/A7Cg!hls" },
+    { id:8602,  name:"초일",              type:"hls", lat:37.53503, lng:127.18773, url:"https://gitsview.gg.go.kr/8602/gASVQxm5mxtfw8Hq2Wa3XM8aofj6L0lqlODKQ5lhyXb+IGnoG/VJv7OlaN5v/NlV!hls" },
   ],
 ];
