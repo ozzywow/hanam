@@ -125,6 +125,27 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
 .ad{margin:20px 0 4px;padding:14px;border:1px dashed var(--line);border-radius:var(--radius-sm);
   text-align:center;color:var(--muted);font-size:.8rem}
 
+.parking{margin:14px 0 4px;padding:13px 15px;border:1px solid var(--line);
+  border-radius:var(--radius-sm);background:var(--card)}
+.parking-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.parking-head strong{font-size:.92rem;font-weight:700}
+.parking-upd{flex:none;color:var(--muted);font-size:.75rem}
+.parking-floors{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0;padding:0}
+.parking-floors li{flex:1 1 0;min-width:66px;display:flex;align-items:center;gap:7px;
+  padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);
+  font-weight:700;font-size:.9rem}
+.parking-floors small{margin-left:-3px;color:var(--muted);font-weight:400;font-size:.72rem}
+.parking-floors .lv{width:9px;height:9px;border-radius:50%;flex:none;background:var(--muted)}
+.parking-floors .st{margin-left:auto;font-size:.76rem;font-weight:700;color:var(--muted)}
+.parking-floors li[data-deg="01"] .lv{background:var(--live)}
+.parking-floors li[data-deg="01"] .st{color:var(--live)}
+.parking-floors li[data-deg="02"] .lv{background:var(--warn)}
+.parking-floors li[data-deg="02"] .st{color:var(--warn)}
+.parking-floors li[data-deg="03"] .lv{background:#d93025}
+.parking-floors li[data-deg="03"] .st{color:#d93025}
+.parking-src{margin:9px 0 0;color:var(--muted);font-size:.75rem}
+@media (max-width:560px){ .parking-floors li{flex-basis:calc(50% - 4px)} }
+
 .info h3{font-size:1rem;font-weight:700;letter-spacing:-.01em;margin:24px 0 .5em;padding:0;border:0}
 .info h3:first-child{margin-top:6px}
 .info h3 small{color:var(--muted);font-weight:400;font-size:.8rem;margin-left:6px}

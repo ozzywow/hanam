@@ -23,6 +23,7 @@ hanamlife.com 운영에 쓰는 모든 외부 사이트와 콘솔. 로그인 계�
 | 도메인 등록 | Domains → Registrations | `hanamlife.com` (Cloudflare Registrar, 원가). 자동 갱신 |
 | DNS 레코드 | hanamlife.com → DNS → Records | CNAME `@`·`www` → `hanam.pages.dev` (Proxied) / TXT: Google 소유확인 / TXT: `ads.txt` 아님 |
 | 프로덕션 호스팅 | Workers & Pages → **hanam** | build output `docs/`. main push 시 자동 배포 |
+| Pages Functions | 저장소 `functions/` (자동 인식, 설정 불필요) | `functions/api/parking.js` → `/api/parking` (스타필드 주차 API 프록시). 스테이징(GitHub Pages)엔 없음 |
 | 커스텀 도메인 | 위 프로젝트 → Custom domains | `hanamlife.com`, `www.hanamlife.com` (Active/SSL) |
 | Pages 기본 주소 | — | `hanam.pages.dev` (지울 수 없는 별칭) |
 | www→apex 리다이렉트 | hanamlife.com → Rules → Page Rules | `www.hanamlife.com/*` → `https://hanamlife.com/$1` (301) |
@@ -74,12 +75,13 @@ hanamlife.com 운영에 쓰는 모든 외부 사이트와 콘솔. 로그인 계�
 
 ---
 
-## 5. CCTV 데이터 출처 (상세는 [sources.md](sources.md))
+## 5. 데이터 출처 (상세는 [sources.md](sources.md))
 
 | 기관 | URL | 용도 |
 |---|---|---|
 | 경기도교통정보센터 (GITS) | https://gits.gg.go.kr | CCTV 목록·팝업 토큰 원본 (CORS 없음, 클라이언트 직접 호출 불가) |
 | GITS 뷰어 | https://gitsview.gg.go.kr | m3u8 리졸버 (CORS `*`, 프록시 불필요) |
+| 스타필드 하남 | https://www.starfield.co.kr/api/hanam/myCar/parkingCNT.do | 실시간 주차 혼잡도. JSESSIONID 쿠키 필요 → `functions/api/parking.js` 가 서버측 대행 |
 | 국가교통정보센터 (ITS) | https://www.its.go.kr | 참고 |
 | 도시교통정보센터 (UTIC) | https://www.utic.go.kr | 참고 |
 

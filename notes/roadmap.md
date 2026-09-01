@@ -19,6 +19,9 @@
       구간별 대중교통·주차 요금·계절 행사, 종합 혼잡 캘린더, FAQ
       (업데이트 로그 섹션은 제거, 푸터 한 줄로 축약)
 - [x] TMap·카카오맵 길찾기 딥링크 버튼 (좌표 OSM 기준)
+- [x] 스타필드 실시간 주차 혼잡도 패널 (RF·B1·B2·B3, 여유/혼잡/만차) —
+      Cloudflare Pages Function `functions/api/parking.js` 가 스타필드 내부 API
+      세션 발급+호출 대행, `parking.js` 90초 갱신. 상세: [notes/sources.md](sources.md)
 
 ### 배포 구성
 
