@@ -28,6 +28,8 @@ git push (main) ─┬─→ GitHub Pages     ozzywow.github.io/hanam   (스테�
 6시간마다 refresh-tokens Action → cams.js 커밋 → 위 둘 자동 재배포
 ```
 
+외부 서비스·계정·콘솔 URL·주요 ID 정리 → **[notes/services.md](services.md)**
+
 ## 애드센스 승인 후 (대기 중)
 
 - [ ] `index.html` 등의 `<div class="ad">` placeholder → 실제 광고 유닛 코드
