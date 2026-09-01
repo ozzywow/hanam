@@ -30,7 +30,8 @@
 
 ```
 hanamlife.com/                     허브: 소개 + 목적지 카드 + 종합 혼잡 캘린더
-                                        + 자주 묻는 질문 + 제보·건의·제휴 + 업데이트 로그
+                                        + 자주 묻는 질문 + 제보·건의·제휴
+                                        (업데이트 로그는 섹션 대신 푸터 한 줄로 유지)
 hanamlife.com/cctv/starfield/      스타필드 하남
 hanamlife.com/cctv/misa/           미사·조정경기장
 hanamlife.com/cctv/hanam/          하남 진출입 (고속도로·팔당대교)
