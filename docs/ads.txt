@@ -1,0 +1,6 @@
+# Google AdSense
+# 애드센스 가입 시 발급되는 게시자 ID(pub-XXXXXXXXXXXXXXXX)를 아래 줄에 넣고
+# 맨 앞의 '#'를 제거한 뒤 배포하세요. AdSense 대시보드의 "ads.txt" 안내에
+# 표시되는 값과 정확히 일치해야 합니다.
+#
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
