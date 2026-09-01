@@ -65,15 +65,21 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
 .route{scroll-margin-top:16px}
 
 .navlinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 2px}
-.navlinks a{display:inline-flex;align-items:center;gap:6px;
-  padding:9px 15px;border-radius:10px;
+.navlinks a{display:inline-flex;align-items:center;gap:7px;
+  padding:9px 15px 9px 13px;border-radius:12px;
   font-size:.85rem;font-weight:700;line-height:1;text-decoration:none;
-  border:1px solid var(--line);background:var(--card);color:var(--fg);
-  transition:border-color .15s, background .15s, color .15s}
-.navlinks a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
-.navlinks a.tmap{background:var(--accent);border-color:var(--accent);color:var(--accentfg)}
-.navlinks a.tmap:hover{filter:brightness(1.06);color:var(--accentfg)}
+  border:1px solid transparent;
+  box-shadow:0 1px 2px rgba(16,24,40,.10);
+  transition:filter .15s, box-shadow .15s}
+.navlinks a:hover{text-decoration:none;filter:brightness(.94);
+  box-shadow:0 2px 8px rgba(16,24,40,.16)}
+.navlinks a:active{filter:brightness(.88)}
+.navlinks a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.navlinks a .ico{width:15px;height:15px;flex:none;fill:currentColor}
+.navlinks a.tmap{background:#155ef5;color:#fff}
+.navlinks a.kakao{background:#fee500;color:#191919}
 .navlinks .hint{color:var(--muted);font-size:.78rem;font-weight:400}
+@media (max-width:560px){ .navlinks .hint{flex-basis:100%} }
 
 .route{background:var(--surface);border:1px solid var(--line);
   border-radius:var(--radius);padding:20px;margin:0 0 18px;box-shadow:var(--shadow)}
