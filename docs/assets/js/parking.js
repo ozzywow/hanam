@@ -34,12 +34,13 @@
       data = await r.json();
       if (!data || !data.ok || !Array.isArray(data.floors) || !data.floors.length) throw 0;
     } catch (e) {
-      box.hidden = true;
+      // 안내도는 그대로 두고 혼잡도 자리에만 표시 (함수 없는 스테이징 등)
+      listEl.innerHTML = '<li class="parking-note">실시간 혼잡도를 불러오지 못했습니다</li>';
+      updEl.textContent = "";
       return;
     }
     render(data.floors);
     updEl.textContent = data.updated ? "업데이트 " + hhmm(data.updated) : "";
-    box.hidden = false;
   }
 
   load();

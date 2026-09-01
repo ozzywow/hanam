@@ -17,6 +17,7 @@ hanam/
 │   ├── .nojekyll
 │   └── assets/
 │       ├── css/styles.css
+│       ├── img/parking-map.jpg  스타필드 주차장 진입로 안내도 (혼잡도 패널에 표시)
 │       └── js/
 │           ├── cams.js         ★ 카메라 정의 — 여기만 고치면 구성이 바뀜
 │           ├── player.js       재생 엔진 (hls / vod)
@@ -54,9 +55,10 @@ RF·B1·B2·B3 층별 혼잡도(여유/혼잡/만차)를 가져와 스타필드 
 동작해 브라우저에서 직접 못 부른다 → **Cloudflare Pages Function**
 (`functions/api/parking.js`)이 서버측에서 세션 발급 + API 호출을 대행하고
 필요한 4개 층만 CORS 붙여 `/api/parking` 으로 돌려준다(엣지 캐시 90초).
-`docs/assets/js/parking.js` 가 90초마다 호출해 패널을 갱신하고, 실패하면
-(함수가 없는 GitHub Pages 스테이징 등) 패널을 조용히 숨긴다.
-자세한 내용은 [notes/sources.md](notes/sources.md).
+`docs/assets/js/parking.js` 가 90초마다 호출해 혼잡도 칩을 갱신한다. 패널에는
+스타필드 공식 진입로 안내도(`assets/img/parking-map.jpg`, 동·남·서 3방향)도 함께
+표시하며, API 호출이 실패해도(함수 없는 GitHub Pages 스테이징 등) 안내도는 남고
+혼잡도 자리에만 안내 문구를 띄운다. 자세한 내용은 [notes/sources.md](notes/sources.md).
 
 `gitsview.gg.go.kr` 는 CORS `*` + HTTPS → **프록시 불필요**.
 `url` 의 토큰은 GITS 팝업에서 긁은 값 (`gits.gg.go.kr` 본체는 CORS 없어 클라이언트에서 못 부름).

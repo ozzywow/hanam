@@ -28,7 +28,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-<link rel="stylesheet" href="assets/css/styles.css?v=20260903">
+<link rel="stylesheet" href="assets/css/styles.css?v=20260904">
 
 <!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9635871358308305" crossorigin="anonymous"></script>
@@ -162,13 +162,21 @@
 
     <div class="player-mount" data-deck="0"></div>
 
-    <div class="parking" id="sf-parking" hidden>
+    <div class="parking" id="sf-parking">
       <div class="parking-head">
         <strong>스타필드 실시간 주차 혼잡도</strong>
         <span class="parking-upd" data-upd></span>
       </div>
-      <ul class="parking-floors" data-floors></ul>
-      <p class="parking-src">여유 · 혼잡 · 만차 3단계. 출처
+      <ul class="parking-floors" data-floors><li class="parking-note">불러오는 중…</li></ul>
+
+      <figure class="parking-map">
+        <img src="assets/img/parking-map.jpg" width="1200" height="652" loading="lazy" decoding="async"
+             alt="스타필드 하남 주차장 진입로 안내도 — 미사대로 방면에서 동·남·서 세 방향 진입, 남측에 지상 주차장">
+        <figcaption>미사대로 방면에서 <b>동</b>·<b>남</b>·<b>서</b> 세 방향으로 진입합니다.
+          남측에 지상 주차장(P), 그 외 층(RF·B1–B3)은 건물 주차장입니다.</figcaption>
+      </figure>
+
+      <p class="parking-src">혼잡도 여유 · 혼잡 · 만차 3단계. 안내도·데이터 출처
         <a href="https://www.starfield.co.kr/hanam/about/parkingInfo.do" target="_blank" rel="noopener">스타필드 하남 공식 주차 안내</a></p>
     </div>
 
