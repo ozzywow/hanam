@@ -3,10 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>하남시 실시간 교통 CCTV (Beta)</title>
+<title>하남시 실시간 교통 CCTV</title>
 <meta name="description" content="하남시 실시간 교통 CCTV — 스타필드 하남 가는 길, 미사·조정경기장 가는 길, 하남 진출입(고속도로·팔당대교). 요일·시간대별 혼잡 패턴과 주차장 진입 팁.">
 <meta name="naver-site-verification" content="e7e362264b345b22bf90095376b23a4e67fadbf5" />
 <link rel="canonical" href="https://hanamlife.com/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="하남라이프">
+<meta property="og:title" content="하남시 실시간 교통 CCTV">
+<meta property="og:description" content="스타필드 하남·미사 조정경기장·팔당대교 가는 길을 실시간 CCTV로. 요일·시간대별 혼잡 패턴과 주차장 진입 팁.">
+<meta property="og:url" content="https://hanamlife.com/">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://hanamlife.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="하남시 실시간 교통 CCTV">
+<meta name="twitter:description" content="스타필드 하남·미사 조정경기장·팔당대교 가는 길을 실시간 CCTV로. 요일·시간대별 혼잡 패턴과 주차장 진입 팁.">
+<meta name="twitter:image" content="https://hanamlife.com/assets/og.png">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"하남시 실시간 교통 CCTV","url":"https://hanamlife.com/","inLanguage":"ko-KR"}
+</script>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <link rel="stylesheet" href="assets/css/styles.css">
@@ -20,8 +39,16 @@
   <h1>하남시 실시간 교통 CCTV<span class="beta">Beta</span></h1>
   <p class="lead">경기도교통정보센터 CCTV로 하남시 주요 진입로 상황을 실시간으로 확인하세요.</p>
 
+  <nav class="pagenav" aria-label="구간 바로가기">
+    <a href="#starfield">스타필드 하남</a>
+    <a href="#misa">미사·조정경기장</a>
+    <a href="#hanam">하남 진출입</a>
+    <a href="#faq">자주 묻는 질문</a>
+    <a href="#contact">제보·문의</a>
+  </nav>
+
   <!-- ══════════ 이 사이트 소개 ══════════ -->
-  <section class="route">
+  <section class="route" id="about">
     <h2>이 사이트는 <small>무엇을 위한 페이지인가</small></h2>
     <div class="info">
       <p>스타필드 하남, 미사경정공원·조정경기장, 팔당대교와 고속도로 진출입로 —
@@ -48,7 +75,7 @@
   </section>
 
   <!-- ══════════ 1. 스타필드 하남 가는 길 ══════════ -->
-  <section class="route">
+  <section class="route" id="starfield">
     <h2>스타필드 하남 가는 길 <small>~1km</small></h2>
     <div class="player-mount" data-deck="0"></div>
     <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
@@ -76,7 +103,7 @@
   </section>
 
   <!-- ══════════ 2. 미사·조정경기장 가는 길 ══════════ -->
-  <section class="route">
+  <section class="route" id="misa">
     <h2>미사·조정경기장 가는 길 <small>~2–5km</small></h2>
     <div class="player-mount" data-deck="1"></div>
     <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
@@ -103,7 +130,7 @@
   </section>
 
   <!-- ══════════ 3. 하남 진출입 ══════════ -->
-  <section class="route">
+  <section class="route" id="hanam">
     <h2>하남 진출입 <small>고속도로 · 팔당대교</small></h2>
     <div class="player-mount" data-deck="2"></div>
     <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
@@ -137,7 +164,7 @@
   </section>
 
   <!-- ══════════ 자주 묻는 질문 ══════════ -->
-  <section class="route">
+  <section class="route" id="faq">
     <h2>자주 묻는 질문</h2>
     <div class="info">
       <h3>영상이 실시간인가요?</h3>
@@ -165,7 +192,7 @@
   </section>
 
   <!-- ══════════ 제보 · 건의 · 제휴 ══════════ -->
-  <section class="route">
+  <section class="route" id="contact">
     <h2>제보 · 건의 · 제휴 문의</h2>
     <div class="info">
       <p>이 사이트는 하남 지역 주민이 직접 만들어 운영합니다. 아래 내용은 언제든
