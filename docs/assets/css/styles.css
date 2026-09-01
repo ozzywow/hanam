@@ -39,13 +39,25 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
   font-size:.56rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;line-height:1}
 .lead{color:var(--muted);font-size:.95rem;margin:.2em 0 1.7em;max-width:62ch}
 
-.pagenav{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 18px}
-.pagenav a{display:inline-flex;align-items:center;border:1px solid var(--line);
-  background:var(--surface);color:var(--fg);padding:6px 12px;border-radius:999px;
-  font-size:.85rem;line-height:1.25;text-decoration:none;
-  transition:border-color .15s, color .15s}
-.pagenav a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
-.pagenav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pagenav{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 22px}
+.pagenav a{display:inline-flex;align-items:center;gap:7px;
+  padding:9px 15px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);
+  color:var(--fg);font-size:.875rem;font-weight:600;letter-spacing:-.01em;
+  line-height:1.2;text-decoration:none;
+  transition:background .15s, border-color .15s, color .15s, transform .1s}
+.pagenav a::before{content:"";width:7px;height:7px;border-radius:50%;
+  background:var(--accent);flex:none;transition:background .15s}
+.pagenav a:hover,.pagenav a:focus-visible{background:var(--accent);border-color:var(--accent);
+  color:var(--accentfg);text-decoration:none;outline:none;transform:translateY(-1px)}
+.pagenav a:hover::before,.pagenav a:focus-visible::before{background:var(--accentfg)}
+@media (max-width:560px){
+  .pagenav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+    margin:6px -14px 20px;padding:2px 14px 8px}
+  .pagenav::-webkit-scrollbar{display:none}
+  .pagenav a{flex:none;box-shadow:none}
+}
+.route{scroll-margin-top:16px}
 
 .route{background:var(--surface);border:1px solid var(--line);
   border-radius:var(--radius);padding:20px;margin:0 0 18px;box-shadow:var(--shadow)}
