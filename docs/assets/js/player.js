@@ -12,7 +12,7 @@
 const VOD_RELOAD_SEC  = 60;
 const HLS_REFRESH_MIN  = 90;
 
-function makeSlot(videoEl, camsEl, statusEl, overlayEl){
+function makeSlot(videoEl, camsEl, statusEl, overlayEl, onSelect){
   let hls = null, vodTimer = null, hlsTimer = null, current = null;
 
   const setStatus = (m, e) => { statusEl.textContent = m || ""; statusEl.classList.toggle("err", !!e); };
@@ -37,6 +37,7 @@ function makeSlot(videoEl, camsEl, statusEl, overlayEl){
     current = cam;
     teardown();
     markButtons();
+    if (typeof onSelect === "function") onSelect(cam);
     setStatus(cam.name + " 불러오는 중…");
     showOverlay(cam.name);
     if (cam.type === "vod") startVod(cam); else startHls(cam);
@@ -99,6 +100,7 @@ function makeSlot(videoEl, camsEl, statusEl, overlayEl){
       }
       const b = document.createElement("button");
       b.type = "button";
+      b.id = "cam-btn-" + cam.id;
       b.dataset.id = cam.id;
       b.innerHTML = cam.name + '<span class="k">' + (cam.type === "vod" ? "녹화" : "LIVE") + '</span>';
       b.setAttribute("aria-pressed", "false");
@@ -108,6 +110,44 @@ function makeSlot(videoEl, camsEl, statusEl, overlayEl){
   }
 
   return { start, renderButtons };
+}
+
+/* 덱의 카메라 좌표로 Leaflet 지도를 만들고,
+   start(cam) 때 호출할 focus(cam) 함수를 돌려준다. Leaflet 미로딩 시 no-op. */
+function makeMap(mapEl, cams){
+  const geo = cams.filter(c => c.id && isFinite(c.lat) && isFinite(c.lng));
+  if (!window.L || !geo.length){ mapEl.hidden = true; return () => {}; }
+
+  const BLUE = "#1b64da", RED = "#d93025";
+  const map = L.map(mapEl, { scrollWheelZoom: false, attributionControl: true });
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(map);
+
+  const markers = new Map();
+  geo.forEach(c => {
+    const m = L.circleMarker([c.lat, c.lng], {
+      radius: 6, weight: 2, color: BLUE, fillColor: BLUE, fillOpacity: .5,
+    }).addTo(map).bindTooltip(c.name, { direction: "top" });
+    m.on("click", () => document.getElementById("cam-btn-" + c.id)?.click());
+    markers.set(c.id, m);
+  });
+  map.fitBounds(geo.map(c => [c.lat, c.lng]), { padding: [24, 24], maxZoom: 15 });
+  setTimeout(() => map.invalidateSize(), 0);
+
+  return cam => {
+    if (!cam || !isFinite(cam.lat)) return;
+    markers.forEach((m, id) => {
+      const on = id === cam.id;
+      m.setStyle({
+        radius: on ? 9 : 6, fillOpacity: on ? 1 : .5,
+        color: on ? RED : BLUE, fillColor: on ? RED : BLUE,
+      });
+      if (on) m.bringToFront();
+    });
+    map.panTo([cam.lat, cam.lng]);
+  };
 }
 
 function mountPlayer(el, cams){
@@ -122,9 +162,11 @@ function mountPlayer(el, cams){
 
   const camsEl = document.createElement("div"); camsEl.className = "cams";
   const st = document.createElement("div"); st.className = "status";
-  el.append(player, camsEl, st);
+  const mapEl = document.createElement("div"); mapEl.className = "map";
+  el.append(player, camsEl, st, mapEl);
 
-  const slot = makeSlot(video, camsEl, st, ov);
+  const focus = makeMap(mapEl, cams);
+  const slot = makeSlot(video, camsEl, st, ov, focus);
   slot.renderButtons(cams);
   slot.start(cams.find(c => c.id));
 }

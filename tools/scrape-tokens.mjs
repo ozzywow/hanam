@@ -1,15 +1,16 @@
-/* docs/assets/js/cams.js 에 있는 모든 카메라의 재생 토큰을
-   GITS 팝업에서 다시 긁어 비교/갱신.
+/* docs/assets/js/cams.js 에 있는 모든 카메라의 재생 토큰과 좌표를
+   GITS 에서 다시 긁어 비교/갱신.
 
    사용:
      node tools/scrape-tokens.mjs           # 확인만 (변경분 표시)
-     node tools/scrape-tokens.mjs --write   # cams.js 의 url 을 최신 토큰으로 교체
+     node tools/scrape-tokens.mjs --write   # cams.js 의 url·lat·lng 를 최신값으로 교체
 
    원리:
-     GITS 팝업  https://gits.gg.go.kr/web/popup/webCctvPopup.do?cctvId=<id>
+     토큰 — GITS 팝업  https://gits.gg.go.kr/web/popup/webCctvPopup.do?cctvId=<id>
        - hls: <script> 안  //gitsview.gg.go.kr/<id>/<token>!hls
        - vod: <video src="https://gitsview.gg.go.kr/<id>/<token>">
      이 URL 안의 <token> 은 보통 고정이지만 GITS 개편 시 바뀔 수 있음.
+     좌표 — webLoadCCTVData.do 전체 목록의  id/name/경도/위도  레코드.
 */
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -26,10 +27,23 @@ const HEADERS = { "User-Agent": "Mozilla/5.0", "Referer": "https://gits.gg.go.kr
 
 let src = readFileSync(CAMS_PATH, "utf8");
 
-// { id:NNN, ... type:"hls"|"vod", url:"..." } 를 순서대로 추출
+// { id:NNN, ... type:"hls"|"vod", ... url:"..." } 블록을 통째로 추출
 const camRe = /\{\s*id:\s*(\d+)[^}]*?type:\s*"(hls|vod)"[^}]*?url:\s*"([^"]+)"\s*\}/g;
-const cams = [...src.matchAll(camRe)].map(m => ({ id: m[1], type: m[2], url: m[3] }));
+const cams = [...src.matchAll(camRe)].map(m => ({ id: m[1], type: m[2], url: m[3], block: m[0] }));
 if (!cams.length){ console.error("cams.js 에서 카메라를 찾지 못했습니다."); process.exit(1); }
+
+// 좌표 전체 목록 (id → { lat, lng }). 실패해도 토큰 갱신은 계속.
+const coords = new Map();
+try {
+  const r = await fetch("https://gits.gg.go.kr/web/map/webLoadCCTVData.do", { headers: HEADERS });
+  for (const row of (await r.text()).trim().split("@")){
+    const p = row.split("/");
+    if (p[0] && isFinite(+p[2]) && isFinite(+p[3])) coords.set(p[0], { lat: +p[3], lng: +p[2] });
+  }
+  console.log(`좌표 목록 ${coords.size}개 로드`);
+} catch (e) {
+  console.log(`  ! 좌표 목록 요청 실패 (${e.message}) — 토큰만 확인`);
+}
 
 console.log(`${cams.length}개 카메라 확인 중…\n`);
 
@@ -55,11 +69,25 @@ for (const cam of cams){
   if (!fresh){
     console.log(`  ✗ ${cam.id}  토큰 패턴 없음 (팝업 구조 변경 가능성)`); failed++; continue;
   }
-  if (fresh === cam.url){
+
+  // 블록에 토큰·좌표 변경을 모두 반영한 뒤 한 번만 치환
+  let newBlock = cam.block;
+  if (fresh !== cam.url) newBlock = newBlock.split(cam.url).join(fresh);
+
+  const co = coords.get(cam.id);
+  if (co){
+    newBlock = newBlock
+      .replace(/lat:\s*-?[\d.]+/, "lat:" + co.lat.toFixed(5))
+      .replace(/lng:\s*-?[\d.]+/, "lng:" + co.lng.toFixed(5));
+  }
+
+  if (newBlock === cam.block){
     console.log(`  · ${cam.id}  동일`);
   } else {
-    console.log(`  ~ ${cam.id}  변경\n      old ${cam.url}\n      new ${fresh}`);
-    if (WRITE) src = src.split(cam.url).join(fresh);
+    if (fresh !== cam.url) console.log(`  ~ ${cam.id}  토큰\n      old ${cam.url}\n      new ${fresh}`);
+    if (co && new RegExp(`lat:\\s*${co.lat.toFixed(5)}\\b`).test(cam.block) === false)
+      console.log(`  ~ ${cam.id}  좌표 → ${co.lat.toFixed(5)}, ${co.lng.toFixed(5)}`);
+    if (WRITE) src = src.split(cam.block).join(newBlock);
     changed++;
   }
 }

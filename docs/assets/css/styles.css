@@ -39,6 +39,11 @@ h1{font-size:1.5rem;margin:.2em 0 .1em}
 .status{color:var(--muted);font-size:.84rem;min-height:1.2em;margin-top:2px}
 .status.err{color:var(--warn)}
 
+.map{height:220px;margin:10px 0 4px;border:1px solid var(--line);border-radius:10px;
+  overflow:hidden;background:var(--card);z-index:0}
+.map .leaflet-container{background:var(--card);font:inherit}
+.map .leaflet-bar a{color:var(--fg);background:var(--bg);border-color:var(--line)}
+
 .ad{margin:22px 0;padding:10px;border:1px dashed var(--line);border-radius:10px;
   text-align:center;color:var(--muted);font-size:.85rem}
 
