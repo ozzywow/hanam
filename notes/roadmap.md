@@ -1,48 +1,51 @@
 # 로드맵 / 할 일
 
-## 지금 상태
+## 지금 상태 (2026-09)
 
 - [x] GITS CCTV 연동 (hls 실시간 + vod 녹화), 프록시 없이 정적 페이지
 - [x] 구역 3개: 스타필드 하남 / 미사·조정경기장 / 하남 진출입
 - [x] 디렉토리 구조 정리 (`docs/` 배포, `tools/` 스크립트, `notes/` 기록)
-- [x] 개인정보처리방침 초안 (`docs/privacy.html`)
+- [x] 개인정보처리방침 + 이용약관 (`docs/privacy.html`, `docs/terms.html`)
 - [x] 토큰 자동 갱신 GitHub Actions (6시간마다, 봇이 `cams.js` 커밋)
-- [x] 배포: GitHub Pages(스테이징) + Cloudflare Pages(프로덕션) 둘 다 push 자동 반영
+- [x] 배포: GitHub Pages(스테이징) + Cloudflare Pages(프로덕션)
+- [x] 커스텀 도메인 `hanamlife.com` 연결, www→apex 301 (Cloudflare Page Rule)
+- [x] `canonical` 프로덕션 주소로, `ads.txt`(pub-9635871358308305), `robots.txt`, `sitemap.xml`
+- [x] 애드센스 신청 완료 → **심사 대기 중** (승인 메일 대기)
+- [x] 애드센스 CMP(GDPR 동의 메시지) 설정
+- [x] GA4 설치 (`G-Y46YYZLMCK`)
+- [x] 검색엔진 등록: 구글 서치콘솔(도메인 속성/DNS TXT), 네이버 서치어드바이저
+- [x] OG/Twitter 태그 + `assets/og.png`, favicon, JSON-LD(WebSite)
+- [x] 콘텐츠 보강: 사이트 소개·이용 방법·CCTV 화면 읽는 법, 하남 도로 개요,
+      구간별 대중교통·주차 요금·계절 행사, 종합 혼잡 캘린더, FAQ, 업데이트 로그
+- [x] TMap·카카오맵 길찾기 딥링크 버튼 (좌표 OSM 기준)
 
 ### 배포 구성
 
 ```
-git push  ─┬─→ GitHub Pages       ozzywow.github.io/hanam   (스테이징)
-           └─→ Cloudflare Pages   hanam.pages.dev           (프로덕션, build output=docs)
+git push (main) ─┬─→ GitHub Pages     ozzywow.github.io/hanam   (스테이징)
+                 └─→ Cloudflare Pages  hanamlife.com            (프로덕션, build output=docs)
 6시간마다 refresh-tokens Action → cams.js 커밋 → 위 둘 자동 재배포
 ```
 
-## 콘텐츠 (애드센스 승인 전 필수)
+## 애드센스 승인 후 (대기 중)
 
-- [ ] 각 구역 "요일·시간대별 혼잡 패턴" 실제 데이터로 교체
-      (네이버·카카오맵 붐비는 시간 / 직접 관측)
-- [ ] "주차장 진입 팁" — 스타필드 하남 공식 주차 안내, 미사경정공원 주차 기준
-- [ ] "우회로 안내" — 실제 대안 경로
-- [ ] "대중교통" — 카카오맵 실측 도보 시간, 버스 노선
-- [ ] `privacy.html` 시행일·이메일 채우기
-- [ ] footer 연락처 채우기
-- [ ] 소개(about) 페이지 or 섹션
+- [ ] `index.html` 등의 `<div class="ad">` placeholder → 실제 광고 유닛 코드
+- [ ] 모바일 앵커(하단 고정) 광고 활성화 (자동 광고)
+- [ ] 페이지 재구성 → **[notes/restructure-plan.md](restructure-plan.md)** 참고
+      (허브 + `/cctv/*` 하위 페이지, 코스트코 하남·이케아 강동 추가)
 
-## 애드센스
+## 심사 중에도 가능 (저삭제·무구조변경 원칙)
 
-- [ ] 커스텀 도메인 구입 + Cloudflare Pages 에 연결 (Custom domains 탭)
-- [ ] `docs/index.html` 의 `<link rel="canonical">` 를 프로덕션 주소로 변경
-- [ ] `docs/ads.txt` 추가 (커스텀 도메인이면 루트로 서빙됨)
-- [ ] 애드센스 신청 → 승인 후 `index.html` 스크립트 주석 해제 + `.ad` 를 광고 유닛으로 교체
-- [ ] 대안 검토: Blogger/Tistory (애드센스 승인 수월)
+- [ ] 오타·문구 다듬기
+- [ ] 기존 페이지 내용 추가 (창우동/팔당대교 남단 공영주차장 요금·위치 등 출처 확보 시)
+- [ ] `terms.html` 서치콘솔 URL 검사 → 색인 요청
 
 ## 기능 확장 (선택)
 
 - [ ] GITS 소통정보로 구역별 정체 색상 배지 (openapigits 키 활성화 시)
-- [ ] 구역 추가: 하남 스포츠센터, 위례, 감일지구 등 (`tools/list-cams.mjs` 로 후보 조회)
+- [ ] 구역 추가: 코스트코 하남, 위례, 감일지구 등 (`tools/list-cams.mjs` 로 후보 조회)
 - [ ] 즐겨찾기(로컬스토리지)로 기본 카메라 지정
-- [ ] Cloudflare 빌드 아끼려면 Build watch paths 를 `docs/**` 로 좁히기 (지금은 `*`, 한도엔 여유)
-- [ ] 블로그로 이전 시: `cams.js` 를 GitHub 에서 `<script src>` 로 불러오도록 분리
+- [ ] `sitemap.xml` 의 `lastmod` 배포 시 자동 갱신 (refresh-tokens Action 등)
 
 ## 운영
 
