@@ -39,7 +39,13 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
   font-size:.56rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;line-height:1}
 .lead{color:var(--muted);font-size:.95rem;margin:.2em 0 1.7em;max-width:62ch}
 
-.pagenav{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 22px}
+.pagenav{display:flex;flex-direction:column;gap:9px;margin:6px 0 24px}
+.pagenav-grp{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.pagenav-label{flex:none;min-width:2.7rem;
+  font-size:.7rem;font-weight:800;letter-spacing:.09em;
+  color:var(--muted);text-transform:uppercase}
+.pagenav-label::after{content:"";display:inline-block;width:1px;height:.9em;
+  margin-left:8px;vertical-align:-.1em;background:var(--line)}
 .pagenav a{display:inline-flex;align-items:center;gap:7px;
   padding:9px 15px;border-radius:999px;
   background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);
@@ -52,10 +58,9 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
   color:var(--accentfg);text-decoration:none;outline:none;transform:translateY(-1px)}
 .pagenav a:hover::before,.pagenav a:focus-visible::before{background:var(--accentfg)}
 @media (max-width:560px){
-  .pagenav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
-    margin:6px -14px 20px;padding:2px 14px 8px}
-  .pagenav::-webkit-scrollbar{display:none}
-  .pagenav a{flex:none;box-shadow:none}
+  .pagenav a{box-shadow:none;padding:8px 13px;font-size:.83rem}
+  .pagenav-label{min-width:100%;margin-bottom:-2px}
+  .pagenav-label::after{display:none}
 }
 .route{scroll-margin-top:16px}
 
