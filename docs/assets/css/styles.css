@@ -64,6 +64,17 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
 }
 .route{scroll-margin-top:16px}
 
+.navlinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 2px}
+.navlinks a{display:inline-flex;align-items:center;gap:6px;
+  padding:9px 15px;border-radius:10px;
+  font-size:.85rem;font-weight:700;line-height:1;text-decoration:none;
+  border:1px solid var(--line);background:var(--card);color:var(--fg);
+  transition:border-color .15s, background .15s, color .15s}
+.navlinks a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.navlinks a.tmap{background:var(--accent);border-color:var(--accent);color:var(--accentfg)}
+.navlinks a.tmap:hover{filter:brightness(1.06);color:var(--accentfg)}
+.navlinks .hint{color:var(--muted);font-size:.78rem;font-weight:400}
+
 .route{background:var(--surface);border:1px solid var(--line);
   border-radius:var(--radius);padding:20px;margin:0 0 18px;box-shadow:var(--shadow)}
 @media (max-width:560px){ .route{padding:14px} }
@@ -109,6 +120,7 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
 
 .info h3{font-size:1rem;font-weight:700;letter-spacing:-.01em;margin:24px 0 .5em;padding:0;border:0}
 .info h3:first-child{margin-top:6px}
+.info h3 small{color:var(--muted);font-weight:400;font-size:.8rem;margin-left:6px}
 .tablewrap{overflow-x:auto;margin:.2em 0 .7em;border:1px solid var(--line);border-radius:var(--radius-sm)}
 table{width:100%;border-collapse:collapse;font-size:.88rem}
 th,td{padding:9px 11px;text-align:left;border:0;border-bottom:1px solid var(--line);vertical-align:top}
