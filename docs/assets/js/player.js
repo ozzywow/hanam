@@ -102,7 +102,7 @@ function makeSlot(videoEl, camsEl, statusEl, overlayEl, onSelect){
       b.type = "button";
       b.id = "cam-btn-" + cam.id;
       b.dataset.id = cam.id;
-      b.innerHTML = cam.name + '<span class="k">' + (cam.type === "vod" ? "녹화" : "LIVE") + '</span>';
+      b.innerHTML = cam.name + '<span class="k ' + (cam.type === "vod" ? "rec" : "live") + '">' + (cam.type === "vod" ? "녹화" : "LIVE") + '</span>';
       b.setAttribute("aria-pressed", "false");
       b.addEventListener("click", () => start(cam));
       camsEl.appendChild(b);
