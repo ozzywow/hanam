@@ -1,0 +1,47 @@
+{
+  // ── 로컬 미리보기 자동화 ──────────────────────────────────────────
+  //   Ctrl+Alt+V : docs/ 를 :8899 로 서빙하고 브라우저로 연다  ("전체 시작 (서버 + 뷰어)")
+  //   Ctrl+Alt+K : 실행 중인 작업 모두 종료 = 서버 종료          (VS Code 기본: terminateAll)
+  //
+  // 단축키는 사용자 전역 keybindings.json 에 이미 정의돼 있다(GameServer_Proto 와 공유).
+  // 작업 이름만 같으면 그대로 재사용된다.
+  //
+  //   이미 떠 있는데 다시 V 를 누르면 포트 충돌로 _dev-serve 만 에러 나고
+  //   브라우저는 기존 서버로 열린다. K 로 끄고 다시 V.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "전체 시작 (서버 + 뷰어)",
+      "dependsOn": ["_dev-serve", "_dev-open"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "_dev-serve",
+      "type": "process",
+      "command": "python",
+      "args": ["-m", "http.server", "8899", "--directory", "docs"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true,
+        "group": "dev"
+      }
+    },
+    {
+      "label": "_dev-open",
+      "type": "process",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-Command",
+        "Start-Sleep -Milliseconds 900; Start-Process 'http://localhost:8899/'"
+      ],
+      "problemMatcher": [],
+      "presentation": { "reveal": "silent", "panel": "shared", "group": "dev" }
+    }
+  ]
+}
