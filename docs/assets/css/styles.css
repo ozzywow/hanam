@@ -66,6 +66,24 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
 }
 .route{scroll-margin-top:16px}
 
+.totop{position:fixed;z-index:1200;
+  right:calc(16px + env(safe-area-inset-right));
+  bottom:calc(16px + env(safe-area-inset-bottom));
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 15px;border-radius:999px;
+  background:var(--accent);color:var(--accentfg);
+  font-size:.85rem;font-weight:700;line-height:1;text-decoration:none;
+  border:1px solid color-mix(in srgb, var(--accent) 72%, #000);
+  box-shadow:0 4px 16px rgba(16,24,40,.28);
+  transition:transform .12s, filter .12s}
+.totop svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;
+  stroke-linecap:round;stroke-linejoin:round}
+.totop:hover{filter:brightness(1.07);text-decoration:none;transform:translateY(-1px)}
+.totop:active{transform:translateY(0)}
+.totop:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:560px){ .totop{right:12px;bottom:12px;padding:9px 13px} }
+@media print{ .totop{display:none} }
+
 .navlinks{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:0}
 .navlinks a{display:inline-flex;align-items:center;gap:6px;
   padding:7px 12px 7px 10px;border-radius:10px;
