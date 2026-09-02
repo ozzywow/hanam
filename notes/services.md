@@ -118,5 +118,5 @@ GA4 측정 ID          G-Y46YYZLMCK
 네이버 소유확인       e7e362264b345b22bf90095376b23a4e67fadbf5
 구글 소유확인         Cloudflare DNS 의 TXT google-site-verification=… 레코드
 
-연락처               instagram.com/hanamlife / ozzywow2@gmail.com
+연락처               instagram.com/hanamlife / hanamlifeadmin@gmail.com
 ```
