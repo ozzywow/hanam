@@ -12,7 +12,7 @@
 const VOD_RELOAD_SEC  = 60;
 const HLS_REFRESH_MIN  = 90;
 
-function makeSlot(videoEl, camsEl, statusEl, overlayEl, onSelect){
+function makeSlot(videoEl, camsEl, statusEl, overlayEl, onSelect, btnPrefix){
   let hls = null, vodTimer = null, hlsTimer = null, current = null;
 
   const setStatus = (m, e) => { statusEl.textContent = m || ""; statusEl.classList.toggle("err", !!e); };
@@ -100,7 +100,7 @@ function makeSlot(videoEl, camsEl, statusEl, overlayEl, onSelect){
       }
       const b = document.createElement("button");
       b.type = "button";
-      b.id = "cam-btn-" + cam.id;
+      b.id = btnPrefix + cam.id;
       b.dataset.id = cam.id;
       b.innerHTML = cam.name + '<span class="k ' + (cam.type === "vod" ? "rec" : "live") + '">' + (cam.type === "vod" ? "녹화" : "LIVE") + '</span>';
       b.setAttribute("aria-pressed", "false");
@@ -114,7 +114,7 @@ function makeSlot(videoEl, camsEl, statusEl, overlayEl, onSelect){
 
 /* 덱의 카메라 좌표로 Leaflet 지도를 만들고,
    start(cam) 때 호출할 focus(cam) 함수를 돌려준다. Leaflet 미로딩 시 no-op. */
-function makeMap(mapEl, cams){
+function makeMap(mapEl, cams, btnPrefix){
   const geo = cams.filter(c => c.id && isFinite(c.lat) && isFinite(c.lng));
   if (!window.L || !geo.length){ mapEl.hidden = true; return () => {}; }
 
@@ -130,7 +130,7 @@ function makeMap(mapEl, cams){
     const m = L.circleMarker([c.lat, c.lng], {
       radius: 6, weight: 2, color: BLUE, fillColor: BLUE, fillOpacity: .5,
     }).addTo(map).bindTooltip(c.name, { direction: "top" });
-    m.on("click", () => document.getElementById("cam-btn-" + c.id)?.click());
+    m.on("click", () => document.getElementById(btnPrefix + c.id)?.click());
     markers.set(c.id, m);
   });
   map.fitBounds(geo.map(c => [c.lat, c.lng]), { padding: [24, 24], maxZoom: 15 });
@@ -165,8 +165,9 @@ function mountPlayer(el, cams){
   const mapEl = document.createElement("div"); mapEl.className = "map";
   el.append(player, camsEl, st, mapEl);
 
-  const focus = makeMap(mapEl, cams);
-  const slot = makeSlot(video, camsEl, st, ov, focus);
+  const btnPrefix = "cam-btn-d" + (el.dataset.deck || "0") + "-";
+  const focus = makeMap(mapEl, cams, btnPrefix);
+  const slot = makeSlot(video, camsEl, st, ov, focus, btnPrefix);
   slot.renderButtons(cams);
   slot.start(cams.find(c => c.id));
 }

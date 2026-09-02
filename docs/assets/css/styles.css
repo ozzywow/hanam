@@ -57,6 +57,8 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
 .pagenav a:hover,.pagenav a:focus-visible{background:var(--accent);border-color:var(--accent);
   color:var(--accentfg);text-decoration:none;outline:none;transform:translateY(-1px)}
 .pagenav a:hover::before,.pagenav a:focus-visible::before{background:var(--accentfg)}
+.pagenav a.is-hot{background:var(--accent);border-color:var(--accent);color:var(--accentfg)}
+.pagenav a.is-hot::before{background:var(--accentfg)}
 @media (max-width:560px){
   .pagenav a{box-shadow:none;padding:8px 13px;font-size:.83rem}
   .pagenav-label{min-width:100%;margin-bottom:-2px}
@@ -121,6 +123,23 @@ h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
   border-radius:var(--radius-sm);overflow:hidden;background:var(--card);z-index:0}
 .map .leaflet-container{background:var(--card);font:inherit}
 .map .leaflet-bar a{color:var(--fg);background:var(--surface);border-color:var(--line)}
+
+.omap{height:300px;margin:0 0 10px;border:1px solid var(--line);
+  border-radius:var(--radius-sm);overflow:hidden;background:var(--card);z-index:0}
+.omap .leaflet-container{background:var(--card);font:inherit}
+.omap .leaflet-bar a{color:var(--fg);background:var(--surface);border-color:var(--line)}
+.omap-tip{background:var(--surface);color:var(--fg);border:1px solid var(--line);
+  box-shadow:var(--shadow);font-weight:600;font-size:.8rem;padding:3px 9px}
+.omap-tip::before{border-top-color:var(--line)}
+.omap-legend{display:flex;flex-wrap:wrap;align-items:center;gap:5px 16px;
+  margin:0 2px 22px;font-size:.78rem;color:var(--muted)}
+.omap-legend i{display:inline-block;width:18px;height:4px;border-radius:2px;
+  vertical-align:middle;margin-right:6px}
+.omap-legend .omap-hint{margin-left:auto}
+@media (max-width:560px){
+  .omap{height:230px}
+  .omap-legend .omap-hint{margin-left:0;flex-basis:100%}
+}
 
 .ad{margin:20px 0 4px;padding:14px;border:1px dashed var(--line);border-radius:var(--radius-sm);
   text-align:center;color:var(--muted);font-size:.8rem}
