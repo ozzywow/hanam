@@ -2,7 +2,7 @@
    실시간 사고·통제 — /api/incidents (경기도교통정보센터 돌발상황 프록시) 를 받아
 
    (a) pagenav 아래 전역 접이식 리스트 — 하남 주변 관련 항목 전체
-   (b) 각 라우트 섹션에 그 구간 좌표 2km 이내 항목만
+   (b) 각 라우트 섹션에 그 구간 좌표 1.2km 이내 항목만
 
    경로 매칭은 overview.js 와 같은 규칙(pagenav 앵커 → 섹션 → data-deck →
    cams.js DECKS 좌표)으로 구한다. DECKS 미로딩·API 실패 시 조용히 숨김.
@@ -98,10 +98,14 @@
   }
 
   var TYPE_CLASS = {
-    "교통사고": "acc", "차량사고": "acc",
-    "공사": "work", "차량고장": "brk", "기타돌발": "etc",
+    "교통사고": "acc", "차량사고": "acc", "사고": "acc",
+    "공사": "work", "통제": "work", "도로폐쇄": "work",
+    "차량고장": "brk", "기타돌발": "etc",
   };
-  var TYPE_SEV = { "교통사고": 0, "차량사고": 0, "공사": 1, "차량고장": 2 };
+  var TYPE_SEV = {
+    "교통사고": 0, "차량사고": 0, "사고": 0,
+    "통제": 1, "도로폐쇄": 1, "공사": 2, "차량고장": 3,
+  };
   function sevSort(a, b) {
     var s = (TYPE_SEV[a.type] == null ? 3 : TYPE_SEV[a.type]) -
             (TYPE_SEV[b.type] == null ? 3 : TYPE_SEV[b.type]);
@@ -143,7 +147,9 @@
 
     var a = (it.from && it.from !== "-") ? it.from : "";
     var b = it.place || "";
-    var loc = (a && b && a !== b) ? (a + " → " + b) : (b || a);
+    var seg = (a && b && a !== b) ? (a + " → " + b) : (b || a);
+    var loc = [it.road, it.dir ? "(" + it.dir + ")" : "", seg]
+      .filter(Boolean).join(" ");
     if (showWhere) {
       var w = matchedLabels(it);
       if (w) loc = loc ? (loc + " · " + w) : w;
@@ -163,7 +169,7 @@
   }
 
   /* ── 렌더 ── */
-  function render(items, updated) {
+  function render(items, updated, source) {
     var relevant = items.filter(function (it) {
       return routes.some(function (r) { return nearRoute(r, it.lat, it.lng); });
     });
@@ -176,7 +182,7 @@
     gTitle.textContent = clear ? "지금 하남 주변 사고·통제 없음" : "실시간 사고·통제";
 
     fill(gList, relevant, GLOBAL_MAX, true);
-    gSrc.textContent = "출처: 하남시 교통정보센터 · " +
+    gSrc.textContent = "출처: " + (source || "경기도교통정보센터") + " · " +
       hhmm(updated ? new Date(updated) : new Date()) + " 기준";
     if (clear) {
       gPanel.hidden = true;
@@ -197,7 +203,7 @@
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) {
         if (!j || !j.ok || !Array.isArray(j.items)) { g.hidden = true; return; }
-        render(j.items, j.updated);
+        render(j.items, j.updated, j.source);
       })
       .catch(function () { g.hidden = true; });
   }
