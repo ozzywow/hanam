@@ -44,10 +44,11 @@ export async function onRequestGet({ request }) {
     await cache.put(cacheKey, res.clone());
     return res;
   } catch (err) {
-    // 실패해도 200 + ok:false → 클라이언트가 조용히 숨기고 재시도
+    // 실패해도 200 + ok:false → 클라이언트가 조용히 숨기고 재시도.
+    // 원본이 간헐적으로 429/500(레이트리밋) → 실패도 90초 캐시해 재호출 억제.
     return new Response(
       JSON.stringify({ ok: false, error: String((err && err.message) || err) }),
-      { headers: { ...headers, "cache-control": "public, max-age=30" } },
+      { headers: { ...headers, "cache-control": "public, max-age=90" } },
     );
   }
 }
@@ -69,17 +70,26 @@ async function fetchIncidents() {
   const now = new Date();
   const from = new Date(now.getTime() - 2 * 24 * 3600 * 1000);
   const body = JSON.stringify({ sdtm: fmt(from), edtm: fmt(now), endYn: null });
-
-  const r = await fetch(API_URL, {
+  const opts = {
     method: "POST",
     headers: {
       "content-type": "application/json",
       "accept": "application/json, application/*+json",
       "user-agent": UA,
       "referer": REFERER,
+      "origin": "https://www.hanam.go.kr",
+      "x-requested-with": "XMLHttpRequest",
+      "accept-language": "ko-KR,ko;q=0.9",
     },
     body,
-  });
+  };
+
+  let r = await fetch(API_URL, opts);
+  if (!r.ok) {
+    // 간헐적 레이트리밋 → 짧게 한 번 더
+    await new Promise(res => setTimeout(res, 900));
+    r = await fetch(API_URL, opts);
+  }
   if (!r.ok) throw new Error("api http " + r.status);
 
   const j = await r.json();
