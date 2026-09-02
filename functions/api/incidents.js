@@ -4,8 +4,9 @@
    원본: POST https://www.hanam.go.kr/its/getUnexpect.do  (경기도교통정보센터)
    - JSON POST 필수(text/plain 은 415), CORS 프리플라이트(OPTIONS) 미지원
      → 브라우저(hanamlife.com)에서 직접 못 부른다. 이 함수가 서버측에서 대신 호출.
-   - 최근 2일치를 받아 진행중(END_YN != "Y") + cams.js 좌표 범위(+여유) 안의
-     항목만 추리고, 필요한 필드만 남겨 CORS 붙여 돌려준다.
+   - 최근 2일치를 받아 진행중(END_YN != "Y") + cams.js 좌표 범위(+여유) +
+     유형별 노출시간(사고 3h · 공사 24h · 기타돌발/고장 1h) 안의 항목만 추리고,
+     필요한 필드만 남겨 CORS 붙여 돌려준다.
    - 엣지 캐시 120초.
 
    라우트: GET /api/incidents     (functions/api/incidents.js)
@@ -20,6 +21,10 @@ const CACHE_SEC = 120;
 
 /* cams.js 좌표 범위(lat 37.405–37.604, lng 127.095–127.303) + 약 2.5km 여유 */
 const BBOX = { latMin: 37.38, latMax: 37.63, lngMin: 127.07, lngMax: 127.33 };
+
+/* 유형별 노출 시간(발생시각 기준, 시간). 넘으면 제외. 시각 파싱 실패도 제외. */
+const MAX_AGE_H = { "교통사고": 3, "차량사고": 3, "공사": 24, "차량고장": 1, "기타돌발": 1 };
+const DEFAULT_AGE_H = 3;
 
 export async function onRequestGet({ request }) {
   const headers = {
@@ -106,19 +111,26 @@ async function fetchIncidents() {
     const msg = (it.UNXP_MSG || "").replace(/\s+/g, " ").trim();
     const place = (it.ENODE_NM || "").trim();
     if (!msg && !place) continue;
+    const type = (it.UNXP_TYPE || "돌발").trim();
     // 내용 없는 '기타돌발'은 노이즈 → 제외
-    if (!msg && (it.UNXP_TYPE || "").trim() === "기타돌발") continue;
+    if (!msg && type === "기타돌발") continue;
+
+    // 유형별 노출 시간 필터 (발생시각 기준)
+    const at = toIso(it.OCRN_DT || it.START_DT);
+    if (!at) continue;
+    const ageH = (Date.now() - Date.parse(at)) / 3600000;
+    if (ageH > (MAX_AGE_H[type] || DEFAULT_AGE_H)) continue;
 
     const key = (it.LINK_ID || "") + "|" + (it.OCRN_DT || "") + "|" + msg;
     if (seen.has(key)) continue;
     seen.add(key);
 
     out.push({
-      type: (it.UNXP_TYPE || "돌발").trim(),
+      type,
       msg,
       place,
       from: (it.SNODE_NM || "").trim(),
-      at: toIso(it.OCRN_DT || it.START_DT),
+      at,
       lat, lng,
       linkId: it.LINK_ID || null,
     });
