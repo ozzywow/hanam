@@ -30,7 +30,7 @@
       .filter(function (c) { return c.id && isFinite(c.lat) && isFinite(c.lng); })
       .map(function (c) { return [c.lat, c.lng]; });
     if (!pts.length) return;
-    routes.push({ id: id, section: sec, pts: pts, box: null, list: null });
+    routes.push({ id: id, label: a.textContent.trim(), section: sec, pts: pts, box: null, list: null });
   });
   if (!routes.length) return;
 
@@ -107,10 +107,10 @@
             (TYPE_SEV[b.type] == null ? 3 : TYPE_SEV[b.type]);
     return s || (b.at || "").localeCompare(a.at || "");
   }
-  function fill(ul, items, max) {
+  function fill(ul, items, max, showWhere) {
     ul.innerHTML = "";
     var sorted = items.slice().sort(sevSort);
-    sorted.slice(0, max).forEach(function (it) { ul.appendChild(li(it)); });
+    sorted.slice(0, max).forEach(function (it) { ul.appendChild(li(it, showWhere)); });
     if (sorted.length > max) {
       var more = document.createElement("li");
       more.className = "incidents-more";
@@ -131,13 +131,30 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
     });
   }
-  function li(it) {
+  function matchedLabels(it) {
+    return routes
+      .filter(function (r) { return nearRoute(r, it.lat, it.lng); })
+      .map(function (r) { return r.label; })
+      .join(", ");
+  }
+  function li(it, showWhere) {
     var el = document.createElement("li");
     var cls = TYPE_CLASS[it.type] || "etc";
-    var text = it.msg || (it.type + (it.place ? " · " + it.place : ""));
+
+    var a = (it.from && it.from !== "-") ? it.from : "";
+    var b = it.place || "";
+    var loc = (a && b && a !== b) ? (a + " → " + b) : (b || a);
+    if (showWhere) {
+      var w = matchedLabels(it);
+      if (w) loc = loc ? (loc + " · " + w) : w;
+    }
+
     el.innerHTML =
       '<span class="incidents-tag ' + cls + '">' + esc(it.type) + "</span>" +
-      '<span class="incidents-msg">' + esc(text) + "</span>" +
+      '<span class="incidents-body">' +
+        (it.msg ? '<span class="incidents-msg">' + esc(it.msg) + "</span>" : "") +
+        (loc ? '<span class="incidents-loc">' + esc(loc) + "</span>" : "") +
+      "</span>" +
       '<span class="incidents-time">' + esc(relTime(it.at)) + "</span>";
     return el;
   }
@@ -158,7 +175,7 @@
     gCount.textContent = clear ? "" : String(relevant.length);
     gTitle.textContent = clear ? "지금 하남 주변 사고·통제 없음" : "실시간 사고·통제";
 
-    fill(gList, relevant, GLOBAL_MAX);
+    fill(gList, relevant, GLOBAL_MAX, true);
     gSrc.textContent = "출처: 하남시 교통정보센터 · " +
       hhmm(updated ? new Date(updated) : new Date()) + " 기준";
     if (clear) {
