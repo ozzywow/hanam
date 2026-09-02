@@ -22,6 +22,16 @@
 - [x] 스타필드 실시간 주차 혼잡도 패널 (RF·B1·B2·B3, 여유/혼잡/만차) —
       Cloudflare Pages Function `functions/api/parking.js` 가 스타필드 내부 API
       세션 발급+호출 대행, `parking.js` 90초 갱신. 상세: [notes/sources.md](sources.md)
+- [x] 병목 구간 재분류 (2026-09): 주중(나들목 병목·출퇴근 병목) + 주말(스타필드·미사·
+      팔당대교~조안·현대아울렛·서울양양고속) = 라우트 섹션 7개, `DECKS` 0~7.
+      단일 페이지 유지(URL 분리는 애드센스 승인 후 — restructure-plan)
+- [x] 상단 개요 지도 `overview.js`: pagenav 경로를 Leaflet 선으로. 데스크톱=선 호버로
+      한 경로 강조+라벨, 터치=선 조작 없이 스크롤 연동 미니맵(IntersectionObserver),
+      목록 탭 시 지도에서 해당 경로 flash
+- [x] 우하단 고정 '홈' 버튼(`.totop`, CSS만) — 스크롤 위치 무관 맨 위로
+- [x] 실시간 사고·통제 피드: `functions/api/incidents.js` → `/api/incidents`
+      (GITS `webLoadINCIData.do` 돌발정보 프록시). `incidents.js` 가 pagenav 아래
+      전역 접이식 리스트 + 구간별 리스트(좌표 1.2km 매칭). 3분 갱신. 상세: sources.md
 
 ### 배포 구성
 
@@ -40,9 +50,13 @@ git push (main) ─┬─→ GitHub Pages     ozzywow.github.io/hanam   (스테�
 - [ ] 페이지 재구성 → **[notes/restructure-plan.md](restructure-plan.md)** 참고
       (허브 + `/cctv/*` 하위 페이지, 코스트코 하남·이케아 강동 추가)
 
-## 심사 중에도 가능 (저삭제·무구조변경 원칙)
+## 심사 중에도 가능 (개정된 원칙 — restructure-spec §원칙)
+
+심사 중 금지 = **다중 페이지 URL 분리(`/cctv/…`)·sitemap·canonical 변경**뿐.
+같은 URL 안의 무위험 개선(콘텐츠·기능)은 `main` 머지·배포 OK.
 
 - [x] 오타·문구 다듬기 (2026-09)
+- [x] 상단 개요 지도 / 홈 버튼 / 사고·통제 피드 / 구간 재분류 (2026-09, 위 '지금 상태' 참고)
 - [ ] `terms.html` 서치콘솔 URL 검사 → 색인 요청
 - ~~창우동/팔당대교 남단 공영주차장 정보~~ — 안 넣기로 함
 
