@@ -1,22 +1,25 @@
 :root{
-  --bg:#f6f7f9; --surface:#ffffff; --fg:#16181d; --muted:#5b6572;
-  --line:#e6e8ec; --card:#f4f5f7;
-  --accent:#1b5fd0; --accentfg:#ffffff; --live:#0a7d3c; --warn:#b35900;
+  --bg:#faf6f1; --surface:#ffffff; --fg:#16181d; --muted:#5b6572;
+  --line:#eae4db; --card:#f6f1ea;
+  --accent:#db6a00; --accentfg:#ffffff; --live:#0a7d3c; --warn:#946200;
+  --tint:#fff4ea;
   --radius:14px; --radius-sm:9px;
-  --shadow:0 1px 2px rgba(16,24,40,.04), 0 6px 22px rgba(16,24,40,.06);
+  --shadow:0 1px 2px rgba(40,26,12,.04), 0 6px 22px rgba(40,26,12,.06);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#101317; --surface:#171b21; --fg:#e7e9ec; --muted:#98a0ab;
-    --line:#262b32; --card:#1e2228;
-    --accent:#5b9bff; --accentfg:#0b1220; --live:#3fbf6f; --warn:#e3a008;
+    --bg:#12100d; --surface:#1a1712; --fg:#e7e9ec; --muted:#9a978f;
+    --line:#2c2820; --card:#211d17;
+    --accent:#ff9d4d; --accentfg:#1c1206; --live:#3fbf6f; --warn:#e3a008;
+    --tint:#241a10;
     --shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 22px rgba(0,0,0,.35);
   }
 }
 :root[data-theme="dark"]{
-  --bg:#101317; --surface:#171b21; --fg:#e7e9ec; --muted:#98a0ab;
-  --line:#262b32; --card:#1e2228;
-  --accent:#5b9bff; --accentfg:#0b1220; --live:#3fbf6f; --warn:#e3a008;
+  --bg:#12100d; --surface:#1a1712; --fg:#e7e9ec; --muted:#9a978f;
+  --line:#2c2820; --card:#211d17;
+  --accent:#ff9d4d; --accentfg:#1c1206; --live:#3fbf6f; --warn:#e3a008;
+  --tint:#241a10;
   --shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 22px rgba(0,0,0,.35);
 }
 
@@ -26,13 +29,18 @@ body{margin:0;background:var(--bg);color:var(--fg);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   line-height:1.7;-webkit-text-size-adjust:100%;word-break:keep-all;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-::selection{background:var(--accent);color:#fff}
+::selection{background:var(--accent);color:var(--accentfg)}
 
 .wrap{max-width:900px;margin:0 auto;padding:30px 20px 52px}
 @media (max-width:560px){ .wrap{padding:18px 14px 36px} }
 
 h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
   letter-spacing:-.02em;margin:.1em 0 .2em;font-weight:750}
+/* 홈 타이틀 브랜드 락업 — favicon 아이콘 + 제목 */
+h1.brand{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.brand .brand-mark{width:1.5em;height:1.5em;flex:none;display:block;
+  filter:drop-shadow(0 3px 8px color-mix(in srgb, var(--accent) 32%, transparent))}
+.brand .beta{margin-left:0}
 .beta{display:inline-block;vertical-align:middle;margin-left:9px;
   padding:3px 8px 2px;border-radius:999px;
   background:var(--accent);color:var(--accentfg);
