@@ -7,13 +7,16 @@
    - vod : url → 302 → 약 1분 간격 갱신되는 녹화 mp4.
            loop 재생 + VOD_RELOAD_SEC 마다 새 클립 교체.
    - gitsview.gg.go.kr 는 CORS * (HTTPS) → 프록시 불필요.
+   - 리졸버 url 안의 GITS 팝업 토큰이 만료(401)되면 /api/resolve?id=&type=
+     (Pages Function) 이 팝업을 서버측에서 다시 긁어 신선한 토큰을 준다.
+     정상(토큰 유효) 시엔 호출하지 않는 폴백 경로.
    ═══════════════════════════════════════════════════════════════ */
 
 const VOD_RELOAD_SEC  = 60;
 const HLS_REFRESH_MIN  = 90;
 
 function makeSlot(videoEl, camsEl, statusEl, overlayEl, onSelect, btnPrefix){
-  let hls = null, vodTimer = null, hlsTimer = null, current = null;
+  let hls = null, vodTimer = null, hlsTimer = null, current = null, hlsUrl = null;
 
   const setStatus = (m, e) => { statusEl.textContent = m || ""; statusEl.classList.toggle("err", !!e); };
   const showOverlay = m => { overlayEl.textContent = m || ""; overlayEl.hidden = !m; };
@@ -35,6 +38,7 @@ function makeSlot(videoEl, camsEl, statusEl, overlayEl, onSelect, btnPrefix){
 
   function start(cam){
     current = cam;
+    hlsUrl = cam.type === "hls" ? cam.url : null;
     teardown();
     markButtons();
     if (typeof onSelect === "function") onSelect(cam);
@@ -45,24 +49,58 @@ function makeSlot(videoEl, camsEl, statusEl, overlayEl, onSelect, btnPrefix){
 
   function startVod(cam){
     videoEl.loop = true;
-    const load = () => { videoEl.src = cam.url; videoEl.load(); videoEl.play().catch(()=>{}); };
+    let src = cam.url, tried = false;
+    const load = () => { videoEl.src = src; videoEl.load(); videoEl.play().catch(()=>{}); };
     videoEl.oncanplay = () => { setStatus(cam.name + " · 녹화영상(약 1분 간격 갱신)"); showOverlay(""); };
-    videoEl.onerror   = () => setStatus(cam.name + " 영상을 불러오지 못했습니다.", true);
+    videoEl.onerror = async () => {
+      if (current !== cam) return;
+      if (!tried){
+        tried = true;
+        setStatus(cam.name + " 재접속 중…");
+        try {
+          const pj = await (await fetch("/api/resolve?id=" + cam.id + "&type=vod", { cache: "no-store" })).json();
+          if (pj && pj.ok && pj.url && current === cam){ src = pj.url; load(); return; }
+        } catch (e) {}
+      }
+      setStatus(cam.name + " 영상을 불러오지 못했습니다.", true);
+    };
     load();
     vodTimer = setInterval(load, VOD_RELOAD_SEC * 1000);
   }
 
   async function startHls(cam){
-    let m3u8;
+    if (current !== cam) return;
+    if (hlsTimer){ clearInterval(hlsTimer); hlsTimer = null; }
+    let m3u8 = null;
+
+    /* 1) 빠른 경로 — cams.js 에 박힌 gitsview 리졸버 (CORS OK) */
     try {
-      const r = await fetch(cam.url, { cache: "no-store" });
-      m3u8 = (await r.text()).trim();
-      if (!/^https?:\/\/.*m3u8/.test(m3u8)) throw new Error(m3u8.slice(0, 60));
-    } catch (e) {
-      setStatus(cam.name + " 스트림 주소 실패 (" + e.message + ")", true);
+      const r = await fetch(hlsUrl || cam.url, { cache: "no-store" });
+      if (r.ok){
+        const t = (await r.text()).trim();
+        if (/^https?:\/\/\S+m3u8/.test(t)) m3u8 = t;
+      }
+    } catch (e) {}
+
+    /* 2) 실패(팝업 토큰 만료 등) — 서버 프록시가 신선한 토큰 재추출 */
+    if (m3u8 == null && current === cam){
+      setStatus(cam.name + " 재접속 중…");
+      try {
+        const pj = await (await fetch("/api/resolve?id=" + cam.id + "&type=hls", { cache: "no-store" })).json();
+        if (pj && pj.ok && pj.kind === "hls" && pj.m3u8){
+          m3u8 = pj.m3u8;
+          if (pj.resolver) hlsUrl = pj.resolver;   // 다음 갱신부터 신선한 리졸버 사용
+        }
+      } catch (e) {}
+    }
+
+    if (current !== cam) return;
+
+    if (m3u8 == null){
+      setStatus(cam.name + " 스트림을 불러오지 못했습니다. 잠시 후 자동 재시도합니다.", true);
+      hlsTimer = setInterval(() => { if (current === cam) startHls(cam); }, 30 * 1000);
       return;
     }
-    if (current !== cam) return;
 
     if (videoEl.canPlayType("application/vnd.apple.mpegurl")){
       videoEl.src = m3u8;

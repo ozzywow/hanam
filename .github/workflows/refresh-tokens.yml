@@ -2,10 +2,15 @@ name: refresh CCTV tokens
 
 # GITS 팝업은 매 요청마다 새 토큰 문자열을 발급합니다. 기존 토큰도 한동안
 # 유효하지만, 만료에 대비해 주기적으로 docs/assets/js/cams.js 를 갱신합니다.
+#
+# 토큰이 만료돼 fast-path(cams.js 에 박힌 리졸버)가 401 나도 player.js 가
+# /api/resolve (functions/api/resolve.js) 로 폴백해 자가복구하므로, 이 cron 은
+# "대부분의 뷰어가 fast-path 를 타도록 warm 유지"하는 보조 역할. 촘촘할 필요 없음
+# → 12h(하루 2회). 급하면 workflow_dispatch 로 수동 실행.
 
 on:
   schedule:
-    - cron: "0 */6 * * *"      # 6시간마다
+    - cron: "0 */12 * * *"     # 12시간마다 (자가복구 폴백이 있어 보조 갱신)
   workflow_dispatch:            # 수동 실행
 
 permissions:
