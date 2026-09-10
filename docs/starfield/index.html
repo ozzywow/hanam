@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("rc-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스타필드 하남 실시간 교통 CCTV·주차 혼잡도 | 하남라이프</title>
+<meta name="description" content="스타필드 하남 주차장 진입로(동·남·서)와 하남대로·창우지하차도 정체를 실시간 CCTV로. 층별 주차 혼잡도, 요일·시간대별 혼잡 패턴, 무료 주차·대중교통·진입 팁까지.">
+<link rel="canonical" href="https://hanamlife.com/starfield/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="하남라이프">
+<meta property="og:title" content="스타필드 하남 실시간 교통 CCTV·주차 혼잡도">
+<meta property="og:description" content="주차장 진입로와 하남대로·창우지하차도 상황을 실시간 CCTV로. 층별 주차 혼잡도와 요일·시간대별 혼잡 패턴.">
+<meta property="og:url" content="https://hanamlife.com/starfield/">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://hanamlife.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="스타필드 하남 실시간 교통 CCTV·주차 혼잡도">
+<meta name="twitter:description" content="주차장 진입로와 하남대로·창우지하차도 상황을 실시간 CCTV로. 층별 주차 혼잡도와 요일·시간대별 혼잡 패턴.">
+<meta name="twitter:image" content="https://hanamlife.com/assets/og.png">
+
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="하남라이프">
+<meta name="theme-color" content="#2f6fe0">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"스타필드 하남 실시간 교통 CCTV·주차 혼잡도","url":"https://hanamlife.com/starfield/","inLanguage":"ko-KR","isPartOf":{"@type":"WebSite","name":"하남라이프","url":"https://hanamlife.com/"},"about":{"@type":"Place","name":"스타필드 하남","geo":{"@type":"GeoCoordinates","latitude":37.5454452,"longitude":127.2240568}}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanamlife.com/"},{"@type":"ListItem","position":2,"name":"스타필드 하남"}]}
+</script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="/assets/css/styles.css?v=20260910h1">
+
+<meta name="google-adsense-account" content="ca-pub-9635871358308305">
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9635871358308305" crossorigin="anonymous"></script>
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y46YYZLMCK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y46YYZLMCK');
+</script>
+</head>
+<body data-region="하남">
+<div class="wrap" id="top">
+
+  <nav class="crumbs" aria-label="브레드크럼">
+    <a href="/">홈</a> › <span aria-current="page">스타필드 하남</span>
+  </nav>
+
+  <h1>📍 스타필드 하남 일대</h1>
+
+  <div data-incidents-anchor></div>
+
+  <nav class="siblings" aria-label="다른 목적지 CCTV">
+    <a href="/ramp/">📍 선동·황산 나들목 일대</a>
+    <a href="/commute/">출퇴근 병목 방면</a>
+    <a href="/misa/">📍 미사·조정경기장 일대</a>
+    <a href="/paldang/">팔당대교~조안 방면</a>
+    <a href="/seoul-yangyang/">서울양양고속도로 방면</a>
+    <a href="/outlet/">현대아울렛 방면</a>
+  </nav>
+
+  <div class="ad"></div>
+
+  <section class="route" id="starfield">
+
+    <div class="player-mount" data-deck="0" data-label="스타필드 하남"></div>
+
+    <div class="parking" id="sf-parking">
+      <div class="parking-head">
+        <strong>스타필드 실시간 주차 혼잡도</strong>
+        <span class="parking-upd" data-upd></span>
+      </div>
+      <ul class="parking-floors" data-floors><li class="parking-note">불러오는 중…</li></ul>
+
+      <figure class="parking-map">
+        <img src="/assets/img/parking-map.jpg" width="1200" height="652" loading="lazy" decoding="async"
+             alt="스타필드 하남 주차장 진입로 안내도 — 미사대로 방면에서 동·남·서 세 방향 진입, 남측에 지상 주차장">
+        <figcaption>미사대로 방면에서 <b>동</b>·<b>남</b>·<b>서</b> 세 방향으로 진입합니다.
+          남측에 지상 주차장(P), 그 외 층(RF·B1–B3)은 건물 주차장입니다.</figcaption>
+      </figure>
+
+      <p class="parking-src">혼잡도 여유 · 혼잡 · 만차 3단계. 안내도·데이터 출처
+        <a href="https://www.starfield.co.kr/hanam/about/parkingInfo.do" target="_blank" rel="noopener">스타필드 하남 공식 주차 안내</a></p>
+    </div>
+  </section>
+
+  <section class="route">
+    <div class="info">
+      <h3>지역 소개</h3>
+      <p>스타필드 하남은 미사대로와 하남대로가 만나는 창우동에 있어, 하남 시내 어느
+         방향에서 와도 이 두 간선 중 하나를 거칩니다. 주말·공휴일 오후에는 쇼핑·외식
+         수요가 몰리면서 주차장 진입 대기가 하남대로 정문 방면과 창우지하차도사거리까지
+         늘어서고, 그 여파로 팔당대교남단·창우동 일대 신호가 함께 밀립니다. 평일에도
+         저녁 6~8시 퇴근길에 장을 보러 들르는 차량으로 미사대로 남단이 붐빕니다. 특히
+         비 오는 주말은 실내 활동 수요가 급증해 가장 혼잡합니다. 아래 CCTV로 주차장
+         진입로(동·남·서 세 방향)와 하남대로·창우지하차도 상황을 먼저 확인하면, 어느
+         입구로 들어갈지와 도착 시각을 미리 조정할 수 있습니다.</p>
+    </div>
+  </section>
+
+  <section class="route">
+    <div class="info">
+      <h3>요일·시간대별 혼잡 패턴</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>구간</th><th>평일 피크</th><th>주말 피크</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>팔당대교남단 (강일 방면)</td><td>07:30–09:00 서울 방면<br>18:00–19:30 역방향</td><td>11–13시 상행<br>16–19시 하행</td><td>우천·연휴 첫날·단풍철에 가중</td></tr>
+          <tr><td>창우지하차도 → 스타필드</td><td>18:00–20:00 (퇴근·장보기)</td><td>13:00–18:00<br>특히 14–16시 주차 진입 대기</td><td>세일·시즌 이벤트·비 오는 주말 오후에 가장 심함</td></tr>
+        </tbody>
+      </table></div>
+      <p class="todo">※ 일반적인 경향입니다. 실제 상황은 위 CCTV로 확인하세요.</p>
+    </div>
+  </section>
+
+  <div class="ad"></div>
+
+  <section class="route">
+    <div class="info">
+      <h3>대중교통</h3>
+      <ul>
+        <li><strong>지하철</strong> — 5호선 하남검단산역 1번 출구에서 도보 10분 안팎.
+            하남시청역에서도 시내버스로 한두 정거장입니다.</li>
+        <li><strong>시내버스</strong> — 22·50·81·87·100번 등이 스타필드 정문 앞을 지납니다.
+            50번은 미사지구–스타필드를 잇는 노선입니다.</li>
+        <li><strong>광역버스</strong> — 9302·9303·9303-1번(잠실·삼성·강남 방면).</li>
+        <li>주말 오후 주차장이 막힐 때는 하남검단산역·미사역까지 지하철로 온 뒤
+            버스·도보로 접근하는 편이 빠를 때가 많습니다.</li>
+      </ul>
+      <p class="todo">노선 번호는 변동될 수 있으니 지도 앱에서 실시간으로 확인하세요.</p>
+
+      <h3>주차 요금</h3>
+      <p><strong>전 주차장 무료</strong>입니다 (구매 금액과 무관). 트레이더스 홀세일 클럽
+         이용 시 지하주차장(B1–B3)을, 그 외에는 지상(서측·남측 별관) 또는 지하 주차장을
+         이용하세요. 진입로는 동·남·서측 세 방향에 있습니다.</p>
+      <p class="todo">출처: 스타필드 하남 공식 주차 안내. 요금 정책은 변경될 수 있습니다.</p>
+
+      <h3>주차장 진입 팁</h3>
+      <ul>
+        <li>주말·공휴일 <strong>13–18시</strong>는 주차장 진입 대기가 본선 도로까지 늘어납니다. 이 시간대 방문이면 정오 이전 도착 또는 저녁 이후로 조정하세요.</li>
+        <li>하남대로 정문 방면보다 <strong>미사대로·덕풍동 방면 진입로</strong>가 상대적으로 여유롭습니다.</li>
+        <li>만차 시 대기 줄이 창우지하차도사거리·신장사거리 쪽으로 이어집니다. 위 CCTV로 진입로 정체 여부를 먼저 확인하세요.</li>
+        <li>퇴점도 <strong>17–19시</strong>에 몰려 정산·출차에 시간이 걸립니다.</li>
+        <li>실시간 잔여 주차면·요금 기준은 스타필드 하남 공식 ‘주차 안내’를 참고하세요.</li>
+      </ul>
+
+      <h3>계절·행사로 붐비는 때</h3>
+      <ul>
+        <li><strong>정기 세일·시즌 이벤트</strong> — 신년·봄·가을 정기 세일과 크리스마스
+            시즌에는 주말 오후 주차장이 개장 2~3시간 만에 만차에 가까워집니다.</li>
+        <li><strong>명절 연휴</strong> — 설·추석 당일을 뺀 연휴 기간에는 가족 단위 방문이
+            몰려 평일에도 주말처럼 붐빕니다.</li>
+        <li><strong>혹서기·혹한기·우천</strong> — 무더위·한파·비 오는 날은 실내에서 시간을
+            보내려는 수요가 몰려, 같은 요일·시간대라도 체감 혼잡도가 한 단계 높습니다.</li>
+        <li><strong>어린이날·크리스마스 등 특정일</strong> — 아쿠아필드·스포츠몬스터 등
+            실내 시설 수요까지 겹쳐 주차·진입 대기가 가장 깁니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="route">
+    <div class="info">
+      <h2>스타필드 하남 CCTV·교통 자주 묻는 질문</h2>
+
+      <h3>주차 요금이 있나요?</h3>
+      <p>전 주차장 무료입니다. 구매 금액과 관계없이 요금이 없고, 트레이더스 이용 시
+         지하(B1–B3), 그 외에는 지상·별관 또는 지하를 이용하면 됩니다. 요금 정책은
+         스타필드 하남 공식 주차 안내에서 다시 확인하세요.</p>
+
+      <h3>가장 안 막히는 진입로는 어디인가요?</h3>
+      <p>대체로 하남대로 정문 방면보다 <strong>미사대로·덕풍동 방면 진입로</strong>가
+         여유롭습니다. 다만 만차가 임박하면 어느 쪽이든 대기가 생기므로, 위 CCTV의
+         스타필드동측·덕풍6교 서측·창우지하차도사거리 화면으로 대기 줄 길이를 먼저
+         보고 방향을 고르세요.</p>
+
+      <h3>지하철로 가는 게 나을 때는?</h3>
+      <p>주말·공휴일 <strong>13–18시</strong>, 특히 비 오는 오후에는 주차장 진입 대기가
+         본선 도로까지 늘어섭니다. 이 시간대라면 5호선 하남검단산역(도보 약 10분)이나
+         미사역까지 지하철로 온 뒤 버스·도보로 접근하는 편이 빠를 때가 많습니다.</p>
+
+      <h3>세일·명절엔 얼마나 붐비나요?</h3>
+      <p>정기 세일과 크리스마스 시즌, 명절 연휴 기간에는 주말 오후 주차장이 개장
+         2~3시간 만에 만차에 가까워지고, 대기 줄이 창우지하차도사거리·신장사거리
+         쪽으로 이어집니다. 개장 직후 오전이나 저녁 이후 방문을 권합니다.</p>
+
+      <h3>이 페이지의 주차 혼잡도는 실시간인가요?</h3>
+      <p>스타필드 하남 공식 데이터를 받아 RF·B1·B2·B3 층별로 여유·혼잡·만차 3단계를
+         약 90초 간격으로 갱신합니다. 잔여 면수 단위 수치가 아니라 단계 표시이며,
+         네트워크 상황에 따라 잠시 표시되지 않을 수 있습니다.</p>
+    </div>
+  </section>
+
+  <div class="ad"></div>
+
+  <footer>
+    <p>CCTV 영상 출처: 경기도교통정보센터(gits.gg.go.kr) — 경기도 / 경찰청UTIS·하남시 / KTICT 제공.
+       공개 교통정보를 비상업적 안내 목적으로만 재생하며, 영상 저작권은 각 제공 기관에 있습니다.
+       영상은 기관 사정·점검에 따라 중단될 수 있습니다.</p>
+    <p>CCTV 영상을 제외한 사이트의 구성·선별·텍스트·디자인·코드의 저작권은 하남라이프에 있으며, 무단 복제·수집·재배포를 금합니다. 자세한 내용은 <a href="/terms.html">이용약관</a>을 참고하세요.</p>
+    <p><a href="/privacy.html">개인정보처리방침</a> · <a href="/terms.html">이용약관</a> · 문의·정정:
+       <a href="https://instagram.com/hanamlife" target="_blank" rel="noopener">instagram.com/hanamlife</a> ·
+       <a href="mailto:hanamlifeadmin@gmail.com">hanamlifeadmin@gmail.com</a></p>
+    <p>© 2026 하남라이프 · 최근 업데이트: 2026년 9월</p>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/assets/js/regions/hanam.js"></script>
+<script src="/assets/js/player.js?v=20260910jg"></script>
+<script src="/assets/js/incidents.js?v=20260908f"></script>
+<script src="/assets/js/parking.js"></script>
+<script src="/assets/js/collapse.js?v=20260905w"></script>
+<script src="/assets/js/weather.js?v=20260905s"></script>
+<script src="/assets/js/theme.js?v=20260908pwa"></script>
+<script src="/assets/js/remote.js?v=20260910e"></script>
+</body>
+</html>
