@@ -5,3 +5,4 @@ Thumbs.db
 /scratch/
 *.tmp
 .wrangler/
+.claude/

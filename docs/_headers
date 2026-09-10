@@ -1,0 +1,14 @@
+# Cloudflare Pages 응답 헤더.
+# sw.js / manifest 는 절대 오래 캐시되면 안 된다 — 배포해도 옛 SW 가 남아
+# 업데이트가 안 퍼진다. no-cache = 매번 서버에 조건부 재검증.
+
+/sw.js
+  Cache-Control: no-cache
+
+/manifest.webmanifest
+  Content-Type: application/manifest+json; charset=utf-8
+  Cache-Control: no-cache
+
+# 아이콘은 내용이 바뀔 일이 드무니 길게 캐시(파일명 바꿔 무효화).
+/assets/img/*
+  Cache-Control: public, max-age=604800

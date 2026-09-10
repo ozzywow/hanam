@@ -1,12 +1,12 @@
 name: refresh CCTV tokens
 
 # GITS 팝업은 매 요청마다 새 토큰 문자열을 발급합니다. 기존 토큰도 한동안
-# 유효하지만, 만료에 대비해 주기적으로 docs/assets/js/cams.js 를 갱신합니다.
+# 유효하지만, 만료에 대비해 주기적으로 docs/assets/js/regions/*.js 를 갱신합니다.
 #
-# 토큰이 만료돼 fast-path(cams.js 에 박힌 리졸버)가 401 나도 player.js 가
-# /api/resolve (functions/api/resolve.js) 로 폴백해 자가복구하므로, 이 cron 은
-# "대부분의 뷰어가 fast-path 를 타도록 warm 유지"하는 보조 역할. 촘촘할 필요 없음
-# → 12h(하루 2회). 급하면 workflow_dispatch 로 수동 실행.
+# 토큰이 만료돼 fast-path(regions/*.js 에 박힌 리졸버)가 401 나도
+# player.js 가 /api/resolve (functions/api/resolve.js) 로 폴백해 자가복구하므로,
+# 이 cron 은 "대부분의 뷰어가 fast-path 를 타도록 warm 유지"하는 보조 역할.
+# 촘촘할 필요 없음 → 12h(하루 2회). 급하면 workflow_dispatch 로 수동 실행.
 
 on:
   schedule:
@@ -16,27 +16,43 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: refresh-tokens
+  cancel-in-progress: false
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "24"
 
-      - name: Scrape latest tokens into cams.js
+      - name: Scrape latest tokens into regions/*.js
         run: node tools/scrape-tokens.mjs --write
 
       - name: Commit if changed
         run: |
-          if [[ -n "$(git status --porcelain docs/assets/js/cams.js)" ]]; then
-            git config user.name  "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add docs/assets/js/cams.js
-            git commit -m "chore: refresh CCTV tokens"
-            git push
-          else
-            echo "no change"
+          if [[ -z "$(git status --porcelain docs/assets/js/regions/)" ]]; then
+            echo "no change"; exit 0
           fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/assets/js/regions/
+          git commit -m "chore: refresh CCTV tokens"
+
+          # 이 job 이 도는 사이 main 에 다른 푸시가 들어오면 non-fast-forward 로
+          # 거부된다 → rebase 후 재시도. 지역 파일 충돌 시엔 새로 긁은 토큰이
+          # 정답이므로 우리 쪽(-X theirs)을 채택.
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:main; then
+              echo "pushed (try $i)"; exit 0
+            fi
+            echo "push rejected — rebasing on origin/main (try $i)"
+            git fetch origin main
+            git rebase -X theirs origin/main || { git rebase --abort; sleep 5; }
+          done
+          echo "::error::git push failed after 5 attempts"
+          exit 1

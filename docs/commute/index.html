@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("rc-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하남 출퇴근 시간대 병목 실시간 교통 CCTV — 방면별 | 하남라이프</title>
+<meta name="description" content="하남 출퇴근 병목을 방면별로. 강동·잠실, 판교·강남, 구리, 남양주 방면 본선과 진입 램프 정체를 실시간 CCTV와 아침·저녁 혼잡 패턴표로.">
+<link rel="canonical" href="https://hanamlife.com/commute/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="하남라이프">
+<meta property="og:title" content="하남 출퇴근 시간대 병목 실시간 교통 CCTV — 방면별">
+<meta property="og:description" content="강동·잠실·판교·강남·구리·남양주 방면별 본선 정체를 실시간 CCTV와 혼잡 패턴표로.">
+<meta property="og:url" content="https://hanamlife.com/commute/">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://hanamlife.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="하남 출퇴근 시간대 병목 실시간 교통 CCTV — 방면별">
+<meta name="twitter:description" content="강동·잠실·판교·강남·구리·남양주 방면별 본선 정체를 실시간 CCTV와 혼잡 패턴표로.">
+<meta name="twitter:image" content="https://hanamlife.com/assets/og.png">
+
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="하남라이프">
+<meta name="theme-color" content="#2f6fe0">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"하남 출퇴근 시간대 병목 실시간 교통 CCTV — 방면별","url":"https://hanamlife.com/commute/","inLanguage":"ko-KR","isPartOf":{"@type":"WebSite","name":"하남라이프","url":"https://hanamlife.com/"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanamlife.com/"},{"@type":"ListItem","position":2,"name":"출퇴근 시간대 병목"}]}
+</script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="/assets/css/styles.css?v=20260910h1">
+
+<meta name="google-adsense-account" content="ca-pub-9635871358308305">
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9635871358308305" crossorigin="anonymous"></script>
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y46YYZLMCK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y46YYZLMCK');
+</script>
+</head>
+<body data-region="하남">
+<div class="wrap" id="top">
+
+  <nav class="crumbs" aria-label="브레드크럼">
+    <a href="/">홈</a> › <span aria-current="page">출퇴근 시간대 병목</span>
+  </nav>
+
+  <h1>출퇴근 병목 방면</h1>
+
+  <div data-incidents-anchor></div>
+
+  <nav class="siblings" aria-label="다른 목적지 CCTV">
+    <a href="/ramp/">📍 선동·황산 나들목 일대</a>
+    <a href="/starfield/">📍 스타필드 하남 일대</a>
+    <a href="/misa/">📍 미사·조정경기장 일대</a>
+    <a href="/paldang/">팔당대교~조안 방면</a>
+    <a href="/seoul-yangyang/">서울양양고속도로 방면</a>
+    <a href="/outlet/">현대아울렛 방면</a>
+  </nav>
+
+  <div class="ad"></div>
+
+  <section class="route" id="rush">
+
+    <div class="player-mount" data-deck="3" data-label="출퇴근 방면별 병목"></div>
+  </section>
+
+  <section class="route">
+    <div class="info">
+      <h3>지역 소개</h3>
+      <p>하남은 한강 남안을 따라 좁고 길게 이어진 지형이라, 아침저녁으로 시가지를
+         빠져나가는 통로가 방면마다 한두 개로 정해져 있습니다. 강동·잠실, 판교·강남, 구리,
+         남양주 방면별로 붐비는 방향과 시간이 다르고, 우회로가 마땅치 않아 한번 밀리면
+         회복이 느립니다. 집을 나서기 전에 해당 방면의 본선과 진입 램프 상황을 눈으로
+         확인하면 출발 시각과 경로를 훨씬 빨리 정할 수 있습니다. 위 버튼에서 방면을 고르면
+         그 경로의 길목 CCTV가 순서대로 나옵니다. 서울양양고속도로로 올라타는 나들목
+         (선동교차로·황산사거리)의 진입 대기는 별도 페이지
+         <a href="/ramp/">‘주요 나들목 병목’</a>에서 봅니다.</p>
+    </div>
+  </section>
+
+  <section class="route">
+    <div class="info">
+      <h3>방면별 혼잡 패턴</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>방면</th><th>아침 피크</th><th>저녁 피크</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>하남 → 강동·잠실<br><small>올림픽대로 · 선동IC~잠실종합운동장</small></td><td>07:00–09:00<br>하남→서울</td><td>18:00–19:30<br>귀가</td><td>선동IC에서 올림픽대로 본선에 합류한 뒤 강일 나들목·천호대교·잠실철교 구간까지 순차 정체. 하남에서 가장 먼저·길게 막히며 강변북로 사고 시 가중. 선동IC 진입 대기는 ‘주요 나들목 병목’ 페이지 참고</td></tr>
+          <tr><td>하남 → 판교·강남<br><small>수도권제1순환 남행 · 하남JC~판교분기점</small></td><td>07:30–09:00<br>하남→판교</td><td>18:00–19:30<br>귀가</td><td>하남JC·서하남IC에서 광암터널·위례·송파IC를 지나 판교분기점까지 순환 본선 정체. 램프가 밀리면 시내 신호까지 역류하고, 판교JC·판교분기점은 경부선 합류로 상시 지체</td></tr>
+          <tr><td>구리 → 하남<br><small>구리암사대교·순환 남행</small></td><td>07:00–08:30<br>구리→하남 유입</td><td>18:30–20:00<br>하남→구리</td><td>구리암사대교·강동대교에서 하남으로 들어오는 아침 유입이 상습. 역방향(하남→구리)보다 정체가 길게 이어짐</td></tr>
+          <tr><td>남양주 덕소·도농 → 하남<br><small>미사대교·중앙선 축</small></td><td>07:00–09:00<br>남양주→하남 유입</td><td>18:00–20:00<br>하남→남양주</td><td>미사대교 건너 하남으로 들어오는 아침 정체가 덕소IC까지. 팔당대교 우회 수요까지 겹쳐 역방향이 더 심함</td></tr>
+        </tbody>
+      </table></div>
+      <p class="todo">※ 평상시의 일반적인 경향입니다. 사고·공사·날씨·행사에 따라 크게 달라지므로 최종 판단은 위 CCTV로 하세요.</p>
+
+      <h3>경로 선택 팁</h3>
+      <ul>
+        <li><strong>방면마다 아침에 막히는 방향이 다릅니다.</strong> 강동·잠실·판교는 하남에서
+            나가는 방향이, 구리·남양주는 하남으로 들어오는 방향이 아침에 정체합니다. 같은
+            카메라라도 시간대·방향에 따라 봐야 할 차선이 다릅니다.</li>
+        <li><strong>강동·잠실 방면</strong>은 올림픽대로 진입(강일 나들목) 자체가 병목입니다.
+            선동IC부터 강일 나들목을 거쳐 잠실종합운동장까지 올림픽대로 본선 카메라를 하남
+            기준 순서대로 넣었으니, 미사IC·강일·천호대교남단·잠실철교 화면으로 어느
+            구간부터 밀리는지 확인하세요. 앞쪽이 이미 정체면 미사대교를 건너 강변북로로
+            우회하는 편이 나을 수 있습니다. 선동IC 진입 대기는 <a href="/ramp/">‘주요 나들목 병목’</a> 페이지를 참고하세요.</li>
+        <li><strong>판교·강남 방면</strong>은 수도권제1순환(서하남IC) 본선이 붉으면 램프 진입
+            대기가 시내 신호까지 이어집니다. 이럴 땐 출발을 10~20분 미루는 편이 우회보다
+            빠를 때가 많습니다.</li>
+        <li><strong>구리에서 하남으로 들어올 때</strong>는 구리암사대교와 강동대교(수도권제1순환)
+            중 먼저 뚫린 쪽을 토평IC·강동나들목 화면으로 고르세요. 아침 유입 정체가
+            강일IC까지 이어지면 하남 시내 진입 신호도 함께 밀립니다.</li>
+        <li><strong>남양주 덕소·도농에서 하남으로 들어올 때</strong>는 미사대교 남단이 관건입니다.
+            덕소IC·남양주TG 화면으로 대교 진입 대기 길이를 먼저 확인하고, 길면 팔당대교
+            경유가 나을 수 있습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="route">
+    <div class="info">
+      <h2>하남 출퇴근 CCTV·교통 자주 묻는 질문</h2>
+
+      <h3>서울 방면은 올림픽대로와 수도권제1순환 중 어디가 나은가요?</h3>
+      <p>강동·잠실·서울 도심이 목적지면 선동IC → 올림픽대로가 기본이지만, 아침에는 이
+         경로가 가장 먼저·길게 막힙니다. 판교·강남·분당이 목적지면 하남JC·서하남IC로
+         수도권제1순환 남행이 낫고, 올림픽대로가 붉을 때의 우회로로도 쓰입니다. 위
+         방면별 화면으로 본선 상태를 보고 고르세요.</p>
+
+      <h3>아침에 하남으로 들어오는 정체는 어느 방면이 심한가요?</h3>
+      <p>구리(구리암사대교·강동대교)와 남양주 덕소·도농(미사대교) 방면의 아침 유입이
+         상습적이며, 반대 방향(하남 → 구리·남양주)보다 정체가 길게 이어집니다. 미사대교
+         남단·토평IC·강동나들목 화면으로 진입 대기 길이를 확인하세요.</p>
+
+      <h3>사고·통제 정보는 어디서 보나요?</h3>
+      <p>이 페이지 위쪽 ‘실시간 사고·통제’ 목록에 하남 주변 돌발 상황이 표시되고, 각
+         구간별로도 1.2km 이내 항목이 따로 붙습니다. 경기도교통정보센터 돌발정보를
+         약 3분 간격으로 갱신합니다.</p>
+    </div>
+  </section>
+
+  <div class="ad"></div>
+
+  <footer>
+    <p>CCTV 영상 출처: 경기도교통정보센터(gits.gg.go.kr) — 경기도 / 경찰청UTIS·하남시 / KTICT 제공.
+       공개 교통정보를 비상업적 안내 목적으로만 재생하며, 영상 저작권은 각 제공 기관에 있습니다.
+       영상은 기관 사정·점검에 따라 중단될 수 있습니다.</p>
+    <p>CCTV 영상을 제외한 사이트의 구성·선별·텍스트·디자인·코드의 저작권은 하남라이프에 있으며, 무단 복제·수집·재배포를 금합니다. 자세한 내용은 <a href="/terms.html">이용약관</a>을 참고하세요.</p>
+    <p><a href="/privacy.html">개인정보처리방침</a> · <a href="/terms.html">이용약관</a> · 문의·정정:
+       <a href="https://instagram.com/hanamlife" target="_blank" rel="noopener">instagram.com/hanamlife</a> ·
+       <a href="mailto:hanamlifeadmin@gmail.com">hanamlifeadmin@gmail.com</a></p>
+    <p>© 2026 하남라이프 · 최근 업데이트: 2026년 9월</p>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/assets/js/regions/hanam.js"></script>
+<script src="/assets/js/player.js?v=20260910jg"></script>
+<script src="/assets/js/incidents.js?v=20260908f"></script>
+<script src="/assets/js/collapse.js?v=20260905w"></script>
+<script src="/assets/js/weather.js?v=20260905s"></script>
+<script src="/assets/js/theme.js?v=20260908pwa"></script>
+<script src="/assets/js/remote.js?v=20260910e"></script>
+</body>
+</html>

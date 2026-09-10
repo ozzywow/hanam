@@ -2,34 +2,40 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<script>try{var t=localStorage.getItem("rc-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>하남시 실시간 교통 CCTV</title>
-<meta name="description" content="하남시 실시간 교통 CCTV. 선동교차로·황산사거리 나들목 병목과 출퇴근 방면별 정체, 스타필드 하남·미사 조정경기장 가는 길을 요일·시간대별 혼잡 패턴과 함께.">
-<meta name="naver-site-verification" content="e7e362264b345b22bf90095376b23a4e67fadbf5" />
+<title>하남 실시간 교통 CCTV — 스타필드·미사대로·팔당대교 | 하남라이프</title>
+<meta name="description" content="하남시 실시간 교통 CCTV를 목적지별로. 스타필드 하남·미사 조정경기장·핵심 병목·팔당대교~조안·서울양양고속도로를 요일·시간대별 혼잡 패턴과 함께.">
 <link rel="canonical" href="https://hanamlife.com/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="하남라이프">
-<meta property="og:title" content="하남시 실시간 교통 CCTV">
-<meta property="og:description" content="스타필드 하남·미사 조정경기장·팔당대교 가는 길을 실시간 CCTV로. 요일·시간대별 혼잡 패턴과 주차장 진입 팁.">
+<meta property="og:title" content="하남 실시간 교통 CCTV">
+<meta property="og:description" content="스타필드 하남·미사 조정경기장·팔당대교·고속도로 진출입을 목적지별 실시간 CCTV로. 요일·시간대별 혼잡 패턴과 주차장 진입 팁.">
 <meta property="og:url" content="https://hanamlife.com/">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image" content="https://hanamlife.com/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="하남시 실시간 교통 CCTV">
-<meta name="twitter:description" content="스타필드 하남·미사 조정경기장·팔당대교 가는 길을 실시간 CCTV로. 요일·시간대별 혼잡 패턴과 주차장 진입 팁.">
+<meta name="twitter:title" content="하남 실시간 교통 CCTV">
+<meta name="twitter:description" content="스타필드 하남·미사 조정경기장·팔당대교·고속도로 진출입을 목적지별 실시간 CCTV로. 요일·시간대별 혼잡 패턴과 주차장 진입 팁.">
 <meta name="twitter:image" content="https://hanamlife.com/assets/og.png">
 
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="하남라이프">
+<meta name="theme-color" content="#2f6fe0">
 
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"하남시 실시간 교통 CCTV","url":"https://hanamlife.com/","inLanguage":"ko-KR"}
+{"@context":"https://schema.org","@type":"WebSite","name":"하남라이프","url":"https://hanamlife.com/","inLanguage":"ko-KR"}
 </script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-<link rel="stylesheet" href="assets/css/styles.css?v=20260913">
+<link rel="stylesheet" href="/assets/css/styles.css?v=20260910h1">
 
+<meta name="google-adsense-account" content="ca-pub-9635871358308305">
 <!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9635871358308305" crossorigin="anonymous"></script>
 
@@ -42,341 +48,52 @@
   gtag('config', 'G-Y46YYZLMCK');
 </script>
 </head>
-<body>
+<body data-region="하남">
 <div class="wrap" id="top">
 
-  <h1 class="brand">
-    <img class="brand-mark" src="assets/favicon.svg" alt="" width="34" height="34">
-    <span>하남시 실시간 교통 CCTV</span>
-    <span class="beta">Beta</span>
-  </h1>
-  <p class="lead">경기도교통정보센터 CCTV로 하남시 주요 진입로 상황을 실시간으로 확인하세요.</p>
+  <h1>하남 실시간 교통 CCTV</h1>
 
-  <div id="overview-map" class="omap" role="img"
-       aria-label="하남시 주요 교통 병목 구간 개요 지도. 각 구간은 아래 바로가기 목록으로도 이동할 수 있습니다." hidden></div>
+  <div data-incidents-anchor></div>
 
-  <nav class="pagenav" aria-label="바로가기">
-    <div class="pagenav-grp">
-      <span class="pagenav-label">주중</span>
-      <a href="#ramp">나들목 병목</a>
-      <a href="#rush">출퇴근 병목</a>
-    </div>
-    <div class="pagenav-grp">
-      <span class="pagenav-label">주말</span>
-      <a href="#starfield">스타필드 하남</a>
-      <a href="#misa">미사·조정경기장</a>
-      <a href="#paldang">팔당대교~조안</a>
-      <a href="#outlet">현대아울렛</a>
-      <a href="#seoulyangyang">서울양양고속</a>
-    </div>
-    <div class="pagenav-grp">
-      <span class="pagenav-label">안내</span>
-      <a href="#roads">도로 개요</a>
-      <a href="#calendar">혼잡 캘린더</a>
-      <a href="#faq">자주 묻는 질문</a>
-      <a href="#contact">제보·문의</a>
-    </div>
-  </nav>
+  <div class="cards">
+    <a class="card" href="/ramp/" data-decks="4" data-kind="core">
+      <h2>📍 선동·황산 나들목 일대</h2>
+      <span class="hint">평일 07:00–09:00 서울 방면 아침 정체가 가장 먼저</span>
+    </a>
+    <a class="card" href="/starfield/" data-decks="0">
+      <h2>📍 스타필드 하남 일대</h2>
+      <span class="hint">주말·공휴일 13–18시, 비 오는 오후 가장 혼잡</span>
+    </a>
+    <a class="card" href="/misa/" data-decks="1">
+      <h2>📍 미사·조정경기장 일대</h2>
+      <span class="hint">4월 겹벚꽃·가을 억새 주말 오전, 경정·행사일 급증</span>
+    </a>
+    <a class="card" href="/commute/" data-decks="3" data-kind="core">
+      <h2>출퇴근 병목 방면</h2>
+      <span class="hint">평일 07:00–09:00 유출, 18:00–20:00 귀가</span>
+    </a>
+    <a class="card" href="/paldang/" data-decks="7">
+      <h2>팔당대교~조안 방면</h2>
+      <span class="hint">주말 상행 09–12시, 하행 16–19시</span>
+    </a>
+    <a class="card" href="/seoul-yangyang/" data-decks="6">
+      <h2>서울양양고속도로 방면</h2>
+      <span class="hint">주말 상행 오전, 하행 오후~저녁</span>
+    </a>
+    <a class="card" href="/outlet/" data-decks="5">
+      <h2>현대아울렛 방면</h2>
+      <span class="hint">주말·세일 기간 오후 13–18시</span>
+    </a>
+  </div>
 
-  <!-- ══════════ 진출입 나들목 병목 (핵심) ══════════ -->
-  <section class="route" id="ramp">
-    <h2>진출입 나들목 병목 <small>선동교차로 · 황산사거리</small></h2>
-    <div class="player-mount" data-deck="4"></div>
-    <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
-
-    <div class="info">
-      <p>미사·강일 생활권에서 서울양양고속도로(올림픽대로 연장)로 올라타는 길은 사실상
-         <strong>선동교차로 나들목</strong>과 <strong>황산사거리 나들목</strong> 두 곳으로 모입니다.
-         두 나들목 모두 평면 교차로에서 곧바로 고속도로 본선에 합류하는 구조라, 본선이
-         밀리면 진입 대기가 미사강변대로·미사대로 시내 신호까지 금세 역류합니다.
-         하남에서 서울로 나가는 아침 정체가 가장 먼저 나타나는 지점입니다.</p>
-      <ul>
-        <li><strong>선동교차로 나들목</strong> — 미사강변도시·강일지구 물량이 미사강변대로를
-            타고 올라와 합류합니다. 미사푸르지오2차 앞에서 대기 줄이 보이면 선동교차로까지
-            이어진 상태로 봅니다.</li>
-        <li><strong>황산사거리 나들목</strong> — 미사대로·상일동 방면 물량이 합류합니다.
-            진등교차로 쪽에서 밀려 내려오면 황산사거리 신호가 함께 막히고, 상일IC 본선
-            정체와 맞물립니다.</li>
-        <li>두 나들목이 함께 막히는 날(평일 07–09시, 우천 시)은 미사대교·팔당대교 쪽 우회가
-            나을 수 있습니다. 아래 ‘출퇴근 시간대 병목 구간’의 방면별 화면과 함께 보세요.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ══════════ 출퇴근 시간대 병목 구간 ══════════ -->
-  <section class="route" id="rush">
-    <h2>출퇴근 시간대 병목 구간 <small>목적지 방면별</small></h2>
-    <div class="player-mount" data-deck="3"></div>
-    <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
-
-    <div class="info">
-      <p>하남은 한강 남안을 따라 좁고 길게 이어진 지형이라, 아침저녁으로 시가지를
-         빠져나가는 통로가 방면마다 한두 개로 정해져 있습니다. 그 길목에 차가 몰리면
-         우회로가 마땅치 않아 회복이 느립니다. 어느 방향으로 출근하든, 집을 나서기 전에
-         해당 방면의 본선과 진입 램프 상황을 눈으로 확인하면 출발 시각과 경로를 훨씬
-         빨리 정할 수 있습니다.</p>
-      <p>방면에 따라 붐비는 방향이 다릅니다. 강동·잠실, 판교·강남은 아침에 하남에서
-         빠져나가는 흐름이, 구리·남양주는 반대로 아침에 하남으로 들어오는 유입이 더
-         심합니다. 위 버튼에서 방면을 고르면 그 경로의 길목 CCTV가 순서대로 나옵니다.</p>
-
-      <h3>방면별 혼잡 패턴</h3>
-      <div class="tablewrap"><table>
-        <thead><tr><th>방면</th><th>아침 피크</th><th>저녁 피크</th><th>비고</th></tr></thead>
-        <tbody>
-          <tr><td>하남 → 강동·잠실<br><small>올림픽대로 · 선동IC~잠실종합운동장</small></td><td>07:00–09:00<br>하남→서울</td><td>18:00–19:30<br>귀가</td><td>선동IC에서 올림픽대로 본선에 합류한 뒤 강일 나들목·천호대교·잠실철교 구간까지 순차 정체. 하남에서 가장 먼저·길게 막히며 강변북로 사고 시 가중. 선동IC 진입 대기는 위 ‘진출입 나들목 병목’ 참고</td></tr>
-          <tr><td>하남 → 판교·강남<br><small>수도권제1순환 남행 · 하남JC~판교분기점</small></td><td>07:30–09:00<br>하남→판교</td><td>18:00–19:30<br>귀가</td><td>하남JC·서하남IC에서 광암터널·위례·송파IC를 지나 판교분기점까지 순환 본선 정체. 램프가 밀리면 시내 신호까지 역류하고, 판교JC·판교분기점은 경부선 합류로 상시 지체</td></tr>
-          <tr><td>구리 → 하남<br><small>구리암사대교·순환 남행</small></td><td>07:00–08:30<br>구리→하남 유입</td><td>18:30–20:00<br>하남→구리</td><td>구리암사대교·강동대교에서 하남으로 들어오는 아침 유입이 상습. 역방향(하남→구리)보다 정체가 길게 이어짐</td></tr>
-          <tr><td>남양주 덕소·도농 → 하남<br><small>미사대교·중앙선 축</small></td><td>07:00–09:00<br>남양주→하남 유입</td><td>18:00–20:00<br>하남→남양주</td><td>미사대교 건너 하남으로 들어오는 아침 정체가 덕소IC까지. 팔당대교 우회 수요까지 겹쳐 역방향이 더 심함</td></tr>
-        </tbody>
-      </table></div>
-      <p class="todo">※ 평상시의 일반적인 경향입니다. 사고·공사·날씨·행사에 따라 크게 달라지므로 최종 판단은 위 CCTV로 하세요.</p>
-
-      <h3>경로 선택 팁</h3>
-      <ul>
-        <li><strong>방면마다 아침에 막히는 방향이 다릅니다.</strong> 강동·잠실·판교는 하남에서
-            나가는 방향이, 구리·남양주는 하남으로 들어오는 방향이 아침에 정체합니다. 같은
-            카메라라도 시간대·방향에 따라 봐야 할 차선이 다릅니다.</li>
-        <li><strong>강동·잠실 방면</strong>은 올림픽대로 진입(강일 나들목) 자체가 병목입니다.
-            선동IC부터 강일 나들목을 거쳐 잠실종합운동장까지 올림픽대로 본선 카메라를 하남
-            기준 순서대로 넣었으니, 미사IC·강일·천호대교남단·잠실철교 화면으로 어느
-            구간부터 밀리는지 확인하세요. 앞쪽이 이미 정체면 미사대교를 건너 강변북로로
-            우회하는 편이 나을 수 있습니다. 선동IC 진입 대기는 위 ‘진출입 나들목 병목’을 참고하세요.</li>
-        <li><strong>판교·강남 방면</strong>은 수도권제1순환(서하남IC) 본선이 붉으면 램프 진입
-            대기가 시내 신호까지 이어집니다. 이럴 땐 출발을 10~20분 미루는 편이 우회보다
-            빠를 때가 많습니다.</li>
-        <li><strong>구리에서 하남으로 들어올 때</strong>는 구리암사대교와 강동대교(수도권제1순환)
-            중 먼저 뚫린 쪽을 토평IC·강동나들목 화면으로 고르세요. 아침 유입 정체가
-            강일IC까지 이어지면 하남 시내 진입 신호도 함께 밀립니다.</li>
-        <li><strong>남양주 덕소·도농에서 하남으로 들어올 때</strong>는 미사대교 남단이 관건입니다.
-            덕소IC·남양주TG 화면으로 대교 진입 대기 길이를 먼저 확인하고, 길면 팔당대교
-            경유가 나을 수 있습니다.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ══════════ 1. 스타필드 하남 가는 길 ══════════ -->
-  <section class="route" id="starfield">
-    <div class="route-head">
-      <h2>스타필드 하남 가는 길 <small>~1km</small></h2>
-      <span class="navlinks">
-        <a class="tmap" title="휴대폰에서 TMap 앱으로 길찾기" href="tmap://route?goalname=%EC%8A%A4%ED%83%80%ED%95%84%EB%93%9C%20%ED%95%98%EB%82%A8&goalx=127.2240568&goaly=37.5454452">
-          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>TMap</a>
-        <a class="kakao" title="카카오맵으로 길찾기" href="https://map.kakao.com/link/to/%EC%8A%A4%ED%83%80%ED%95%84%EB%93%9C%20%ED%95%98%EB%82%A8,37.5454452,127.2240568" target="_blank" rel="noopener">
-          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>카카오맵</a>
-      </span>
-    </div>
-
-    <div class="player-mount" data-deck="0"></div>
-
-    <div class="parking" id="sf-parking">
-      <div class="parking-head">
-        <strong>스타필드 실시간 주차 혼잡도</strong>
-        <span class="parking-upd" data-upd></span>
-      </div>
-      <ul class="parking-floors" data-floors><li class="parking-note">불러오는 중…</li></ul>
-
-      <figure class="parking-map">
-        <img src="assets/img/parking-map.jpg" width="1200" height="652" loading="lazy" decoding="async"
-             alt="스타필드 하남 주차장 진입로 안내도 — 미사대로 방면에서 동·남·서 세 방향 진입, 남측에 지상 주차장">
-        <figcaption>미사대로 방면에서 <b>동</b>·<b>남</b>·<b>서</b> 세 방향으로 진입합니다.
-          남측에 지상 주차장(P), 그 외 층(RF·B1–B3)은 건물 주차장입니다.</figcaption>
-      </figure>
-
-      <p class="parking-src">혼잡도 여유 · 혼잡 · 만차 3단계. 안내도·데이터 출처
-        <a href="https://www.starfield.co.kr/hanam/about/parkingInfo.do" target="_blank" rel="noopener">스타필드 하남 공식 주차 안내</a></p>
-    </div>
-
-    <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
-
-    <div class="info">
-      <h3>요일·시간대별 혼잡 패턴</h3>
-      <div class="tablewrap"><table>
-        <thead><tr><th>구간</th><th>평일 피크</th><th>주말 피크</th><th>비고</th></tr></thead>
-        <tbody>
-          <tr><td>팔당대교남단 (강일 방면)</td><td>07:30–09:00 서울 방면<br>18:00–19:30 역방향</td><td>11–13시 상행<br>16–19시 하행</td><td>우천·연휴 첫날·단풍철에 가중</td></tr>
-          <tr><td>창우지하차도 → 스타필드</td><td>18:00–20:00 (퇴근·장보기)</td><td>13:00–18:00<br>특히 14–16시 주차 진입 대기</td><td>세일·시즌 이벤트·비 오는 주말 오후에 가장 심함</td></tr>
-        </tbody>
-      </table></div>
-      <p class="todo">※ 일반적인 경향입니다. 실제 상황은 위 CCTV로 확인하세요.</p>
-
-      <h3>대중교통</h3>
-      <ul>
-        <li><strong>지하철</strong> — 5호선 하남검단산역 1번 출구에서 도보 10분 안팎.
-            하남시청역에서도 시내버스로 한두 정거장입니다.</li>
-        <li><strong>시내버스</strong> — 22·50·81·87·100번 등이 스타필드 정문 앞을 지납니다.
-            50번은 미사지구–스타필드를 잇는 노선입니다.</li>
-        <li><strong>광역버스</strong> — 9302·9303·9303-1번(잠실·삼성·강남 방면).</li>
-        <li>주말 오후 주차장이 막힐 때는 하남검단산역·미사역까지 지하철로 온 뒤
-            버스·도보로 접근하는 편이 빠를 때가 많습니다.</li>
-      </ul>
-      <p class="todo">노선 번호는 변동될 수 있으니 지도 앱에서 실시간으로 확인하세요.</p>
-
-      <h3>주차 요금</h3>
-      <p><strong>전 주차장 무료</strong>입니다 (구매 금액과 무관). 트레이더스 홀세일 클럽
-         이용 시 지하주차장(B1–B3)을, 그 외에는 지상(서측·남측 별관) 또는 지하 주차장을
-         이용하세요. 진입로는 동·남·서측 세 방향에 있습니다.</p>
-      <p class="todo">출처: 스타필드 하남 공식 주차 안내. 요금 정책은 변경될 수 있습니다.</p>
-
-      <h3>주차장 진입 팁</h3>
-      <ul>
-        <li>주말·공휴일 <strong>13–18시</strong>는 주차장 진입 대기가 본선 도로까지 늘어납니다. 이 시간대 방문이면 정오 이전 도착 또는 저녁 이후로 조정하세요.</li>
-        <li>하남대로 정문 방면보다 <strong>미사대로·덕풍동 방면 진입로</strong>가 상대적으로 여유롭습니다.</li>
-        <li>만차 시 대기 줄이 창우지하차도사거리·신장사거리 쪽으로 이어집니다. 위 CCTV로 진입로 정체 여부를 먼저 확인하세요.</li>
-        <li>퇴점도 <strong>17–19시</strong>에 몰려 정산·출차에 시간이 걸립니다.</li>
-        <li>실시간 잔여 주차면·요금 기준은 스타필드 하남 공식 ‘주차 안내’를 참고하세요.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ══════════ 2. 미사·조정경기장 가는 길 ══════════ -->
-  <section class="route" id="misa">
-    <div class="route-head">
-      <h2>미사·조정경기장 가는 길 <small>~2–5km</small></h2>
-      <span class="navlinks">
-        <a class="tmap" title="휴대폰에서 TMap 앱으로 길찾기" href="tmap://route?goalname=%EB%AF%B8%EC%82%AC%EA%B2%BD%EC%A0%95%EA%B3%B5%EC%9B%90&goalx=127.2076300&goaly=37.5600814">
-          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>TMap</a>
-        <a class="kakao" title="카카오맵으로 길찾기" href="https://map.kakao.com/link/to/%EB%AF%B8%EC%82%AC%EA%B2%BD%EC%A0%95%EA%B3%B5%EC%9B%90,37.5600814,127.2076300" target="_blank" rel="noopener">
-          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>카카오맵</a>
-      </span>
-    </div>
-
-    <div class="player-mount" data-deck="1"></div>
-    <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
-
-    <div class="info">
-      <h3>요일·시간대별 혼잡 패턴</h3>
-      <div class="tablewrap"><table>
-        <thead><tr><th>구간</th><th>평일 피크</th><th>주말 피크</th><th>비고</th></tr></thead>
-        <tbody>
-          <tr><td>미사대교</td><td>07:00–09:00 서울·강동 방면<br>18:00–20:00 귀가</td><td>10–12시 유입<br>17–19시 복귀</td><td>올림픽대로·강변북로 정체 시 우회 유입으로 가중</td></tr>
-          <tr><td>미사IC 남단 → 조정경기장</td><td>뚜렷하지 않음 (나들이 성격)</td><td>11:00–14:00<br>봄·가을 주말에 심화</td><td>경정 경주일·체육행사·불꽃축제 등 이벤트일에 급증</td></tr>
-        </tbody>
-      </table></div>
-      <p class="todo">※ 일반적인 경향입니다. 실제 상황은 위 CCTV로 확인하세요.</p>
-
-      <h3>대중교통</h3>
-      <ul>
-        <li><strong>지하철</strong> — 5호선 미사역에서 도보 약 10분. 4번 출구로 나와
-            입체연결통로를 이용하면 미사교차로를 건너지 않고 접근할 수 있습니다.</li>
-        <li><strong>시내버스</strong> — 미사역에서 112-5번을 타면 ‘경정공원 후문’에 바로
-            내려 걷는 거리를 줄일 수 있습니다.</li>
-        <li>봄·가을 주말에는 공원 앞 도로와 주차장이 함께 막히므로, 지하철+도보가
-            자가용보다 빠른 경우가 많습니다.</li>
-      </ul>
-
-      <h3>주차 요금 <small>미사경정공원</small></h3>
-      <div class="tablewrap"><table>
-        <thead><tr><th>구분</th><th>평일</th><th>주말·공휴일</th></tr></thead>
-        <tbody>
-          <tr><td>최초 10분</td><td>무료</td><td>무료</td></tr>
-          <tr><td>소형차 10분당</td><td>300원</td><td>400원</td></tr>
-          <tr><td>대형차 10분당</td><td>600원</td><td>800원</td></tr>
-          <tr><td>1일 최대</td><td colspan="2">소형 12,000원 · 대형 24,000원</td></tr>
-        </tbody>
-      </table></div>
-      <p>주차장 운영시간은 <strong>06:00–20:00</strong>입니다. 하남시민은 행정복지센터에서
-         신청 시 <strong>1일 1,000원 감면</strong>, 장애인·국가유공자·친환경차·다둥이 등은
-         전액 감면 대상입니다. 문의 031-790-8703.</p>
-      <p class="todo">출처: 미사경정공원(국민체육진흥공단) 공식 안내. 요금·시간은 변경될 수 있습니다.</p>
-
-      <h3>주차장 진입 팁</h3>
-      <ul>
-        <li>미사경정공원 주차장은 여러 곳으로 분산돼 있어, 한 곳이 만차면 다음 주차장으로 유도되며 첫 입구에서 정체가 생깁니다.</li>
-        <li>주말 유입은 <strong>오전 11시 전후</strong>에 몰립니다. 그 전에 도착하거나, 자전거·도보 접근이 더 빠를 때가 많습니다.</li>
-        <li>경정장·조정경기장 행사일에는 임시 통제나 유료 전환이 있을 수 있으니 사전에 확인하세요.</li>
-        <li>위 CCTV(조정경기장사거리·미사IC 남단)로 주차장 진입 차량의 대기 길이를 먼저 확인하세요.</li>
-      </ul>
-
-      <h3>계절·행사로 붐비는 때</h3>
-      <ul>
-        <li><strong>겹벚꽃</strong> — 왕벚꽃보다 약 2주 늦은 4월 중순~하순이 절정. 이 시기
-            주말 낮에는 진입로가 크게 정체됩니다.</li>
-        <li><strong>가을 억새·나들이</strong> — 9~10월 주말 오전.</li>
-        <li><strong>경정 경주·체육행사·불꽃축제</strong> — 개최일에 관람객 차량이 몰립니다.
-            일정은 미사경정공원 공식 사이트에서 확인하세요.</li>
-        <li>이런 날은 미사역에서 도보·자전거로 접근하는 것을 우선 고려하세요.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ══════════ 팔당대교 남단~조안 (주말 나들이) ══════════ -->
-  <section class="route" id="paldang">
-    <h2>팔당대교 남단~조안 <small>국도 45호선 · 북한강 방면</small></h2>
-    <div class="player-mount" data-deck="7"></div>
-    <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
-
-    <div class="info">
-      <p>팔당대교를 건너 조안면·양수리(두물머리·세미원)·북한강 카페거리로 향하는 길은
-         하남에서 동쪽 나들이의 사실상 유일한 통로입니다. 편도 2차로 국도에 팔당댐삼거리·
-         터널 구간·조안IC가 이어져, 주말 오전 나가는 상행과 늦은 오후 돌아오는 하행에
-         정체가 반복되고 사고가 나면 회복이 느립니다.</p>
-      <ul>
-        <li><strong>팔당대교남단·팔당대교IC</strong> — 대교를 건너자마자 국도 45호선·6호선이
-            갈라지는 구간. 여기서 꼬리를 물면 대교 상판까지 정체가 이어집니다.</li>
-        <li><strong>팔당댐삼거리·팔당1·4터널</strong> — 북한강을 끼고 도는 편도 2차로 병목.
-            앞차가 서면 대안 경로가 없습니다.</li>
-        <li><strong>봉안대교·조안IC</strong> — 양수리·양평 방면 분기. 조안IC 진출입이 몰리면
-            본선이 함께 느려집니다.</li>
-        <li>세미원·두물머리 행사철 주말은 오전 일찍 나가거나, 붐비면 미사대교~강변북로로
-            우회해 남양주에서 6번 국도로 진입하는 편이 나을 때가 있습니다.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ══════════ 남양주 현대아울렛 (주말 쇼핑) ══════════ -->
-  <section class="route" id="outlet">
-    <h2>남양주 현대아울렛 <small>스페이스원 · 다산</small></h2>
-    <div class="player-mount" data-deck="5"></div>
-    <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
-
-    <div class="info">
-      <p>현대프리미엄아울렛 스페이스원(남양주 다산)은 하남·서울에서 <strong>서울양양고속도로</strong>를
-         타고 미사대교를 건너 <strong>남양주IC</strong>로 빠지는 경로가 가장 빠릅니다. 주말·세일
-         기간 오후에는 남양주IC 진출 램프와 왕숙교입구 쪽 진입로에 대기가 생기고, 그 여파로
-         구리영업소(요금소) 앞 본선까지 느려집니다.</p>
-      <ul>
-        <li><strong>구리영업소</strong> — 서울양양고속도로 요금소. 여기부터 밀리면 미사대교~남양주IC
-            전 구간이 정체라고 봅니다.</li>
-        <li><strong>남양주IC</strong> — 아울렛으로 빠지는 나들목. 진출 램프가 본선까지 꼬리를 물면
-            도착 20~30분 전부터 감안하세요.</li>
-        <li><strong>왕숙교입구</strong> — 다산 방면 진입로. 아울렛 주차장이 만차면 이쪽 신호가
-            먼저 막힙니다.</li>
-        <li>혼잡한 주말 오후엔 미사대교 대신 강변북로·수석호평로로 우회하거나, 개장 직후
-            오전 방문이 낫습니다.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ══════════ 서울양양고속도로 (주말 나들이) ══════════ -->
-  <section class="route" id="seoulyangyang">
-    <h2>서울양양고속도로 <small>강일IC~미사대교~덕소IC</small></h2>
-    <div class="player-mount" data-deck="6"></div>
-    <div class="ad">광고 영역 (애드센스 승인 후 교체)</div>
-
-    <div class="info">
-      <p>서울양양고속도로의 <strong>강일IC~미사대교~덕소IC</strong> 구간은 하남에서 북한강·양평·
-         강원 방면으로 나가는 주말 나들이 차량이 모두 지나는 길입니다. 미사대교는 편도 구간이
-         길고 진출입이 몰려 있어, 주말 오전 교외로 나가는 상행과 늦은 오후 돌아오는 하행에
-         정체가 반복됩니다.</p>
-      <ul>
-        <li><strong>강일IC·강일_서울양양</strong> — 올림픽대로·수도권제1순환에서 서울양양고속도로로
-            합류하는 지점. 아침 유출이 몰리면 여기서부터 밀립니다.</li>
-        <li><strong>미사IC·미사대교</strong> — 대교 본선. 상판 흐름이 끊겨 보이면 최소 10분 이상
-            지체로 봅니다.</li>
-        <li><strong>미사대교종점·남양주 덕소IC</strong> — 남양주 진입부. 덕소IC 진출 램프가 막히면
-            본선까지 역류합니다.</li>
-        <li>연휴·행락철 주말은 오전 상행과 오후·저녁 하행의 방향이 반대이니 시간대에 맞춰
-            출발을 조정하세요.</li>
-      </ul>
-    </div>
-  </section>
+  <div class="ad"></div>
 
   <!-- ══════════ 이 사이트 소개 ══════════ -->
   <section class="route" id="about">
     <h2>이 사이트는 <small>무엇을 위한 페이지인가</small></h2>
     <div class="info">
       <p>스타필드 하남, 미사경정공원·조정경기장, 팔당대교와 고속도로 진출입로 —
-         하남시에서 정체가 자주 생기는 길목을 한 화면에서 모아 봅니다. 각 구간마다
+         하남시에서 정체가 자주 생기는 길목을 목적지별로 모았습니다. 각 구간마다
          경기도교통정보센터(GITS)가 공개하는 실시간 CCTV를 붙였고, 그 아래에
          요일·시간대별로 어느 시간에 막히는지, 주차장 진입은 어디로 들어가는 게
          나은지를 정리했습니다.</p>
@@ -389,10 +106,10 @@
 
       <h3>이용 방법</h3>
       <ul>
-        <li>페이지 맨 위 <strong>개요 지도</strong>에서 보고 싶은 구간의 선을 누르면 해당
-            화면으로 바로 이동합니다. 빨간 선은 주중(출퇴근) 병목, 파란 선은 주말 나들이
-            구간입니다.</li>
-        <li>구간별 카메라 버튼을 눌러 원하는 지점의 영상을 선택합니다. 버튼 옆
+        <li>위 <strong>목적지 카드</strong>에서 가려는 곳을 고르면 그 구간의 실시간 CCTV
+            페이지로 이동합니다. 각 페이지에는 카메라와 함께 요일·시간대별 혼잡 패턴,
+            주차·대중교통·진입 팁이 정리돼 있습니다.</li>
+        <li>페이지 안에서 구간별 카메라 버튼을 눌러 원하는 지점의 영상을 선택합니다. 버튼 옆
             <strong>LIVE</strong> 표시는 실시간 스트리밍, 표시가 없으면 약 1분 간격으로
             갱신되는 최근 녹화 영상입니다.</li>
         <li>영상 아래 지도에서 해당 CCTV의 위치를 확인할 수 있습니다.</li>
@@ -487,9 +204,7 @@
     <h2>자주 묻는 질문</h2>
     <div class="info">
       <h3>영상이 실시간인가요?</h3>
-      <p>구간에 따라 다릅니다. 카메라 버튼에 <strong>LIVE</strong>가 표시된 것은
-         실시간 스트리밍이고, 표시가 없는 것은 약 1분 간격으로 갱신되는 최근 녹화
-         영상입니다. 어느 쪽이든 현재 도로 상황을 판단하는 데는 충분합니다.</p>
+      <p>구간에 따라 다릅니다. 대부분 실시간 스트리밍이고, 일부는 약 1분 간격으로 갱신되는 최근 녹화 영상입니다. 어느 쪽이든 현재 도로 상황을 판단하는 데는 충분합니다.</p>
 
       <h3>영상이 안 나와요.</h3>
       <p>해당 CCTV가 기관 점검 중이거나 일시적으로 송출이 끊긴 상태입니다. 잠시 뒤
@@ -503,7 +218,7 @@
 
       <h3>모바일에서도 되나요?</h3>
       <p>네. 스마트폰·태블릿 브라우저에서 그대로 열립니다. 데이터 사용량이 부담되면
-         실시간(LIVE) 카메라보다 녹화 갱신형 카메라가 전송량이 적습니다.</p>
+         실시간 카메라보다 녹화 갱신형 카메라가 전송량이 적습니다.</p>
 
       <h3>홈 화면에 바로가기를 추가할 수 있나요?</h3>
       <p>가능합니다. 모바일 브라우저 메뉴에서 <strong>‘홈 화면에 추가’</strong>(아이폰 Safari의
@@ -511,7 +226,7 @@
          설치나 로그인은 필요 없습니다.</p>
 
       <h3>데이터를 얼마나 쓰나요?</h3>
-      <p>실시간(LIVE) 스트리밍은 화질에 따라 분당 수 MB가 나갈 수 있습니다. 셀룰러
+      <p>실시간 스트리밍은 화질에 따라 분당 수 MB가 나갈 수 있습니다. 셀룰러
          데이터로 오래 볼 계획이면 필요한 순간에만 재생하거나, 전송량이 적은 녹화
          갱신형 카메라를 이용하세요.</p>
 
@@ -552,26 +267,27 @@
 
   <footer>
     <p>CCTV 영상 출처: 경기도교통정보센터(gits.gg.go.kr) — 경기도 / 경찰청UTIS·하남시 / KTICT 제공.
-       공개 교통정보를 안내 목적으로 재생합니다. 영상은 기관 사정·점검에 따라 중단될 수 있습니다.</p>
-    <p><a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · 문의·정정:
+       공개 교통정보를 비상업적 안내 목적으로만 재생하며, 영상 저작권은 각 제공 기관에 있습니다.
+       영상은 기관 사정·점검에 따라 중단될 수 있습니다.</p>
+    <p>CCTV 영상을 제외한 사이트의 구성·선별·텍스트·디자인·코드의 저작권은 하남라이프에 있으며, 무단 복제·수집·재배포를 금합니다. 자세한 내용은 <a href="/terms.html">이용약관</a>을 참고하세요.</p>
+    <p><a href="/privacy.html">개인정보처리방침</a> · <a href="/terms.html">이용약관</a> · 문의·정정:
        <a href="https://instagram.com/hanamlife" target="_blank" rel="noopener">instagram.com/hanamlife</a> ·
        <a href="mailto:hanamlifeadmin@gmail.com">hanamlifeadmin@gmail.com</a></p>
-    <p>최근 업데이트: 2026년 9월</p>
+    <p>© 2026 하남라이프 · 최근 업데이트: 2026년 9월</p>
   </footer>
 
 </div>
 
-<a href="#top" class="totop" title="맨 위 메뉴로 이동">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>홈
-</a>
-
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="assets/js/cams.js"></script>
-<script src="assets/js/player.js"></script>
-<script src="assets/js/overview.js"></script>
-<script src="assets/js/incidents.js"></script>
-<script src="assets/js/parking.js"></script>
+<script src="/assets/js/regions/hanam.js"></script>
+<script src="/assets/js/regions/hanam.traffic.js?v=20260907a"></script>
+<script src="/assets/js/regions/hanam.baseline.js?v=20260907a"></script>
+<script src="/assets/js/traffic-live.js?v=20260907f"></script>
+<script src="/assets/js/incidents.js?v=20260908f"></script>
+<script src="/assets/js/collapse.js?v=20260905w"></script>
+<script src="/assets/js/weather.js?v=20260905s"></script>
+<script src="/assets/js/theme.js?v=20260908pwa"></script>
+<script src="/assets/js/remote.js?v=20260910e"></script>
 </body>
 </html>

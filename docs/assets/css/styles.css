@@ -1,51 +1,128 @@
 :root{
   --bg:#faf6f1; --surface:#ffffff; --fg:#16181d; --muted:#5b6572;
-  --line:#eae4db; --card:#f6f1ea;
-  --accent:#db6a00; --accentfg:#ffffff; --live:#0a7d3c; --warn:#946200;
-  --tint:#fff4ea;
+  /* 테두리는 배경에 가깝게 — 윤곽이 튀지 않도록 (2026-09-04) */
+  --line:#f1ece4; --card:#f6f1ea;
+  --accent:#2f6fe0; --accentfg:#ffffff; --live:#0a7d3c; --warn:#946200;
+  --tint:#eef3fd;
   --radius:14px; --radius-sm:9px;
-  --shadow:0 1px 2px rgba(40,26,12,.04), 0 6px 22px rgba(40,26,12,.06);
+  /* 리프트 레이어 제거 — 카드·칩은 평면 (2026-09-04) */
+  --shadow:0 1px 2px rgba(40,26,12,.04);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#12100d; --surface:#1a1712; --fg:#e7e9ec; --muted:#9a978f;
-    --line:#2c2820; --card:#211d17;
-    --accent:#ff9d4d; --accentfg:#1c1206; --live:#3fbf6f; --warn:#e3a008;
-    --tint:#241a10;
-    --shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 22px rgba(0,0,0,.35);
+    --line:#231e17; --card:#211d17;
+    --accent:#6fa0ff; --accentfg:#0a1020; --live:#3fbf6f; --warn:#e3a008;
+    --tint:#111a24;
+    --shadow:0 1px 2px rgba(0,0,0,.28);
   }
 }
 :root[data-theme="dark"]{
   --bg:#12100d; --surface:#1a1712; --fg:#e7e9ec; --muted:#9a978f;
-  --line:#2c2820; --card:#211d17;
-  --accent:#ff9d4d; --accentfg:#1c1206; --live:#3fbf6f; --warn:#e3a008;
-  --tint:#241a10;
-  --shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 22px rgba(0,0,0,.35);
+  --line:#231e17; --card:#211d17;
+  --accent:#6fa0ff; --accentfg:#0a1020; --live:#3fbf6f; --warn:#e3a008;
+  --tint:#111a24;
+  --shadow:0 1px 2px rgba(0,0,0,.28);
 }
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+/* "동작 줄이기"(OS 접근성 설정)를 켠 사용자는 스크롤 애니메이션·회전·
+   전환 효과에 어지러움을 느낄 수 있다 — 그런 사용자에겐 전부 즉시
+   전환으로 바꾼다(2026-09-05). */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:0.01ms!important;animation-duration:0.01ms!important;
+    animation-iteration-count:1!important;scroll-behavior:auto!important}
+}
 body{margin:0;background:var(--bg);color:var(--fg);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   line-height:1.7;-webkit-text-size-adjust:100%;word-break:keep-all;
+  /* keep-all 은 한글을 단어 중간에서 안 끊는데, "판교분기점(수도권제1순환·용인서울)·신갈…"
+     처럼 공백 없이 ·로만 이어진 긴 나열은 끊을 자리가 없어 박스 밖으로 넘친다.
+     break-word 는 그런 경우에만(달리 끊을 데가 없을 때) 임의 지점에서 줄바꿈. */
+  overflow-wrap:break-word;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 ::selection{background:var(--accent);color:var(--accentfg)}
 
-.wrap{max-width:900px;margin:0 auto;padding:30px 20px 52px}
-@media (max-width:560px){ .wrap{padding:18px 14px 36px} }
+/* 하단 여백 — 떠 있는 리모콘(.rc-remote)이 접힌 상태에서 푸터를 가리지 않도록 */
+.wrap{max-width:900px;margin:0 auto;padding:30px 20px 120px}
+@media (max-width:560px){ .wrap{padding:18px 14px 104px} }
 
 h1{font-size:clamp(1.35rem, calc(1rem + 2vw), 1.6rem);line-height:1.25;
   letter-spacing:-.02em;margin:.1em 0 .2em;font-weight:750}
-/* 홈 타이틀 브랜드 락업 — favicon 아이콘 + 제목 */
-h1.brand{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
-.brand .brand-mark{width:1.5em;height:1.5em;flex:none;display:block;
-  filter:drop-shadow(0 3px 8px color-mix(in srgb, var(--accent) 32%, transparent))}
-.brand .beta{margin-left:0}
 .beta{display:inline-block;vertical-align:middle;margin-left:9px;
   padding:3px 8px 2px;border-radius:999px;
   background:var(--accent);color:var(--accentfg);
   font-size:.56rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;line-height:1}
 .lead{color:var(--muted);font-size:.95rem;margin:.2em 0 1.7em;max-width:62ch}
+
+/* 타이틀 + 우측 부가 요소(.h1-extras: 날씨 배지·테마 토글) 한 줄.
+   .h1-extras 하나만 margin-left:auto 로 우측 끝에 붙는다 — weather.js·
+   theme.js 어느 쪽이 먼저 h1 을 이 행으로 감싸도(둘 다 처리 가능) 항상
+   h1 → 부가요소 순서가 되고, 부가요소끼리는 auto margin 경쟁 없이 붙어
+   보인다(2026-09-05). */
+.h1-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:.1em 0 1.1em}
+.h1-row > h1{margin:0}
+/* 제목은 뒤로가기 버튼과 항상 한 줄. min-width:0 로 flex 안에서 줄고,
+   그래도 안 들어가면 … 로 자른다(줄바꿈 금지). 홈 브랜드 로고(.brand) 제외.
+   대부분 제목은 "실시간 교통상황" 접미어를 뺐으므로 기본 크기로 한 줄에 들어간다. */
+.h1-row > h1:not(.brand), .rc-titlebar > h1:not(.brand){
+  min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.h1-extras{display:inline-flex;align-items:center;gap:10px;flex:none;margin-left:auto}
+
+/* 제목 앞 뒤로가기 버튼(.rc-back) — remote.js 가 h1 앞에 삽입. 카카오톡 채널
+   화면처럼 제목 왼쪽 동그란 ‹ 버튼으로 상위 페이지로. h1 이 .h1-row 안이면
+   그 줄 첫 항목으로, 아니면 .rc-titlebar 로 감싼 채로 온다. */
+.rc-titlebar{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:.1em 0 .2em}
+.rc-back{flex:none;display:inline-flex;align-items:center;justify-content:center;
+  width:38px;height:38px;border-radius:50%;padding:0;
+  border:1.5px solid color-mix(in srgb, var(--muted) 55%, transparent);
+  background:var(--card);color:var(--fg);
+  text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:border-color .15s, color .15s, background .15s, transform .1s}
+.rc-back svg{width:20px;height:20px;fill:none;stroke:currentColor;
+  stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.rc-back:hover{border-color:var(--accent);color:var(--accent)}
+.rc-back:active{transform:scale(.9)}
+.rc-back:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* 알약(버튼) 모양 제거(2026-09-05) — 클릭 안 되는 정보인데 버튼처럼 보여
+   오인된다는 피드백. 테두리·배경·그림자 없이 텍스트만. */
+.weather{display:inline-flex;align-items:center;gap:6px;flex:none;
+  color:var(--muted);font-size:.82rem;font-weight:600;line-height:1.3}
+.weather[hidden]{display:none}
+/* 데이터 도착 전 로딩 상태 — 자리는 처음부터 차지하되(레이아웃 밀림
+   방지), 결과를 아직 모른다는 뜻으로 흐리게 (2026-09-05) */
+.weather.is-loading{font-weight:500}
+/* 수동 다크/라이트 테마 토글 — 라벨 "다크 모드" 고정 텍스트 + 스위치.
+   아이콘(☀️/🌙) 버튼이었던 걸 교체(2026-09-05) — 라이트 모드에서 버튼이
+   잘 안 보이고, 해 이모지가 날씨 배지의 맑음 아이콘과 헷갈린다는 피드백.
+   트랙 색은 --line 대신 --fg 를 옅게 섞어 배경과 확실히 구분되게 한다.
+   실제 테마 적용은 <html data-theme>, theme.js 참고. */
+.theme-toggle{display:inline-flex;align-items:center;gap:8px;flex:none;
+  border:0;background:none;padding:0;cursor:pointer;
+  font:inherit;font-size:.82rem;font-weight:600;color:var(--fg)}
+.theme-toggle-track{position:relative;flex:none;width:36px;height:21px;
+  border-radius:999px;background:color-mix(in srgb, var(--fg) 18%, var(--surface));
+  transition:background .15s}
+.theme-toggle-knob{position:absolute;top:2px;left:2px;width:17px;height:17px;
+  border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.3);
+  transition:transform .15s}
+.theme-toggle[aria-checked="true"] .theme-toggle-track{background:var(--accent)}
+.theme-toggle[aria-checked="true"] .theme-toggle-knob{transform:translateX(15px)}
+.theme-toggle:hover .theme-toggle-track{background:color-mix(in srgb, var(--accent) 40%, var(--fg) 18%)}
+.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* 홈 브랜드 락업 (index.html 전용) — 아이콘 + 워드마크 + 주황 액센트 */
+h1.brand{display:flex;align-items:center;gap:.52rem;flex-wrap:wrap;
+  font-size:clamp(1.72rem, calc(1rem + 3.6vw), 2.15rem);
+  line-height:1;letter-spacing:-.035em;font-weight:800;margin:.05em 0 .32em}
+.brand .brand-mark{width:1.24em;height:1.24em;flex:none;display:block;
+  filter:drop-shadow(0 3px 8px color-mix(in srgb, var(--accent) 34%, transparent))}
+.brand .brand-name{color:var(--fg)}
+.brand .brand-name b{font-weight:800;color:var(--accent);letter-spacing:-.015em}
+.brand .beta{margin-left:0;align-self:center}
+@media (max-width:560px){ .brand .brand-mark{width:1.15em;height:1.15em} }
 
 .pagenav{display:flex;flex-direction:column;gap:9px;margin:6px 0 24px}
 .pagenav-grp{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
@@ -54,43 +131,21 @@ h1.brand{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
   color:var(--muted);text-transform:uppercase}
 .pagenav-label::after{content:"";display:inline-block;width:1px;height:.9em;
   margin-left:8px;vertical-align:-.1em;background:var(--line)}
-.pagenav a{display:inline-flex;align-items:center;gap:7px;
-  padding:9px 15px;border-radius:999px;
-  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);
-  color:var(--fg);font-size:.875rem;font-weight:600;letter-spacing:-.01em;
-  line-height:1.2;text-decoration:none;
-  transition:background .15s, border-color .15s, color .15s, transform .1s}
-.pagenav a::before{content:"";width:7px;height:7px;border-radius:50%;
-  background:var(--accent);flex:none;transition:background .15s}
-.pagenav a:hover,.pagenav a:focus-visible{background:var(--accent);border-color:var(--accent);
-  color:var(--accentfg);text-decoration:none;outline:none;transform:translateY(-1px)}
-.pagenav a:hover::before,.pagenav a:focus-visible::before{background:var(--accentfg)}
-.pagenav a.is-hot{background:var(--accent);border-color:var(--accent);color:var(--accentfg)}
-.pagenav a.is-hot::before{background:var(--accentfg)}
+/* 바로가기 — 박스 없는 텍스트 링크 (2026-09-04) */
+.pagenav a{display:inline-flex;align-items:center;
+  padding:2px 0;color:var(--muted);font-size:.875rem;font-weight:600;letter-spacing:-.01em;
+  line-height:1.3;text-decoration:none;
+  transition:color .15s}
+.pagenav a:hover,.pagenav a:focus-visible{color:var(--accent);text-decoration:none;outline:none}
+.pagenav a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.pagenav a.is-hot{color:var(--accent);font-weight:800}
 @media (max-width:560px){
-  .pagenav a{box-shadow:none;padding:8px 13px;font-size:.83rem}
+  .pagenav a{padding:5px 0;font-size:.83rem}
+  .pagenav-grp{gap:6px 16px}
   .pagenav-label{min-width:100%;margin-bottom:-2px}
   .pagenav-label::after{display:none}
 }
 .route{scroll-margin-top:16px}
-
-.totop{position:fixed;z-index:1200;
-  right:calc(16px + env(safe-area-inset-right));
-  bottom:calc(16px + env(safe-area-inset-bottom));
-  display:inline-flex;align-items:center;gap:6px;
-  padding:10px 15px;border-radius:999px;
-  background:var(--accent);color:var(--accentfg);
-  font-size:.85rem;font-weight:700;line-height:1;text-decoration:none;
-  border:1px solid color-mix(in srgb, var(--accent) 72%, #000);
-  box-shadow:0 4px 16px rgba(16,24,40,.28);
-  transition:transform .12s, filter .12s}
-.totop svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;
-  stroke-linecap:round;stroke-linejoin:round}
-.totop:hover{filter:brightness(1.07);text-decoration:none;transform:translateY(-1px)}
-.totop:active{transform:translateY(0)}
-.totop:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media (max-width:560px){ .totop{right:12px;bottom:12px;padding:9px 13px} }
-@media print{ .totop{display:none} }
 
 .navlinks{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:0}
 .navlinks a{display:inline-flex;align-items:center;gap:6px;
@@ -117,41 +172,437 @@ h1.brand{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
   gap:6px 14px;margin:.1em 0 .9em}
 .route-head h2{margin:0}
 
+/* 브레드크럼 (하위 페이지) */
+.crumbs{font-size:.8rem;color:var(--muted);margin:2px 0 16px;line-height:1.6}
+.crumbs a{color:var(--muted)}
+.crumbs a:hover{color:var(--accent)}
+.crumbs [aria-current]{color:var(--fg);font-weight:600}
+
+/* 형제 페이지 링크 (하위 페이지) — 페이지 상단, 목적지 CCTV 섹션 바로 위 */
+.siblings{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 22px}
+.siblings a{display:inline-flex;align-items:center;gap:7px;
+  padding:9px 15px;border-radius:999px;
+  background:var(--card);border:1px solid var(--line);
+  color:var(--fg);font-size:.85rem;font-weight:600;letter-spacing:-.01em;
+  line-height:1.2;text-decoration:none;
+  transition:background .15s, border-color .15s, color .15s}
+.siblings a:hover{background:var(--accent);border-color:var(--accent);
+  color:var(--accentfg);text-decoration:none}
+/* 키보드 포커스는 hover 와 별개로 뚜렷한 링을 준다 — 배경색만 바뀌는 건
+   호버와 구분이 안 돼 키보드 사용자가 위치를 못 알아챈다(2026-09-05) */
+.siblings a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:560px){ .siblings a{padding:8px 13px;font-size:.83rem} }
+
+/* 목적지 카드 (허브 · /cctv/ 랜딩) */
+.cards{display:grid;gap:16px;margin:10px 0 26px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+/* 평면 카드 — 그림자·리프트·좌측 컬러 레일 없음. 균일한 옅은 테두리만 (2026-09-04) */
+.card{position:relative;display:flex;flex-direction:column;gap:7px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);padding:17px 18px 16px;
+  color:var(--fg);text-decoration:none;
+  transition:border-color .14s ease, background .14s ease}
+.card:hover,.card.is-hot{text-decoration:none;
+  border-color:color-mix(in srgb, var(--accent) 40%, var(--line));
+  background:color-mix(in srgb, var(--accent) 4%, var(--surface))}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card h2,.card h3{font-size:1.04rem;font-weight:750;letter-spacing:-.01em;
+  margin:0;padding:0;border:0;color:var(--fg);text-wrap:balance}
+.card .go{align-self:flex-start;margin-top:6px;
+  color:var(--accent);font-size:.82rem;font-weight:700}
+/* 목적지 카드엔 상태 점 없음(2026-09-06 제거 — 실시간 소통 정보 신뢰도 재점검).
+   메인 허브 지역 칩의 제목 앞 .card-sig 점만 유지(region-status.js→data-score). */
+.card .hint{padding-top:6px;color:var(--muted);font-size:.8rem}
+.card{scroll-margin-top:18px}
+.anchors{height:0;overflow:hidden}
+.anchors span{display:block;scroll-margin-top:80px}
+@media (max-width:560px){ .cards{grid-template-columns:1fr} .card{padding:15px 15px 14px} }
+
+/* 루트 지역 허브 — 지역 카드 (roadcctv.com/) */
+.regions{display:grid;gap:18px;margin:14px 0 30px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+/* 권역별 그룹 라벨(2026-09-05) — 16개를 한 덩어리로 훑지 않도록 도심/
+   강남·동남권/경기·외곽/공항으로 나눔. 그리드 전체 폭을 차지하고, 음수
+   margin-bottom 으로 바로 아래 카드 행과의 간격을 grid gap 보다 좁힌다. */
+.region-group{grid-column:1 / -1;margin:8px 0 -10px;padding:0 2px;
+  color:var(--muted);font-size:.72rem;font-weight:800;letter-spacing:.09em;
+  text-transform:uppercase}
+.region-group:first-child{margin-top:0}
+.region-card{position:relative;display:flex;flex-direction:column;gap:9px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);padding:20px 20px 18px;
+  color:var(--fg);text-decoration:none;
+  transition:border-color .14s ease, background .14s ease}
+.region-card:hover{text-decoration:none;
+  border-color:color-mix(in srgb, var(--accent) 40%, var(--line));
+  background:color-mix(in srgb, var(--accent) 4%, var(--surface))}
+.region-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.region-card h2{font-size:1.18rem;font-weight:800;letter-spacing:-.01em;
+  margin:0;padding:0;border:0;color:var(--fg);
+  display:flex;align-items:center;gap:8px}
+.region-card h2 .rc-name{flex:1 1 auto;min-width:0}
+.region-card .go{align-self:flex-start;margin-top:auto;padding-top:6px;
+  color:var(--accent);font-size:.85rem;font-weight:700}
+@media (max-width:560px){
+  /* 지역 칩 = 2열 격자. 모든 칩이 같은 폭(1fr)·같은 높이(행 stretch)로 정렬되고,
+     이름이 길면 h2 안 .rc-name 이 … 로 말줄임(칩 폭은 항상 트랙 폭 고정). */
+  .regions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 26px}
+  .region-card{width:auto;min-width:0;padding:11px 14px;gap:6px}
+  .region-card h2{min-width:0}
+  .region-card h2 .rc-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .region-group{margin:14px 0 -4px}
+}
+
 .player{background:#000;border-radius:var(--radius-sm);overflow:hidden;
   aspect-ratio:16/9;position:relative}
+/* 지도 펼침 시에만 CCTV 아래를 각지게 — 지도와 이어붙임 (2026-09-04) */
+.player-mount.is-map-open .player{border-radius:var(--radius-sm) var(--radius-sm) 0 0}
 .player video{width:100%;height:100%;display:block;background:#000;object-fit:contain}
+/* 재생 상태 문구 — CCTV 화면 정중앙. 로딩·재접속·오류일 때만 뜨고, 정상
+   재생 중엔 아무 문구도 없다(2026-09-05 — "실시간 재생 중" 등 성공 문구 폐지,
+   재생되는 화면 자체가 곧 상태 표시). 스크린리더에도 role=status 로 전달. */
 .player .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   color:#e8eaed;font-size:.92rem;text-align:center;padding:16px;pointer-events:none}
 .player .overlay:not(:empty){background:radial-gradient(120% 120% at 50% 38%, transparent 35%, rgba(0,0,0,.42))}
 .player .overlay[hidden]{display:none}
+.player .overlay.err{color:#ffb4a8}
 
-.cams{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 2px}
+.cams{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 2px}
 .cams .grp{flex-basis:100%;color:var(--muted);font-size:.76rem;font-weight:600;
   letter-spacing:.02em;margin:10px 0 0}
 .cams .grp:first-child{margin-top:0}
-.cams button{display:inline-flex;align-items:center;gap:6px;
-  border:1px solid var(--line);background:var(--bg);color:var(--fg);
-  padding:6px 12px;border-radius:999px;cursor:pointer;
-  font-size:.85rem;line-height:1.25;font-family:inherit;
+/* 터치하기 쉽게 버튼 높이 확보 + 글씨 키움(2026-09-05, 높이만으론 효과가
+   작다는 피드백 — font-size 를 .85rem→1rem 로). 배경을 --bg(페이지 배경과
+   동일)에서 --card 로 바꿔 버튼이라는 게 보이게 함 — 다크모드에서 --bg 와
+   --line(테두리)이 거의 같은 색이라 버튼이 배경에 파묻혀 안 보이던 문제.
+   LIVE/녹화 배지는 삭제(2026-09-05) — 이름만 남긴다. */
+.cams button{display:inline-flex;align-items:center;justify-content:center;
+  min-height:44px;
+  border:1px solid var(--line);background:var(--card);color:var(--fg);
+  padding:9px 16px;border-radius:999px;cursor:pointer;
+  font-size:1rem;font-weight:600;line-height:1.25;font-family:inherit;
   transition:border-color .15s, color .15s, background .15s}
 .cams button:hover{border-color:var(--accent);color:var(--accent)}
 .cams button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .cams button[aria-pressed="true"]{background:var(--accent);color:var(--accentfg);border-color:var(--accent)}
-.cams button .k{font-size:.6rem;font-weight:800;letter-spacing:.05em;
-  padding:2px 5px;border-radius:6px;background:var(--line);color:var(--muted)}
-.cams button .k.live{background:color-mix(in srgb, var(--live) 16%, transparent);color:var(--live)}
-.cams button[aria-pressed="true"] .k{background:rgba(255,255,255,.22);color:#fff}
 
-.status{color:var(--muted);font-size:.82rem;min-height:1.2em;margin-top:6px}
-.status.err{color:var(--warn)}
+/* 카메라 이름 — CCTV 화면 상단 중앙에 항상 표시(재생 상태와 무관하게
+   지금 보는 카메라를 알 수 있도록, 2026-09-05). */
+.player .cam-label{position:absolute;left:50%;top:10px;transform:translateX(-50%);
+  max-width:calc(100% - 96px);padding:5px 12px;border-radius:999px;
+  background:rgba(0,0,0,.55);color:#e8eaed;font-size:.76rem;font-weight:600;line-height:1.3;
+  text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  pointer-events:none}
 
-.map{height:240px;margin:12px 0 2px;border:1px solid var(--line);
-  border-radius:var(--radius-sm);overflow:hidden;background:var(--card);z-index:0}
+/* ── 내 CCTV(즐겨찾기) ──────────────────────────────────────────
+   플레이어 우상단 ☆/★ — 지금 보는 카메라를 내 CCTV 에 등록/해제.
+   overlay·cam-label 이 pointer-events:none 이라 이 버튼만 클릭이 먹는다. */
+.player .fav-star{position:absolute;right:8px;top:8px;z-index:3;
+  width:34px;height:34px;padding:0;border:0;border-radius:999px;cursor:pointer;
+  background:rgba(0,0,0,.55);color:#ffd9a8;
+  font-size:1.15rem;line-height:34px;text-align:center;
+  transition:background .15s, color .15s, transform .1s}
+.player .fav-star:hover{background:rgba(0,0,0,.72)}
+.player .fav-star:active{transform:scale(.88)}
+.player .fav-star[aria-pressed="true"]{color:var(--accent)}
+.player .fav-star:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* 상한 초과 등 짧은 안내 — 플레이어 하단 중앙 */
+.player .fav-toast{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);
+  max-width:calc(100% - 24px);padding:7px 14px;border-radius:999px;z-index:4;
+  background:rgba(0,0,0,.8);color:#fff;font-size:.8rem;font-weight:600;line-height:1.35;
+  text-align:center;pointer-events:none}
+.player .fav-toast[hidden]{display:none}
+
+/* ── 미니 플레이어 도킹 ──────────────────────────────────────────
+   영상 원위치(.player-anchor)가 화면 밖으로 나가면 .player 를 고정 창으로
+   띄운다 — 카메라 버튼을 눌러도 어떤 화면이 떴는지 보인다. 앵커가 늘 16:9
+   자리를 지켜 아래 콘텐츠는 안 튄다(player.js setupDock).
+   데스크톱: 좌상단 작은 창. 모바일: 최상단 전체폭 띠(맨 아래 media query). */
+.player-anchor{position:relative;aspect-ratio:16/9}
+.player-anchor > .player{position:absolute;inset:0}
+.player.is-docked{position:fixed;inset:auto;left:12px;top:12px;
+  width:min(46vw,230px);height:auto;aspect-ratio:16/9;z-index:1150;
+  border-radius:var(--radius-sm);box-shadow:0 8px 28px rgba(0,0,0,.45);
+  cursor:pointer;animation:rc-dock-in .18s ease}
+.player-mount.is-map-open .player.is-docked{border-radius:var(--radius-sm)}
+@keyframes rc-dock-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.player.is-docked .cam-label{top:4px;max-width:calc(100% - 40px);padding:3px 8px;font-size:.68rem}
+.player.is-docked .fav-star{right:4px;top:4px;width:26px;height:26px;font-size:.9rem;line-height:26px}
+.player.is-docked .overlay{font-size:.72rem;padding:8px}
+.player.is-docked .fav-toast{display:none}
+.player.is-docked::after{content:"⤢";position:absolute;left:5px;bottom:3px;
+  font-size:.8rem;color:#fff;opacity:.75;text-shadow:0 1px 3px rgba(0,0,0,.7);pointer-events:none}
+/* 모바일 — 작은 창이면 도로 상황이 안 읽혀 최상단 전체폭 띠로. 아래만 둥글게. */
+@media (max-width:560px){
+  .player.is-docked,
+  .player-mount.is-map-open .player.is-docked{
+    left:0;right:0;top:0;width:auto;
+    border-radius:0 0 var(--radius-sm) var(--radius-sm);
+    box-shadow:0 6px 20px rgba(0,0,0,.4)}
+  .player.is-docked .cam-label{font-size:.76rem;padding:5px 12px}
+  .player.is-docked::after{left:8px;bottom:5px;font-size:.9rem}
+}
+
+/* 홈 타이틀 밑 액션 줄 — 왼쪽 .fav-chip · 오른쪽 #notice-box(공지). 둘 다 조건부 노출. */
+.home-bar{display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px 10px;margin:2px 0 0}
+.home-bar:has(> :not([hidden])){margin-bottom:20px}
+
+/* 홈 타이틀 밑 칩 — 등록한 카메라가 있을 때만(hidden 해제) 보인다. */
+.fav-chip{display:inline-flex;align-items:center;gap:5px;
+  padding:7px 14px;border-radius:999px;text-decoration:none;
+  border:1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+  background:color-mix(in srgb, var(--accent) 7%, var(--surface));
+  color:var(--fg);font-size:.85rem;font-weight:700;letter-spacing:-.01em}
+.fav-chip:hover{border-color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 14%, var(--surface))}
+.fav-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fav-chip .fav-chip-star{color:var(--accent)}
+
+/* 홈 공지 — .fav-chip 오른쪽 같은 줄, 우측 정렬. 공지 0건이면 notices.js 가
+   #notice-box 를 안 채운다(hidden 유지). */
+#notice-box{margin:0 0 0 auto;display:flex;flex-direction:column;align-items:flex-end;min-width:0}
+#notice-box[hidden]{display:none}
+/* "📢 공지 ›" — 알약버튼 아님. 텍스트 + 공통 CSS 셰브론(.sec-chev). */
+.notice-toggle{display:inline-flex;align-items:center;gap:6px;padding:6px 2px;
+  border:0;background:none;cursor:pointer;transition:color .15s;
+  color:var(--fg);font:inherit;font-size:.85rem;font-weight:700;letter-spacing:-.01em}
+.notice-toggle:hover{color:var(--accent)}
+.notice-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.notice-toggle .sec-chev{flex:none;width:7px;height:7px;margin-left:1px;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:rotate(-45deg);transition:transform .15s}
+.notice-toggle[aria-expanded="true"] .sec-chev{transform:rotate(45deg)}
+.notice-new{display:inline-flex;align-items:center;padding:1px 7px;border-radius:999px;
+  background:var(--accent);color:var(--accentfg);font-size:.68rem;font-weight:800;
+  letter-spacing:.02em;animation:notice-pulse 1.4s ease-in-out infinite}
+.notice-new[hidden]{display:none}
+@keyframes notice-pulse{0%,100%{opacity:1}50%{opacity:.55}}
+@media (prefers-reduced-motion: reduce){.notice-new{animation:none}}
+.notice-list{margin:10px 0 0;width:62ch;max-width:100%;align-self:flex-end;text-align:left;
+  border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.notice-list[hidden]{display:none}
+.notice-item{padding:12px 14px;border-top:1px solid var(--line)}
+.notice-item:first-child{border-top:0}
+.notice-item-head{display:flex;align-items:center;gap:5px}
+.notice-item-new{color:var(--accent);font-size:.62rem}
+.notice-item time{color:var(--muted);font-size:.75rem;font-weight:700}
+.notice-item h3{margin:3px 0 0;font-size:.92rem;font-weight:700;letter-spacing:-.01em}
+.notice-item.is-warn h3{color:var(--warn)}
+.notice-item p{margin:4px 0 0;color:var(--muted);font-size:.86rem;line-height:1.5}
+.notice-item a{color:var(--accent)}
+
+/* 제보 — 진입점 링크 + 모달. notes/backend-plan.md §3.6 */
+.report-link{display:inline-flex;align-items:center;gap:5px;margin:2px 0 10px;
+  padding:5px 12px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:var(--card);
+  color:var(--muted);font:inherit;font-size:.78rem;font-weight:600;letter-spacing:-.01em}
+.report-link:hover{border-color:color-mix(in srgb, var(--accent) 40%, var(--line));color:var(--fg)}
+.report-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.report-cta{display:inline-flex;align-items:center;gap:5px;margin:10px 0 4px;
+  padding:5px 12px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:var(--card);
+  color:var(--muted);font:inherit;font-size:.8rem;font-weight:600;letter-spacing:-.01em}
+.report-cta:hover{border-color:color-mix(in srgb, var(--accent) 40%, var(--line));color:var(--fg)}
+.report-cta:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.report-overlay{position:fixed;inset:0;z-index:1300;display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(0,0,0,.5);padding:0}
+@media (min-width:560px){.report-overlay{align-items:center;padding:20px}}
+.report-panel{width:100%;max-width:480px;max-height:92vh;overflow-x:hidden;overflow-y:auto;
+  background:var(--surface);color:var(--fg);
+  border:1px solid var(--line);border-radius:16px 16px 0 0}
+@media (min-width:560px){.report-panel{border-radius:16px}}
+.report-head{display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface)}
+.report-head b{font-size:1rem;font-weight:800;letter-spacing:-.01em}
+.report-x{border:0;background:none;cursor:pointer;color:var(--muted);font-size:1rem;padding:4px 8px;border-radius:8px}
+.report-x:hover{color:var(--fg);background:var(--card)}
+.report-x:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.report-body{padding:14px 16px 18px}
+.report-field{display:block;margin-bottom:12px}
+.report-field>span{display:block;margin-bottom:5px;color:var(--muted);font-size:.78rem;font-weight:700}
+.report-field select,.report-field textarea{width:100%;box-sizing:border-box;
+  border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg);
+  font:inherit;font-size:16px;padding:9px 11px}   /* 16px 미만이면 iOS 사파리가 포커스 시 화면을 확대 → 모달이 뷰포트 밖으로 넘침 */
+.report-field textarea{resize:vertical;min-height:92px;line-height:1.5}
+.report-field select:focus,.report-field textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.report-count{margin-top:4px;text-align:right;color:var(--muted);font-size:.72rem}
+.report-chip{margin:0 0 12px;padding:9px 11px;border-radius:10px;
+  background:color-mix(in srgb, var(--accent) 6%, var(--surface));
+  border:1px solid color-mix(in srgb, var(--accent) 22%, var(--line));
+  color:var(--fg);font-size:.8rem;font-weight:600;line-height:1.5}
+.report-chip-cam{margin-top:3px;color:var(--accent);font-weight:700}
+.report-chip-toggle{display:block;margin-top:6px;border:0;background:none;cursor:pointer;
+  color:var(--muted);font:inherit;font-size:.74rem;font-weight:600;text-decoration:underline;padding:0}
+.report-chip-toggle:hover{color:var(--fg)}
+.report-note{margin:10px 0 0;color:var(--muted);font-size:.76rem;line-height:1.55}
+.report-note a{color:var(--accent)}
+.report-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.report-ts{margin-top:12px;min-height:0}
+.report-actions{margin-top:14px}
+.report-send{width:100%;padding:11px;border:0;border-radius:10px;cursor:pointer;
+  background:var(--accent);color:var(--accentfg);font:inherit;font-size:.92rem;font-weight:800;letter-spacing:-.01em}
+.report-send:hover{filter:brightness(1.05)}
+.report-send:disabled{opacity:.6;cursor:default}
+.report-send:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.report-invalid{outline:2px solid var(--warn)!important;outline-offset:1px}
+.report-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(8px);
+  z-index:1301;max-width:calc(100% - 32px);padding:10px 16px;border-radius:999px;
+  background:rgba(0,0,0,.85);color:#fff;font-size:.82rem;font-weight:600;line-height:1.4;text-align:center;
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.report-toast.is-on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* /favorites/ — 원본 페이지 링크 캡션 + 별로 뺀 카메라 버튼 */
+.fav-src-cap{color:var(--muted);font-size:.82rem;font-weight:600;margin:22px 0 8px}
+.fav-src{margin-top:0}
+.cams button.is-removed{opacity:.4;text-decoration:line-through}
+
+/* /favorites/ 순서 — 각 행 오른쪽 ⠿ 손잡이를 끌어 재정렬(포인터 이벤트, 터치 지원).
+   .cams 를 세로 스택으로, 각 행은 [카메라 이름 버튼][손잡이]. 드래그 중 끌리는
+   행은 손가락을 따라오고(translateY), 비켜주는 행들은 부드럽게 밀린다. */
+.fav-hint{color:var(--muted);font-size:.78rem;margin:0 0 10px}
+#fav-root .cams{display:block}
+#fav-root .fav-row{display:flex;align-items:stretch;gap:8px;margin:0 0 8px;
+  transition:transform .18s ease}
+#fav-root .fav-row button[data-id]{flex:1;justify-content:flex-start}
+#fav-root .fav-grip{flex:none;width:32px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);
+  color:var(--muted);font-size:1rem;line-height:1;cursor:grab;
+  touch-action:none;-webkit-user-select:none;user-select:none}
+#fav-root .fav-grip:active{cursor:grabbing}
+#fav-root .fav-grip:hover{color:var(--accent);border-color:var(--accent)}
+#fav-root .cams.fav-sorting{-webkit-user-select:none;user-select:none}
+/* 끌리는 행은 손가락을 1:1로 따라와야 하므로 transition 없음 + 살짝 들림.
+   버튼 색·텍스트는 건드리지 않는다(재생 중 버튼의 주황 배경/흰 글씨가
+   덮여 글씨가 사라지던 문제). 들린 느낌은 두 알약의 그림자로만. */
+#fav-root .fav-row.fav-dragging{position:relative;z-index:5;transition:none}
+#fav-root .fav-row.fav-dragging button[data-id],
+#fav-root .fav-row.fav-dragging .fav-grip{box-shadow:0 8px 20px rgba(0,0,0,.18)}
+/* 리졸버가 연속 실패한 카메라 — GITS 가 id 를 없앴거나 재분류(점검/폐지).
+   favorites.js 가 rc-cam-status 로 판정해 .fav-unavail 을 붙인다. */
+#fav-root .fav-row button[data-id].fav-unavail{opacity:.6}
+#fav-root .fav-row button[data-id].fav-unavail::after{
+  content:"점검·폐지?";flex:none;margin-left:8px;padding:1px 7px;border-radius:999px;
+  background:color-mix(in srgb, var(--warn) 20%, transparent);
+  color:var(--warn);font-size:.72rem;font-weight:700}
+
+/* "＋ 홈 화면에 추가" 진입 알약 — 홈 home-bar(내 CCTV 칩 옆) · /favorites/ 제목 옆.
+   그냥 /help/install/ 로 가는 <a>. 이미 설치(standalone)면 숨긴다. */
+.install-pill{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;
+  padding:7px 13px;border-radius:999px;text-decoration:none;
+  border:1px solid var(--line);background:var(--card);
+  color:var(--muted);font-size:.82rem;font-weight:700;letter-spacing:-.01em}
+.install-pill:hover{border-color:var(--accent);color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 6%, var(--surface))}
+.install-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (display-mode: standalone){ .install-pill{display:none} }
+
+/* 도움(?) 진입 배지 — 홈 home-bar(내 CCTV 칩 옆). /help/ 로 가는 <a>.
+   박스 치수(패딩·글자크기·radius)는 옆의 .fav-chip 과 동일 — 같은 줄에서 높이가 맞도록.
+   색만 보조 액션답게 muted/card. standalone 에서도 노출. */
+/* 동그란 배지 — 정원. 지름 2.44rem(≈39px)은 옆 .fav-chip 렌더 높이와 맞춘 값
+   (chip = border2 + padding14 + 본문 line-box). chip 의 폰트·패딩·line-height 를
+   바꾸면 이 값도 함께 손봐야 한다. flex 항목에서 aspect-ratio 는 폭이
+   content 로 먼저 잡혀 무시되므로 폭·높이를 직접 고정한다. */
+.help-pill{display:inline-flex;align-items:center;justify-content:center;
+  flex:none;align-self:center;width:2.44rem;height:2.44rem;padding:0;
+  border-radius:50%;text-decoration:none;
+  border:1.5px solid color-mix(in srgb, var(--muted) 55%, transparent);
+  background:var(--card);
+  color:var(--muted);font-size:.95rem;line-height:1;font-weight:700}
+.help-pill:hover{border-color:var(--accent);color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 6%, var(--surface))}
+.help-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* 도움말 허브 (/help/) */
+.help-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.help-card{display:block;padding:16px;border:1px solid var(--line);border-radius:12px;
+  background:var(--surface);text-decoration:none;color:var(--fg)}
+.help-card:hover{border-color:color-mix(in srgb, var(--accent) 40%, var(--line));
+  background:color-mix(in srgb, var(--accent) 4%, var(--surface))}
+.help-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.help-card h2{margin:0 0 4px;font-size:1rem;font-weight:800;letter-spacing:-.01em}
+.help-card p{margin:0;font-size:.86rem;color:var(--muted);line-height:1.5}
+
+/* /help/install/ — 홈 화면에 추가 단계별 안내 페이지 (pwa-install.js #install-root) */
+.pwa-install-btn{display:inline-block;cursor:pointer;font:inherit;font-size:.85rem;font-weight:700;
+  letter-spacing:-.01em;padding:8px 14px;border-radius:10px;text-decoration:none;
+  border:1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+  background:var(--surface);color:var(--fg)}
+.pwa-install-btn:hover{border-color:var(--accent);color:var(--accent)}
+.pwa-install-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.install-installed{margin:0 0 16px;padding:12px 14px;border-radius:10px;
+  border:1px solid color-mix(in srgb, var(--live) 40%, var(--line));
+  background:color-mix(in srgb, var(--live) 10%, var(--surface));
+  color:var(--fg);font-size:.9rem;font-weight:700}
+.install-tabs{display:flex;gap:8px;margin:6px 0 20px}
+.install-tab{flex:1;cursor:pointer;font:inherit;font-size:.85rem;font-weight:700;
+  padding:10px 12px;border-radius:10px;border:1px solid var(--line);
+  background:var(--card);color:var(--muted)}
+.install-tab[aria-selected="true"]{border-color:var(--accent);color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 8%, var(--surface))}
+.install-tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.install-steps ol{list-style:none;counter-reset:step;margin:0;padding:0;display:grid;gap:14px}
+.install-steps li{counter-increment:step;
+  padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.install-fig{display:flex;justify-content:center;padding:2px 0 12px}
+.install-svg{width:100%;max-width:300px;height:auto;color:var(--muted)}
+/* SVG 도해 — var() 는 presentation attribute 에선 안 먹으므로 클래스+CSS 로 색을 준다 */
+.install-svg .isvg-card{fill:var(--card);stroke:var(--line);stroke-width:2}
+.install-svg .isvg-panel{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.install-svg .isvg-dim{fill:var(--line)}
+.install-svg .isvg-ink{fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.install-svg .isvg-hi{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.install-svg .isvg-hi-ring{fill:none;stroke:var(--accent);stroke-width:2.4}
+.install-svg .isvg-hidot{fill:var(--accent)}
+.install-svg .isvg-hibox{fill:var(--accent);fill-opacity:.12;stroke:var(--accent);stroke-width:2.2}
+.install-svg .isvg-hitext{fill:var(--fg)}
+.install-svg .isvg-hitext-accent{fill:var(--accent);font-size:12px;font-weight:800}
+.install-svg .isvg-mut{fill:var(--muted)}
+.install-svg .isvg-accent{fill:var(--accent)}
+.install-svg .isvg-accentfg{fill:var(--accentfg)}
+.install-txt{margin:0;font-size:.9rem;line-height:1.6}
+.install-txt::before{content:counter(step);display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;margin-right:8px;border-radius:999px;
+  background:var(--accent);color:var(--accentfg);font-size:.78rem;font-weight:800;vertical-align:.08em}
+.install-manual .install-txt::before{content:counter(step)}
+.install-txt b{color:var(--fg);font-weight:700}
+.install-appicon{width:38px;height:38px;border-radius:10px;vertical-align:middle;margin:0 3px;
+  box-shadow:0 1px 5px rgba(0,0,0,.18)}
+.install-warn{display:block;margin-top:8px;color:var(--warn);font-size:.82rem;font-weight:700;line-height:1.5}
+.install-prompt{margin:0 0 18px;padding:18px 16px;text-align:center;
+  border:1px solid color-mix(in srgb, var(--accent) 30%, var(--line));border-radius:12px;
+  background:color-mix(in srgb, var(--accent) 5%, var(--surface))}
+.install-prompt .pwa-install-btn{font-size:.95rem;padding:11px 22px}
+.install-prompt .install-txt{margin-top:10px}
+.install-prompt .install-txt::before{content:none}
+
+/* 지도 — CCTV 바로 밑에 붙는 미니 로케이터. 같은 폭, 세로는 64:27(2026-09-04
+   32:9 대비 1.5배 높이, 2026-09-05 확대). 위 테두리·간격 없이 이어져
+   한 덩어리로 보인다. */
+.map{aspect-ratio:64/27;margin:0 0 2px;
+  border:1px solid var(--line);border-top:0;
+  border-radius:0 0 var(--radius-sm) var(--radius-sm);
+  overflow:hidden;background:var(--card);z-index:0;position:relative}
 .map .leaflet-container{background:var(--card);font:inherit}
 .map .leaflet-bar a{color:var(--fg);background:var(--surface);border-color:var(--line)}
 
+/* 지도 접기/펼치기 토글 — 기본 접힘. CCTV(접힘 시) 또는 지도(펼침 시) 바로 아래 */
+.map-toggle{display:flex;align-items:center;gap:6px;width:100%;
+  margin:9px 0 2px;padding:6px 2px;border:0;background:none;cursor:pointer;
+  font:inherit;font-size:.82rem;font-weight:600;color:var(--muted);text-align:left;
+  transition:color .15s}
+.map-toggle:hover{color:var(--accent)}
+.map-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.map-toggle .sec-chev{margin-left:auto;align-self:center;flex:none;width:8px;height:8px;
+  border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);
+  transform:rotate(-45deg);transition:transform .15s}
+.map-toggle[aria-expanded="true"] .sec-chev{transform:rotate(45deg)}
+
 .omap{height:300px;margin:0 0 10px;border:1px solid var(--line);
-  border-radius:var(--radius-sm);overflow:hidden;background:var(--card);z-index:0}
+  border-radius:var(--radius-sm);overflow:hidden;background:var(--card);z-index:0;position:relative}
 .omap .leaflet-container{background:var(--card);font:inherit}
 .omap .leaflet-bar a{color:var(--fg);background:var(--surface);border-color:var(--line)}
 .omap-tip{background:var(--surface);color:var(--fg);border:1px solid var(--line);
@@ -167,18 +618,17 @@ h1.brand{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
   .omap-legend .omap-hint{margin-left:0;flex-basis:100%}
 }
 
-/* 실시간 사고·통제 */
+/* 실시간 사고·통제 — 관련 항목이 있을 때만 보여준다(js 쪽 hidden 토글).
+   "사고·통제 없음" 상태 문구는 폐지(2026-09-05) — 뜰 때는 항상 이슈가
+   있다는 뜻이라 dot 은 항상 --warn, 접힘 화살표도 항상 노출. */
 .incidents-global{margin:0 0 18px;border:1px solid var(--line);border-radius:var(--radius-sm);
   background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
 .incidents-toggle{width:100%;display:flex;align-items:center;gap:9px;
   padding:11px 14px;border:0;background:none;cursor:pointer;
   font:inherit;font-size:.9rem;font-weight:700;color:var(--fg);text-align:left}
-.incidents-toggle:disabled{cursor:default}
 .incidents-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .incidents-dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--warn);
   box-shadow:0 0 0 3px color-mix(in srgb, var(--warn) 22%, transparent)}
-.is-clear .incidents-dot{background:var(--live);
-  box-shadow:0 0 0 3px color-mix(in srgb, var(--live) 22%, transparent)}
 .incidents-title{flex:1 1 auto}
 .incidents-count{flex:none;min-width:1.5em;height:1.4em;padding:0 .4em;border-radius:999px;
   display:inline-flex;align-items:center;justify-content:center;
@@ -188,7 +638,6 @@ h1.brand{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
   border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
   transform:rotate(45deg);transition:transform .15s}
 .is-open .incidents-chev{transform:rotate(225deg)}
-.is-clear .incidents-chev{display:none}
 .incidents-panel{border-top:1px solid var(--line);padding:6px 6px 4px}
 .incidents-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
 .incidents-list li{display:flex;align-items:flex-start;gap:8px;
@@ -210,7 +659,28 @@ h1.brand{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
   border-radius:var(--radius-sm);background:color-mix(in srgb, var(--warn) 6%, var(--surface))}
 .incidents-section-h{display:block;padding:0 10px 2px;font-size:.8rem;font-weight:800;color:var(--warn)}
 
-.ad{margin:20px 0 4px;padding:14px;border:1px dashed var(--line);border-radius:var(--radius-sm);
+/* 노선(고속도로) 아코디언 — 돌발을 {grp} 구간별로 분류 (incidents.js isAcc) */
+.incidents-seg-h{display:flex;align-items:center;gap:8px;cursor:pointer;
+  padding:8px 10px 3px;margin-top:6px;font-size:.78rem;font-weight:800;color:var(--warn)}
+.incidents-seg-h:first-child{margin-top:0}
+.incidents-seg-h:hover .incidents-seg-name{text-decoration:underline}
+.incidents-seg-h:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:6px}
+.incidents-seg-name{flex:1 1 auto;min-width:0}
+.incidents-seg-n{flex:none;min-width:1.5em;height:1.35em;padding:0 .4em;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--warn);color:#fff;font-size:.7rem;font-weight:800}
+.incidents-inseg{margin:0 0 8px}
+.cams-accordion .grp-toggle .grp-inc{
+  flex:none;align-self:center;margin-left:auto;   /* 소통 점과 함께 오른쪽에 모음 */
+  min-width:1.5em;height:1.4em;padding:0 .45em;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--warn);color:#fff;font-size:.72rem;font-weight:800;line-height:1;
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--warn) 18%, transparent)}
+.cams-accordion .grp-toggle .grp-inc[hidden]{display:none}
+
+/* 광고 자리표시자 — 애드센스 승인·실제 유닛 삽입 전까지 숨김 */
+.ad{display:none;
+  margin:20px 0 4px;padding:14px;border:1px dashed var(--line);border-radius:var(--radius-sm);
   text-align:center;color:var(--muted);font-size:.8rem}
 
 .parking{margin:14px 0 4px;padding:13px 15px;border:1px solid var(--line);
@@ -260,3 +730,116 @@ footer{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);
 
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
+
+
+/* 페이지 통합 설명 펼치기(2026-09-05, FOUC 수정 포함) — 소개·도로개요·
+   혼잡캘린더·FAQ·대중교통 등 페이지에 흩어진 부가 설명 전부를, 그 설명영역
+   바로 위(상세 페이지면 CCTV 버튼 밑) 버튼 하나로 한 번에 접고 편다.
+   운전자는 이미 아는 길이라 평소엔 전부 접힘, 접힌 항목마다 따로 탭할
+   필요는 없다는 판단 — 섹션별 개별 토글(구 .route-toggle/.info-toggle/
+   .faq-*)은 폐지.
+   대상은 .lead·무명 도입부 <p>·플레이어 없는 .route 섹션 전체 — 순수 CSS
+   (:has() 로 골라냄)가 기본 숨김을 맡는다. collapse.js 는 .wrap 에
+   is-detail-open 클래스만 토글(자바스크립트로 대상마다 클래스를 붙이던
+   방식은, 그 클래스가 붙기 전 잠깐 원본이 그대로 보이는 FOUC 가 있어 폐지).
+   collapse.js 의 isCollapsibleRoute() 판정 기준과 아래 :has() 목록은
+   반드시 같아야 한다. */
+.wrap > .route:not([data-no-collapse]):not(:has(.player-mount, .player, .cams, .map, .omap)),
+.wrap > .lead,
+.wrap > .lead + p:not([class]){
+  display:none;
+}
+.wrap.is-detail-open > .route:not([data-no-collapse]):not(:has(.player-mount, .player, .cams, .map, .omap)),
+.wrap.is-detail-open > .lead,
+.wrap.is-detail-open > .lead + p:not([class]){
+  display:block;
+}
+
+.detail-toggle{display:inline-flex;align-items:center;gap:6px;width:100%;
+  margin:10px 0 4px;padding:6px 2px;border:0;background:none;
+  color:var(--accent);font:inherit;font-size:.85rem;font-weight:600;cursor:pointer;
+  transition:filter .15s}
+.detail-toggle::after{content:"";flex:none;width:6px;height:6px;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:translateY(-1px) rotate(-45deg);transition:transform .15s}
+.detail-toggle.is-open::after{transform:rotate(45deg)}
+.detail-toggle:hover{text-decoration:underline}
+.detail-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+/* ══════════ 3단계 신호색 — 메인 허브 지역 칩 상태 점(.card-sig) ══════════
+   --sig 를 .region-card 에 세팅 → 자손 .card-sig 가 상속. data-score(region-status.js)
+   green/yellow/red. (2026-09-06 목적지 카드 .hint 앞 점은 제거 — 소통 정보 재점검.)
+   초록 원활·서행 · 노랑 정체·공사·고장 · 빨강 심한정체·사고·통제.
+   초록을 밝은 톤으로(#0a7d3c 는 웜 오프화이트 배경과 명도차가 작아 칙칙). */
+:root{ --sig-green:#16a34a; --sig-yellow:#c98a00; --sig-red:#d93025 }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --sig-green:#4ade80; --sig-yellow:#e3b341; --sig-red:#f26857 } }
+:root[data-theme="dark"]{
+  --sig-green:#4ade80; --sig-yellow:#e3b341; --sig-red:#f26857 }
+
+.region-card[data-score="green"]{ --sig:var(--sig-green) }
+.region-card[data-score="yellow"]{ --sig:var(--sig-yellow) }
+.region-card[data-score="red"]{ --sig:var(--sig-red) }
+
+/* 지역 허브 목적지 카드 .hint 앞 소통 점 — traffic-live.js 가 data-flow(green/yellow/red)
+   를 세팅한 카드에만. 실시간 값 없으면 속성이 없어 점도 없음(기존 정적 문구 그대로). */
+.card[data-flow="green"]{ --flow-c:var(--sig-green) }
+.card[data-flow="yellow"]{ --flow-c:var(--sig-yellow) }
+.card[data-flow="red"]{ --flow-c:var(--sig-red) }
+.card[data-flow] .hint::before{
+  content:"";display:inline-block;width:.5em;height:.5em;border-radius:50%;
+  margin-right:.45em;vertical-align:.06em;background:var(--flow-c,var(--muted))}
+
+/* 지역 칩 제목 앞 표시등(아이콘 대체). collapse.js 가 .card-sig 를 이름 앞에 삽입.
+   칩에서 교통상태가 한눈에 보이도록 16px + 링. */
+.card-sig{align-self:center;flex:none;width:16px;height:16px;border-radius:50%;
+  background:var(--sig,var(--muted));
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--sig,var(--muted)) 18%, transparent)}
+
+/* ══════════ 지도 터치 가드 (모바일) — overview.js / player.js 가 삽입 ══════════ */
+.map-shield{position:absolute;inset:0;z-index:450;cursor:pointer;
+  display:flex;align-items:flex-end;justify-content:center;padding:10px;
+  -webkit-tap-highlight-color:transparent}
+.map-shield[hidden]{display:none}
+.map-shield span{pointer-events:none;
+  background:rgba(0,0,0,.6);color:#fff;
+  font-size:.72rem;font-weight:600;line-height:1;letter-spacing:-.01em;
+  padding:6px 11px;border-radius:999px}
+
+/* ══════════ 떠 있는 리모콘 (.rc-remote) — remote.js 가 삽입 ══════════
+   우하단에 홈·내 CCTV·공유를 세로로, 접기/펼치기 없이 항상 노출. 세 버튼
+   모두 잉크(--fg) 채움 + 페이지색(--bg) 링으로 본문·검은 영상 어디에 겹쳐도
+   또렷하게 분리. 주 버튼(홈)만 더 크다. 스크롤 내리는 동안만 아래로 숨김. */
+.rc-remote{position:fixed;z-index:1200;
+  right:calc(14px + env(safe-area-inset-right));
+  bottom:calc(16px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  transition:transform .24s ease, opacity .24s ease}
+.rc-remote.is-hidden{transform:translateY(160%);opacity:0;pointer-events:none}
+@media print{ .rc-remote{display:none} }
+
+.rc-remote-btn{display:flex;align-items:center;justify-content:center;
+  width:46px;height:46px;border-radius:50%;padding:0;cursor:pointer;border:0;
+  background:var(--fg);color:var(--bg);text-decoration:none;
+  font-size:1.15rem;font-weight:800;line-height:1;
+  box-shadow:0 4px 14px rgba(16,24,40,.32), 0 0 0 3px var(--bg);
+  transition:transform .12s ease, filter .12s ease}
+.rc-remote-btn svg{width:19px;height:19px;fill:none;stroke:currentColor;
+  stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.rc-remote-btn:hover{filter:brightness(1.08)}
+.rc-remote-btn:active{transform:scale(.9)}
+.rc-remote-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* 주 버튼 = 홈. 더 큰 원. */
+.rc-remote-primary{width:56px;height:56px;
+  box-shadow:0 5px 18px rgba(16,24,40,.36), 0 0 0 3px var(--bg)}
+.rc-remote-primary svg{width:24px;height:24px;stroke-width:2.2}
+
+/* 공유 완료 토스트 — 리모콘 왼쪽에 잠깐. */
+.rc-remote-toast{position:absolute;right:calc(100% + 12px);bottom:8px;
+  white-space:nowrap;padding:7px 13px;border-radius:999px;
+  background:var(--fg);color:var(--bg);font-size:.78rem;font-weight:600;
+  box-shadow:0 4px 16px rgba(16,24,40,.24);
+  opacity:0;transform:translateX(8px);pointer-events:none;
+  transition:opacity .2s ease, transform .2s ease}
+.rc-remote-toast.is-on{opacity:1;transform:none}
