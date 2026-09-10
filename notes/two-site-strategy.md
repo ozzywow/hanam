@@ -164,6 +164,25 @@
 - roadcctv.com 하남 본문은 얇게 유지 (다른 16개 지역 톤과 통일). 로컬 특화 문단은 hanamlife에만
 - roadcctv.com 자기 심사 결과에 따라 대응
 
+## 7. 색인 재요청 절차 (배포 후)
+
+배포 URL 8개: `/` `/starfield/` `/misa/` `/ramp/` `/commute/` `/paldang/` `/seoul-yangyang/` `/outlet/` + `/privacy.html` `/terms.html`. `sitemap.xml` 에 10개 전부 `lastmod 2026-09-10`.
+
+### 구글 서치콘솔 (hanamlife.com 도메인 속성)
+1. **Sitemaps** (좌측 "색인 생성 > Sitemaps") → "새 사이트맵 추가"에 `sitemap.xml` 입력 → 제출. 이미 있으면 그대로 두고 상태가 "성공"인지 확인 (구글이 주기적으로 재읽음).
+2. **URL 검사** (상단 검색창) → 새 URL 하나씩 붙여넣기(전체 주소) → Enter → **색인 생성 요청**. 8개 다. 홈 `/` 은 기존 색인 갱신용으로 재요청.
+   - 수동 색인 요청 하루 한도 ~10건. 8개면 하루에 됨.
+3. 1~2주 뒤 **페이지**(색인 범위) 리포트에서 오류 확인. 옛 단일페이지 앵커(`/#starfield` 등)는 별도 URL이 아니라 정리할 것 없음.
+
+### 네이버 서치어드바이저 (웹마스터도구)
+1. 사이트 `https://hanamlife.com/` 선택 → **요청 > 사이트맵 제출** → `https://hanamlife.com/sitemap.xml` → 확인.
+2. **요청 > 웹페이지 수집** → 새 URL 하나씩 입력해 수집 요청 (하루 한도 있음).
+3. 네이버는 재수집이 느릴 수 있음 — 며칠 여유.
+
+### 주의
+- 애드센스 재심사는 **Phase 2(로컬 콘텐츠) + 전 페이지 "색인 생성됨" 확인** 후에 넣는다. 지금 바로 넣지 말 것.
+- roadcctv.com 에는 아직 하남 canonical 안 걸었음 (Phase 4, hanamlife 색인·승인 후).
+
 ## 5. 가드레일
 
 - hanamlife 승인·색인 **전에** roadcctv canonical 걸지 말 것 — 대상 미색인이면 무효.
@@ -178,7 +197,9 @@
 - [x] 아이덴티티 확정 (2026-09-10) — 메인색 하남 청색 `--accent #2f6fe0`(다크 `#6fa0ff`), 헤더 SVG마크+텍스트 락업, 이름 "하남라이프"
 - [x] Phase 1 — 이식 + 브랜딩 복구 (2026-09-10, 브랜치 `rebuild`, `bd6741f`). 로컬 검증 통과. 상세는 §4 Phase 1 진행 기록
 - [x] 브랜드 마크 확정 (2026-09-10, `aa963fa`) — 방향 A(맵타일+청색핀+돋보기) 기본 = 헤더 락업·og.png / 방향 D(미니멀 모노그램) = favicon.svg·PWA 아이콘·apple-touch. 시안 캔버스: 아티팩트 `하남라이프 브랜드 마크`
-- [ ] 브라우저 시각 확인 (브랜드 h1 락업·색) → `rebuild` → `main` 머지 → 배포 → 서치콘솔 sitemap 재제출
+- [x] `rebuild` → `main` 머지·배포 (2026-09-10, 머지 커밋 `b1bbbc6`, push 완료). 병합 시 `cams.js`(main 토큰갱신) vs `regions/hanam.js`(rebuild) 리네임 충돌 → rebuild 채택 + `scrape-tokens.mjs --write` 로 토큰 재발급. Cloudflare Pages 자동 배포.
+- [ ] 배포 반영 브라우저 확인 (하남라이프 h1 락업·청색·파비콘)
+- [ ] 서치콘솔 sitemap 재제출 + 새 URL 8개 색인 요청 · 네이버 sitemap 재제출 (아래 §7)
 - [ ] Phase 2 — 로컬 포털 콘텐츠 1차분
 - [ ] Phase 3 — 색인 + 재심사
 - [ ] Phase 4 — roadcctv.com canonical 정리
