@@ -43,10 +43,13 @@
   - 청록 `#00b6bd`는 **장식용**(아이콘 그라디언트·히어로)으로만, 의미색으로 쓰지 않음.
   - RoadCCTV 주황 `#db6a00` 과 파랑이라 확실히 구분됨.
 
-- **favicon / og = 새로 제작** (SVG). 디자인 브리프: 배경에 동네 지도가 펼쳐지고, 그 위에 **핀(풍선) 안에 돋보기**(탐방·탐색 상징). RoadCCTV 아이콘 스타일 참조하되 모티프는 하남라이프 고유. → 시안 작업(`design` 스킬)에서 구체화. 확정 전까지 임시로 기존 favicon 색만 청색으로 교체.
-  - 산출물: `favicon.svg`(헤더 마크와 동일 도형), `og.png`(문구 갱신), `apple-touch-icon.png`, `icon-192/512/512-maskable.png`.
+- **favicon / og = 새로 제작 완료** (2026-09-10, `aa963fa`). 두 방향 병행:
+  - **방향 A** (맵타일 + 청색 핀 + 흰 돋보기, 청록 한강) = 헤더 락업(`docs/index.html` `h1.brand` 인라인 SVG) + `docs/assets/og.png`(1200×630, "하남라이프" + 태그라인 + 도메인)
+  - **방향 D** (청색 타일 · 흰 핀 · 핀 구멍=렌즈 · 청록 점) = `docs/assets/favicon.svg` + `icon-192/512/512-maskable.png` + `apple-touch-icon.png` — 소형 가독성 담당
+  - 생성: `sharp`(hanam node_modules) SVG→PNG. 빌드 스크립트는 세션 스크래치패드 `favicon/build-assets.mjs`
+  - 시안 캔버스(4방향 + 소형 + 락업 + og): 아티팩트 "하남라이프 브랜드 마크"
 
-- **헤더 표시 = 인라인 SVG 마크 + "하남라이프" 실제 텍스트 락업** (RoadCCTV `.brand` 구조 재사용, 아이콘·이름·색만 교체). 근거는 §3.1.
+- **헤더 표시 = 인라인 SVG 마크 + "하남라이프" 실제 텍스트 락업** (RoadCCTV `h1.brand` 구조 재사용). `docs/index.html` 홈에 적용. 목적지 7페이지는 브레드크럼 "홈" 링크만(후속 검토). 근거는 §3.1.
 
 - **적용 지점** (기계적 반영):
   - `docs/assets/css/styles.css` `:root` 3곳 — 위 표대로 `--accent`/`--accentfg`만 교체
@@ -174,8 +177,8 @@
 - [x] 전략 수립 (2026-09-10)
 - [x] 아이덴티티 확정 (2026-09-10) — 메인색 하남 청색 `--accent #2f6fe0`(다크 `#6fa0ff`), 헤더 SVG마크+텍스트 락업, 이름 "하남라이프"
 - [x] Phase 1 — 이식 + 브랜딩 복구 (2026-09-10, 브랜치 `rebuild`, `bd6741f`). 로컬 검증 통과. 상세는 §4 Phase 1 진행 기록
-- [ ] favicon/og SVG 시안 (지도 + 핀 안 돋보기) — `design` 스킬
-- [ ] 브라우저 시각 확인 → `rebuild` → `main` 머지 → 배포 → 서치콘솔 sitemap 재제출
+- [x] 브랜드 마크 확정 (2026-09-10, `aa963fa`) — 방향 A(맵타일+청색핀+돋보기) 기본 = 헤더 락업·og.png / 방향 D(미니멀 모노그램) = favicon.svg·PWA 아이콘·apple-touch. 시안 캔버스: 아티팩트 `하남라이프 브랜드 마크`
+- [ ] 브라우저 시각 확인 (브랜드 h1 락업·색) → `rebuild` → `main` 머지 → 배포 → 서치콘솔 sitemap 재제출
 - [ ] Phase 2 — 로컬 포털 콘텐츠 1차분
 - [ ] Phase 3 — 색인 + 재심사
 - [ ] Phase 4 — roadcctv.com canonical 정리
