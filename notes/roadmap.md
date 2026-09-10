@@ -1,5 +1,10 @@
 # 로드맵 / 할 일
 
+> **2026-09-10 전환**: hanamlife.com 애드센스 심사 반려("가치가 별로 없는 콘텐츠").
+> 이후 방향은 **[notes/two-site-strategy.md](two-site-strategy.md)** 로 이동 — hanamlife.com을
+> RoadCCTV 하남 페이지 기반으로 재구축(Phase 1 완료, 브랜치 `rebuild`) + 하남 로컬 포털로 확장,
+> roadcctv.com과 canonical로 분리. 아래 "애드센스 승인 후 / 심사 중" 항목은 그 문서 기준으로 재해석.
+
 ## 지금 상태 (2026-09)
 
 - [x] GITS CCTV 연동 (hls 실시간 + vod 녹화), 프록시 없이 정적 페이지

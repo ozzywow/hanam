@@ -113,6 +113,31 @@
 
 **마무리**: `wrangler`로 로컬 검증(Functions 포함) → `main` 머지 → 배포.
 
+**Phase 1 진행 기록 (2026-09-10, 브랜치 `rebuild`, 커밋 `bd6741f`)**
+
+완료:
+- 8개 페이지 이식 + 경로/`/hanam/` 제거 + canonical·og·JSON-LD → hanamlife.com + 브레드크럼 '하남' 단계 제거 + **Beta 마크 제거** + `<div class="ad">` 텍스트 비움
+- 허브에 '이 사이트 소개·이용 방법·CCTV 화면 읽는 법' 복원 (`restructure:docs/index.html` 에서)
+- 아이덴티티: '하남라이프', `--accent #2f6fe0`/다크 `#6fa0ff`, `--tint` 쿨톤, theme-color, manifest, sw.js(`hanamlife-v1`)
+- JS 이식: player/incidents/parking/collapse/theme/remote/weather/traffic-live + regions/hanam{,.baseline,.traffic}.js. `cams.js`·`overview.js` 삭제
+- Functions: `traffic.js`·`weather.js` 추가 (incidents·parking·resolve 는 기존과 동일)
+- `scrape-tokens.mjs`·`refresh-tokens.yml` 을 `regions/*.js` 대응으로 교체
+- PWA(manifest·sw.js·_headers), sitemap 새 URL 10개, `package.json`(wrangler devDep + `npm run dev`)
+- 로컬 검증: `wrangler pages dev` — 8개 라우트 200, `/api/{incidents,traffic,weather,parking}` 200, 에러 없음
+
+미이식/보류 (의도):
+- 제보 백엔드 — `report.js`·`device-id.js`·`functions/api/report.js`·D1·`/admin`. 문의는 메일·인스타 유지
+- `overview.js` 상단 개요 지도 — RoadCCTV 하남이 이미 뺀 상태. 필요하면 Phase 1.5로 별도 복원
+- `favorites.js`·`pwa-install.js` — RoadCCTV 하남 페이지도 미탑재. 후속
+
+남은 다듬기 (merge 전/후):
+- [ ] favicon/og SVG 시안 (지도 + 핀 안 돋보기) — `design` 스킬. 현재는 RoadCCTV 마크 그대로
+- [ ] 브라우저 시각 확인 (라이트/다크, 모바일) — 정적/함수 검증만 끝난 상태
+- [ ] 목적지 h1 이 RoadCCTV식 짧은 이름(`📍 …일대`) — 필요하면 SEO용으로 확장 검토 (title 은 이미 충분)
+- [ ] `privacy.html`·`terms.html` 에 '하남라이프' 명칭 반영 (현재 '하남시 실시간 교통 CCTV')
+- [ ] 내부 `rc-*` localStorage/CSS 클래스 키 — 그대로 둠 (내부 식별자). 정리는 선택
+- [ ] `robots.txt` AI봇 차단은 미적용 (RoadCCTV 에는 있음) — 선택
+
 ### Phase 2 — 로컬 포털 콘텐츠 1차분 (반려를 실제로 뚫는 핵심)
 
 이식만으로는 "가치가 별로 없는 콘텐츠"를 못 뒤집는다. 교통이 아닌 **고유 원본 콘텐츠**가 있어야 한다.
@@ -148,8 +173,9 @@
 
 - [x] 전략 수립 (2026-09-10)
 - [x] 아이덴티티 확정 (2026-09-10) — 메인색 하남 청색 `--accent #2f6fe0`(다크 `#6fa0ff`), 헤더 SVG마크+텍스트 락업, 이름 "하남라이프"
-- [ ] favicon/og SVG 시안 (지도 + 핀 안 돋보기) — `design` 스킬, Phase 1 중 또는 직후
-- [ ] Phase 1 — 이식 + 브랜딩 복구
+- [x] Phase 1 — 이식 + 브랜딩 복구 (2026-09-10, 브랜치 `rebuild`, `bd6741f`). 로컬 검증 통과. 상세는 §4 Phase 1 진행 기록
+- [ ] favicon/og SVG 시안 (지도 + 핀 안 돋보기) — `design` 스킬
+- [ ] 브라우저 시각 확인 → `rebuild` → `main` 머지 → 배포 → 서치콘솔 sitemap 재제출
 - [ ] Phase 2 — 로컬 포털 콘텐츠 1차분
 - [ ] Phase 3 — 색인 + 재심사
 - [ ] Phase 4 — roadcctv.com canonical 정리
