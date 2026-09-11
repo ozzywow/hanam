@@ -77,9 +77,11 @@
   <p class="lead">하남 실시간 교통 CCTV — 스타필드·미사·팔당대교·고속도로 진출입을
      목적지별 실시간 화면과 요일·시간대별 혼잡 패턴으로.</p>
 
-  <div data-incidents-anchor></div>
-
-  <div class="cards">
+  <!-- ══════════ 실시간 교통 (항상 표시 — 접기 대상 아님) ══════════ -->
+  <section class="route" id="cctv" data-no-collapse>
+    <h2>실시간 교통 <small><a href="/cctv/">목적지별로 →</a></small></h2>
+    <div data-incidents-anchor></div>
+    <div class="cards">
     <a class="card" href="/ramp/" data-decks="4" data-kind="core">
       <h2>📍 선동·황산 나들목 일대</h2>
       <span class="hint">평일 07:00–09:00 서울 방면 아침 정체가 가장 먼저</span>
@@ -108,7 +110,8 @@
       <h2>현대아울렛 방면</h2>
       <span class="hint">주말·세일 기간 오후 13–18시</span>
     </a>
-  </div>
+    </div>
+  </section>
 
   <!-- ══════════ 하남 생활 안내 (항상 표시 — 접기 대상 아님) ══════════ -->
   <section class="route" id="guide" data-no-collapse>
