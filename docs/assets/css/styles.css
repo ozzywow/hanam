@@ -754,9 +754,11 @@ a:hover{text-decoration:underline}
    방식은, 그 클래스가 붙기 전 잠깐 원본이 그대로 보이는 FOUC 가 있어 폐지).
    collapse.js 의 isCollapsibleRoute() 판정 기준과 아래 :has() 목록은
    반드시 같아야 한다. */
-.wrap > .route:not([data-no-collapse]):not(:has(.player-mount, .player, .cams, .map, .omap)),
-.wrap > .lead,
-.wrap > .lead + p:not([class]){
+/* content-page = 허브·안내 페이지(홈·/cctv/·/guide/…): 접기 안 함, 본문 항상 표시.
+   그 외(운전자용 목적지 페이지)만 아래 :has() 규칙으로 기본 숨김. */
+.wrap:not(.content-page) > .route:not([data-no-collapse]):not(:has(.player-mount, .player, .cams, .map, .omap)),
+.wrap:not(.content-page) > .lead,
+.wrap:not(.content-page) > .lead + p:not([class]){
   display:none;
 }
 .wrap.is-detail-open > .route:not([data-no-collapse]):not(:has(.player-mount, .player, .cams, .map, .omap)),
