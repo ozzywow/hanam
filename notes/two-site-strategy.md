@@ -157,6 +157,8 @@
 
 **Phase 2 보강 (2026-09-10, `f796efe`)**: 5페이지 내용 확충 — 하남 한눈에 팩트표, 연혁·개괄, 생활권 고르기·이사 체크리스트, 하남선+버스(9302)·서울 소요시간 표, 미사리 카페거리·한강 미사지구·반나절 코스, 월별 달력·미세먼지. FAQ 각 3문항씩 추가. 페이지당 13~18KB로 증가.
 
+**IA 정리 — Option A (2026-09-11, `60868fb`+`778cbee`)**: 홈 "하남 생활 안내" 섹션 `data-no-collapse`(접기 제외)+광고 위로. `.sitenav` 전역 메뉴(홈·실시간 교통·하남 생활 안내) 14개 페이지 최상단. `/cctv/` 랜딩 허브 신설(`/guide/`와 대칭, 7개 카드+사고피드+가이드). CCTV 7페이지 breadcrumb·JSON-LD 에 "실시간 교통" 단계 추가. **CCTV URL 은 안 옮김**(Option B 기각). sitemap 16 URL, styles.css `?v=20260911n`, sw.js v4.
+
 후속 후보 (선택, 지금은 안 함): 지역 소식/홍보 페이지, 특정 상권·전통시장 상세, 하남 역사 유적 페이지.
 
 ### Phase 3 — 색인 + 재심사
@@ -173,7 +175,7 @@
 
 ## 7. 색인 재요청 절차 (배포 후)
 
-배포 URL 13개: `/` + CCTV 7 (`/starfield/` `/misa/` `/ramp/` `/commute/` `/paldang/` `/seoul-yangyang/` `/outlet/`) + 생활 안내 5 (`/guide/` `/guide/areas/` `/guide/subway/` `/guide/places/` `/guide/seasons/`). `sitemap.xml` 에 `/privacy.html` `/terms.html` 포함 15개, `lastmod 2026-09-10`.
+배포 URL 14개: `/` + `/cctv/` + CCTV 7 (`/starfield/` `/misa/` `/ramp/` `/commute/` `/paldang/` `/seoul-yangyang/` `/outlet/`) + 생활 안내 5 (`/guide/` `/guide/areas/` `/guide/subway/` `/guide/places/` `/guide/seasons/`). `sitemap.xml` 에 `/privacy.html` `/terms.html` 포함 16개.
 
 ### 구글 서치콘솔 (hanamlife.com 도메인 속성)
 1. **Sitemaps** (좌측 "색인 생성 > Sitemaps") → "새 사이트맵 추가"에 `sitemap.xml` 입력 → 제출. 이미 있으면 그대로 두고 상태가 "성공"인지 확인 (구글이 주기적으로 재읽음).
@@ -207,8 +209,9 @@
 - [x] 브랜드 마크 확정 (2026-09-10, `aa963fa`) — 방향 A(맵타일+청색핀+돋보기) 기본 = 헤더 락업·og.png / 방향 D(미니멀 모노그램) = favicon.svg·PWA 아이콘·apple-touch. 시안 캔버스: 아티팩트 `하남라이프 브랜드 마크`
 - [x] `rebuild` → `main` 머지·배포 (2026-09-10, 머지 커밋 `b1bbbc6`, push 완료). 병합 시 `cams.js`(main 토큰갱신) vs `regions/hanam.js`(rebuild) 리네임 충돌 → rebuild 채택 + `scrape-tokens.mjs --write` 로 토큰 재발급. Cloudflare Pages 자동 배포.
 - [ ] 배포 반영 브라우저 확인 (하남라이프 h1 락업·청색·파비콘, /guide/ 5페이지)
-- [x] Phase 2 — 로컬 포털 콘텐츠 `/guide/` 5페이지 (2026-09-10, `ffc532e`, 배포됨)
-- [ ] **색인 재요청 (다음 작업)** — 서치콘솔 sitemap 재제출 + URL 13개 색인 요청 · 네이버 sitemap 재제출. 절차 §7
+- [x] Phase 2 — 로컬 포털 콘텐츠 `/guide/` 5페이지 (2026-09-10, `ffc532e`) + 내용 보강 (`f796efe`)
+- [x] IA 정리 — 전역 `.sitenav` + `/cctv/` 랜딩 허브 (2026-09-11, `778cbee`, Option A)
+- [ ] **색인 재요청 (다음 작업)** — 서치콘솔 sitemap 재제출 + URL 14개 색인 요청 · 네이버 sitemap 재제출. 절차 §7
 - [ ] 그 후 애드센스 재심사 신청
 - [ ] Phase 2 — 로컬 포털 콘텐츠 1차분
 - [ ] Phase 3 — 색인 + 재심사
