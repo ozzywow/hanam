@@ -157,7 +157,13 @@
 
 **Phase 2 보강 (2026-09-10, `f796efe`)**: 5페이지 내용 확충 — 하남 한눈에 팩트표, 연혁·개괄, 생활권 고르기·이사 체크리스트, 하남선+버스(9302)·서울 소요시간 표, 미사리 카페거리·한강 미사지구·반나절 코스, 월별 달력·미세먼지. FAQ 각 3문항씩 추가. 페이지당 13~18KB로 증가.
 
-**IA 정리 — Option A (2026-09-11, `60868fb`+`778cbee`)**: 홈 "하남 생활 안내" 섹션 `data-no-collapse`(접기 제외)+광고 위로. `.sitenav` 전역 메뉴(홈·실시간 교통·하남 생활 안내) 14개 페이지 최상단. `/cctv/` 랜딩 허브 신설(`/guide/`와 대칭, 7개 카드+사고피드+가이드). CCTV 7페이지 breadcrumb·JSON-LD 에 "실시간 교통" 단계 추가. **CCTV URL 은 안 옮김**(Option B 기각). sitemap 16 URL, styles.css `?v=20260911n`, sw.js v4.
+**IA 정리 — Option A (2026-09-11, `60868fb`~`6316536`)**:
+- `.sitenav` 전역 메뉴(홈·실시간 교통·하남 생활 안내) 14개 페이지 최상단. `/cctv/` 랜딩 허브 신설(`/guide/`와 대칭). CCTV 7페이지 breadcrumb·JSON-LD 에 "실시간 교통" 단계. **CCTV URL 안 옮김**(Option B 기각). sitemap 16 URL.
+- 홈·`/cctv/` 카드를 각각 `실시간 교통`/`하남 생활 안내` 섹션(`data-no-collapse`)으로.
+- **CSS 버그 수정 (`6316536`)**: `.wrap > .lead`·`.route` 기본 숨김 규칙이 `collapse.js` 없는 페이지(`/guide/*`·`/cctv/`)에도 적용돼 리드·본문이 안 보이던 문제 → `.wrap:not(.content-page)` 로 한정, 허브 페이지에 `content-page` 클래스. **Phase 2 이후 guide 5페이지가 본문 숨김 상태로 배포돼 있었음 — 이 커밋으로 해소.**
+- **홈 = launchpad**: `collapse.js` 제거. `#about` 3문단 소개로 축약. `#roads`·`#calendar`·`#faq` 를 `/cctv/` 로 이관. 홈 = 실시간 교통 섹션 + 생활 안내 섹션 + 소개 + 제보.
+- **`/cctv/` = 실시간 교통 허브**: 이용 방법·CCTV 읽는 법·도로 개요·혼잡 캘린더·FAQ 수용(깊이 확보).
+- 목적지 CCTV 7페이지는 그대로(운전자용 collapse 유지). styles.css `?v=20260911p`, sw.js v6.
 
 후속 후보 (선택, 지금은 안 함): 지역 소식/홍보 페이지, 특정 상권·전통시장 상세, 하남 역사 유적 페이지.
 
