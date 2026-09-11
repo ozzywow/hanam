@@ -216,9 +216,11 @@
 - [x] `rebuild` → `main` 머지·배포 (2026-09-10, 머지 커밋 `b1bbbc6`, push 완료). 병합 시 `cams.js`(main 토큰갱신) vs `regions/hanam.js`(rebuild) 리네임 충돌 → rebuild 채택 + `scrape-tokens.mjs --write` 로 토큰 재발급. Cloudflare Pages 자동 배포.
 - [ ] 배포 반영 브라우저 확인 (하남라이프 h1 락업·청색·파비콘, /guide/ 5페이지)
 - [x] Phase 2 — 로컬 포털 콘텐츠 `/guide/` 5페이지 (2026-09-10, `ffc532e`) + 내용 보강 (`f796efe`)
-- [x] IA 정리 — 전역 `.sitenav` + `/cctv/` 랜딩 허브 (2026-09-11, `778cbee`, Option A)
-- [ ] **색인 재요청 (다음 작업)** — 서치콘솔 sitemap 재제출 + URL 14개 색인 요청 · 네이버 sitemap 재제출. 절차 §7
-- [ ] 그 후 애드센스 재심사 신청
+- [x] IA 정리 — 전역 `.sitenav` + `/cctv/` 랜딩 허브 (2026-09-11, `778cbee`) + 홈 launchpad 재구성·CSS 버그 수정 (`6316536`)
+- [x] 색인 재요청 완료 (2026-09-11) — 서치콘솔 sitemap 재제출 + 신규/대폭변경 URL 7개(`/`, `/cctv/`, `/guide/*` 5개) 색인 요청, 네이버 sitemap 제출
+- [x] **애드센스 재심사 신청 완료 (2026-09-11)** — 결과 대기 중. 이메일(ozzywow2@gmail.com)로 통보 예정, 통상 며칠~2주
+- [ ] 결과 확인 후: 승인 → `<div class="ad">` 실제 광고 유닛 교체 + 모바일 앵커. 반려 → 사유 확인 후 보완
+- [ ] (승인 후) Phase 4 — roadcctv.com/hanam canonical 정리
 - [ ] Phase 2 — 로컬 포털 콘텐츠 1차분
 - [ ] Phase 3 — 색인 + 재심사
 - [ ] Phase 4 — roadcctv.com canonical 정리
