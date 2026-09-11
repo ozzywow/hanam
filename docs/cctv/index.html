@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("rc-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하남 실시간 교통 CCTV — 목적지별 | 하남라이프</title>
+<meta name="description" content="하남 실시간 교통 CCTV를 목적지별로. 스타필드·미사·주요 나들목·출퇴근 병목·팔당대교·서울양양고속·현대아울렛 방면을 실시간 화면과 요일·시간대별 혼잡 패턴으로.">
+<link rel="canonical" href="https://hanamlife.com/cctv/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="하남라이프">
+<meta property="og:title" content="하남 실시간 교통 CCTV — 목적지별">
+<meta property="og:description" content="스타필드·미사·팔당대교·고속도로 진출입을 목적지별 실시간 CCTV로. 요일·시간대별 혼잡 패턴과 실시간 사고·통제.">
+<meta property="og:url" content="https://hanamlife.com/cctv/">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://hanamlife.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="하남 실시간 교통 CCTV — 목적지별">
+<meta name="twitter:description" content="스타필드·미사·팔당대교·고속도로 진출입을 목적지별 실시간 CCTV로.">
+<meta name="twitter:image" content="https://hanamlife.com/assets/og.png">
+
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="하남라이프">
+<meta name="theme-color" content="#2f6fe0">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"하남 실시간 교통 CCTV — 목적지별","url":"https://hanamlife.com/cctv/","inLanguage":"ko-KR","isPartOf":{"@type":"WebSite","name":"하남라이프","url":"https://hanamlife.com/"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://hanamlife.com/"},{"@type":"ListItem","position":2,"name":"실시간 교통"}]}
+</script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="/assets/css/styles.css?v=20260911n">
+
+<meta name="google-adsense-account" content="ca-pub-9635871358308305">
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9635871358308305" crossorigin="anonymous"></script>
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y46YYZLMCK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y46YYZLMCK');
+</script>
+</head>
+<body data-region="하남">
+<div class="wrap" id="top">
+
+  <nav class="sitenav" aria-label="사이트 메뉴">
+    <a href="/">홈</a>
+    <a href="/cctv/" aria-current="page">실시간 교통</a>
+    <a href="/guide/">하남 생활 안내</a>
+  </nav>
+
+  <nav class="crumbs" aria-label="브레드크럼">
+    <a href="/">홈</a> › <span aria-current="page">실시간 교통</span>
+  </nav>
+
+  <h1>하남 실시간 교통 CCTV</h1>
+  <p class="lead">가려는 목적지를 고르면 그 구간의 실시간 CCTV 페이지로 이동합니다.
+     각 페이지에 요일·시간대별 혼잡 패턴과 진입 팁이 함께 있습니다.</p>
+
+  <div data-incidents-anchor></div>
+
+  <div class="cards">
+    <a class="card" href="/ramp/" data-decks="4" data-kind="core">
+      <h2>📍 선동·황산 나들목 일대</h2>
+      <span class="hint">평일 07:00–09:00 서울 방면 아침 정체가 가장 먼저</span>
+    </a>
+    <a class="card" href="/starfield/" data-decks="0">
+      <h2>📍 스타필드 하남 일대</h2>
+      <span class="hint">주말·공휴일 13–18시, 비 오는 오후 가장 혼잡</span>
+    </a>
+    <a class="card" href="/misa/" data-decks="1">
+      <h2>📍 미사·조정경기장 일대</h2>
+      <span class="hint">4월 겹벚꽃·가을 억새 주말 오전, 경정·행사일 급증</span>
+    </a>
+    <a class="card" href="/commute/" data-decks="3" data-kind="core">
+      <h2>출퇴근 병목 방면</h2>
+      <span class="hint">평일 07:00–09:00 유출, 18:00–20:00 귀가</span>
+    </a>
+    <a class="card" href="/paldang/" data-decks="7">
+      <h2>팔당대교~조안 방면</h2>
+      <span class="hint">주말 상행 09–12시, 하행 16–19시</span>
+    </a>
+    <a class="card" href="/seoul-yangyang/" data-decks="6">
+      <h2>서울양양고속도로 방면</h2>
+      <span class="hint">주말 상행 오전, 하행 오후~저녁</span>
+    </a>
+    <a class="card" href="/outlet/" data-decks="5">
+      <h2>현대아울렛 방면</h2>
+      <span class="hint">주말·세일 기간 오후 13–18시</span>
+    </a>
+  </div>
+
+  <div class="ad"></div>
+
+  <section class="route">
+    <div class="info">
+      <h2>어느 카드를 고를까</h2>
+      <ul>
+        <li><strong>평일 출퇴근</strong> — 서울양양고속도로로 올라타는 진입 대기는
+            <a href="/ramp/">주요 나들목 병목</a>, 강동·잠실·판교·구리·남양주 방면별
+            본선은 <a href="/commute/">출퇴근 시간대 병목</a>.</li>
+        <li><strong>주말 쇼핑·나들이</strong> — 스타필드는 <a href="/starfield/">스타필드 하남</a>
+            (주차 혼잡도 포함), 미사경정공원·한강공원은 <a href="/misa/">미사·조정경기장</a>.</li>
+        <li><strong>검단산·북한강·양평 방면 드라이브</strong> — 국도 45호선은
+            <a href="/paldang/">팔당대교~조안</a>.</li>
+        <li><strong>고속도로 장거리</strong> — 강일IC~덕소IC 본선과 현대아울렛 다산은
+            <a href="/seoul-yangyang/">서울양양고속·아울렛</a>·<a href="/outlet/">현대아울렛 방면</a>.</li>
+      </ul>
+      <p>페이지 안에서 구간별 카메라 버튼으로 지점을 고릅니다. <strong>LIVE</strong> 표시는
+         실시간 스트리밍, 표시가 없으면 약 1분 간격 녹화 갱신 영상입니다.</p>
+    </div>
+  </section>
+
+  <section class="route">
+    <div class="info">
+      <h2>더 자세한 배경은 홈에서</h2>
+      <p>하남 도로가 어디로 들고 나는지(<a href="/#roads">도로 개요</a>),
+         언제 가장 붐비는지(<a href="/#calendar">종합 혼잡 캘린더</a>),
+         CCTV 화면을 어떻게 읽는지(<a href="/#about">이용 방법</a>),
+         자주 묻는 질문(<a href="/#faq">FAQ</a>)은 홈 페이지에 정리돼 있습니다.</p>
+      <p>교통 말고 하남 생활 정보는 <a href="/guide/">하남 생활 안내</a>를 참고하세요.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>CCTV 영상 출처: 경기도교통정보센터(gits.gg.go.kr) — 경기도 / 경찰청UTIS·하남시 / KTICT 제공.
+       공개 교통정보를 비상업적 안내 목적으로만 재생하며, 영상 저작권은 각 제공 기관에 있습니다.
+       영상은 기관 사정·점검에 따라 중단될 수 있습니다.</p>
+    <p>CCTV 영상을 제외한 사이트의 구성·선별·텍스트·디자인·코드의 저작권은 하남라이프에 있으며, 무단 복제·수집·재배포를 금합니다. 자세한 내용은 <a href="/terms.html">이용약관</a>을 참고하세요.</p>
+    <p><a href="/privacy.html">개인정보처리방침</a> · <a href="/terms.html">이용약관</a> · 문의·정정:
+       <a href="https://instagram.com/hanamlife" target="_blank" rel="noopener">instagram.com/hanamlife</a> ·
+       <a href="mailto:hanamlifeadmin@gmail.com">hanamlifeadmin@gmail.com</a></p>
+    <p>© 2026 하남라이프 · 최근 업데이트: 2026년 9월</p>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/assets/js/regions/hanam.js"></script>
+<script src="/assets/js/regions/hanam.traffic.js?v=20260907a"></script>
+<script src="/assets/js/regions/hanam.baseline.js?v=20260907a"></script>
+<script src="/assets/js/traffic-live.js?v=20260907f"></script>
+<script src="/assets/js/incidents.js?v=20260908f"></script>
+<script src="/assets/js/theme.js?v=20260908pwa"></script>
+<script src="/assets/js/remote.js?v=20260910e"></script>
+</body>
+</html>

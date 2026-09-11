@@ -178,6 +178,16 @@ h1.brand{display:flex;align-items:center;gap:.52rem;flex-wrap:wrap;
 .crumbs a:hover{color:var(--accent)}
 .crumbs [aria-current]{color:var(--fg);font-weight:600}
 
+/* 사이트 전역 메뉴 — 모든 페이지 최상단. 홈 / 실시간 교통 / 하남 생활 안내 */
+.sitenav{display:flex;flex-wrap:wrap;gap:2px 18px;align-items:baseline;
+  margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid var(--line);
+  font-size:.9rem}
+.sitenav a{color:var(--muted);text-decoration:none;font-weight:600;
+  letter-spacing:-.01em;padding:2px 0;transition:color .15s}
+.sitenav a:hover,.sitenav a:focus-visible{color:var(--accent);outline:none}
+.sitenav a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.sitenav a[aria-current="page"]{color:var(--fg);font-weight:800}
+
 /* 형제 페이지 링크 (하위 페이지) — 페이지 상단, 목적지 CCTV 섹션 바로 위 */
 .siblings{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 22px}
 .siblings a{display:inline-flex;align-items:center;gap:7px;
