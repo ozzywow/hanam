@@ -335,8 +335,11 @@ function makeSlot(videoEl, camsEl, camLabelEl, overlayEl, onSelect, btnPrefix, a
           camsEl.append(h, sec);
           body = sec;
         } else {
-          const g = document.createElement("span");
-          g.className = "grp"; g.textContent = cam.grp;
+          /* grpHref 가 있으면(즐겨찾기 목록의 원본 페이지 캡션 등) 링크로 렌더 — 그 외엔 기존처럼 순수 텍스트. */
+          const g = document.createElement(cam.grpHref ? "a" : "span");
+          g.className = cam.grpHref ? "grp fav-src-cap" : "grp";
+          if (cam.grpHref) g.href = cam.grpHref;
+          g.textContent = cam.grp;
           camsEl.appendChild(g);
         }
         return;

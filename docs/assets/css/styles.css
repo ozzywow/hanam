@@ -465,9 +465,16 @@ h1.brand{display:flex;align-items:center;gap:.52rem;flex-wrap:wrap;
 .report-toast.is-on{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* /favorites/ — 원본 페이지 링크 캡션 + 별로 뺀 카메라 버튼 */
-.fav-src-cap{color:var(--muted);font-size:.82rem;font-weight:600;margin:22px 0 8px}
+.fav-src-cap{color:var(--muted);font-size:.82rem;font-weight:600;margin:22px 0 8px;
+  text-decoration:none;cursor:pointer}
+.fav-src-cap:hover{color:var(--accent);text-decoration:underline}
+.fav-src-cap:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .fav-src{margin-top:0}
 .cams button.is-removed{opacity:.4;text-decoration:line-through}
+
+/* 즐겨찾기가 하나도 없을 때 — /favorites/ */
+.fav-empty{color:var(--muted);line-height:1.6}
+.fav-empty a{color:var(--accent)}
 
 /* /favorites/ 순서 — 각 행 오른쪽 ⠿ 손잡이를 끌어 재정렬(포인터 이벤트, 터치 지원).
    .cams 를 세로 스택으로, 각 행은 [카메라 이름 버튼][손잡이]. 드래그 중 끌리는
