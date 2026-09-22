@@ -763,16 +763,22 @@ a:hover{text-decoration:underline}
    반드시 같아야 한다. */
 /* content-page = 허브·안내 페이지(홈·/cctv/·/guide/…): 접기 안 함, 본문 항상 표시.
    그 외(운전자용 목적지 페이지)만 아래 :has() 규칙으로 기본 숨김. */
+/* TEMP(2026-09-22) — 애드센스 심사("가치가 별로 없는 콘텐츠" 반려·재반려 예상) 대응.
+   기본 숨김을 해제하고 전부 펼친 채로 노출한다. 리뷰어·신규 방문자에게 본문이
+   안 보여 콘텐츠가 부실해 보였을 가능성 때문(RoadCCTV 저장소에 동일 패치 선적용).
+   재심사 통과 후 아래 display:block 두 줄을 display:none 으로 되돌리고
+   .detail-toggle 숨김 규칙을 지우면 원래(기본 접힘) 동작으로 복귀한다. */
 .wrap:not(.content-page) > .route:not([data-no-collapse]):not(:has(.player-mount, .player, .cams, .map, .omap)),
 .wrap:not(.content-page) > .lead,
 .wrap:not(.content-page) > .lead + p:not([class]){
-  display:none;
+  display:block;
 }
 .wrap.is-detail-open > .route:not([data-no-collapse]):not(:has(.player-mount, .player, .cams, .map, .omap)),
 .wrap.is-detail-open > .lead,
 .wrap.is-detail-open > .lead + p:not([class]){
   display:block;
 }
+.detail-toggle{display:none !important}
 
 .detail-toggle{display:inline-flex;align-items:center;gap:6px;width:100%;
   margin:10px 0 4px;padding:6px 2px;border:0;background:none;
